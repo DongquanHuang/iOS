@@ -11,6 +11,7 @@ import XCTest
 import HealthKit
 import CoreLocation
 import MapKit
+import CoreData
 
 class DetailViewControllerTests: XCTestCase {
     
@@ -24,6 +25,11 @@ class DetailViewControllerTests: XCTestCase {
     var location2 = CLLocation(coordinate: CLLocationCoordinate2D(latitude: 10.001, longitude: 20.001), altitude: 30.0, horizontalAccuracy: 5.0, verticalAccuracy: 5.0, course: 5.0, speed: 2.0, timestamp: NSDate(timeIntervalSinceNow: 3))
     var location3 = CLLocation(coordinate: CLLocationCoordinate2D(latitude: 10.002, longitude: 20.002), altitude: 30.0, horizontalAccuracy: 5.0, verticalAccuracy: 5.0, course: 5.0, speed: 2.0, timestamp: NSDate(timeIntervalSinceNow: 5))
     var locations = [CLLocation]()
+    
+    var storeCoordinator: NSPersistentStoreCoordinator!
+    var managedObjectContext: NSManagedObjectContext!
+    var managedObjectModel: NSManagedObjectModel!
+    var store: NSPersistentStore!
     
     // MARK: - Mock objects
     class MockDetailViewController: DetailViewController {
@@ -49,6 +55,14 @@ class DetailViewControllerTests: XCTestCase {
         locations.append(location1)
         locations.append(location2)
         locations.append(location3)
+        
+        managedObjectModel = NSManagedObjectModel.mergedModelFromBundles([NSBundle.mainBundle()])
+        storeCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
+        store = storeCoordinator.addPersistentStoreWithType(NSInMemoryStoreType,
+            configuration: nil, URL: nil, options: nil, error: nil)
+        
+        managedObjectContext = NSManagedObjectContext()
+        managedObjectContext.persistentStoreCoordinator = storeCoordinator
         
         storyBoard = UIStoryboard(name: "Main", bundle: NSBundle(forClass: self.dynamicType))
         
@@ -210,6 +224,27 @@ class DetailViewControllerTests: XCTestCase {
     func testMapDelegateWillProvideRendererWithLineWidthOfFour() {
         let renderer = getRenderer()
         XCTAssertTrue(renderer?.lineWidth == 4.0)
+    }
+    
+    func testPressSaveWillSaveTheRun() {
+        detailVC?.managedObjectContext = managedObjectContext
+        detailVC?.saveRun(UIButton())
+        
+        let fetchRequest = NSFetchRequest(entityName: "Run")
+        let sortDescriptor = NSSortDescriptor(key: "timestamp", ascending: false)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        let runs = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as! [Run]
+        
+        if runs.count > 0 {
+            let theSkyRun = runs[0]
+            
+            XCTAssert(theSkyRun.distance == skyRun?.distance)
+            XCTAssert(theSkyRun.duration == skyRun?.duration)
+            XCTAssert(theSkyRun.locations.count == skyRun?.locations.count)
+        }
+        else {
+            XCTFail("No Run saved")
+        }
     }
     
     

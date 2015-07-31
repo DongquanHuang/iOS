@@ -34,6 +34,10 @@
 		D0511BEE1B6A362F00C27677 /* ColorfulPolyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0511BED1B6A362F00C27677 /* ColorfulPolyline.swift */; };
 		D0511BEF1B6A362F00C27677 /* ColorfulPolyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0511BED1B6A362F00C27677 /* ColorfulPolyline.swift */; };
 		D0511BF11B6A37AD00C27677 /* ColorfulPolylineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0511BF01B6A37AD00C27677 /* ColorfulPolylineTests.swift */; };
+		D0511BF21B6B3E1A00C27677 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEC21B686F92005DC923 /* DetailViewController.swift */; };
+		D0511BF41B6B3E2800C27677 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEB51B65C44B005DC923 /* Location.swift */; };
+		D0511BF51B6B403600C27677 /* Run.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEB21B65C431005DC923 /* Run.swift */; };
+		D0511BF61B6B403700C27677 /* Run.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEB21B65C431005DC923 /* Run.swift */; };
 		D058AEA51B62001C005DC923 /* BadgesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEA41B62001C005DC923 /* BadgesTableViewController.swift */; };
 		D058AEA61B62001C005DC923 /* BadgesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEA41B62001C005DC923 /* BadgesTableViewController.swift */; };
 		D058AEA81B62020C005DC923 /* BadgesTableViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEA71B62020C005DC923 /* BadgesTableViewControllerTests.swift */; };
@@ -42,10 +46,7 @@
 		D058AEAE1B621D57005DC923 /* BadgesDataSourceProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEAD1B621D57005DC923 /* BadgesDataSourceProviderTests.swift */; };
 		D058AEB01B6230DB005DC923 /* BadgeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEAF1B6230DB005DC923 /* BadgeCell.swift */; };
 		D058AEB11B6230DB005DC923 /* BadgeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEAF1B6230DB005DC923 /* BadgeCell.swift */; };
-		D058AEB31B65C431005DC923 /* Run.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEB21B65C431005DC923 /* Run.swift */; };
-		D058AEB41B65C431005DC923 /* Run.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEB21B65C431005DC923 /* Run.swift */; };
 		D058AEB61B65C44B005DC923 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEB51B65C44B005DC923 /* Location.swift */; };
-		D058AEB71B65C44B005DC923 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEB51B65C44B005DC923 /* Location.swift */; };
 		D058AEB91B65CC9B005DC923 /* NewRunViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEB81B65CC9B005DC923 /* NewRunViewControllerTests.swift */; };
 		D058AEBB1B65FFD8005DC923 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEBA1B65FFD8005DC923 /* LocationManager.swift */; };
 		D058AEBC1B65FFD8005DC923 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEBA1B65FFD8005DC923 /* LocationManager.swift */; };
@@ -53,7 +54,6 @@
 		D058AEC01B674152005DC923 /* SkyRun.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEBF1B674152005DC923 /* SkyRun.swift */; };
 		D058AEC11B674152005DC923 /* SkyRun.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEBF1B674152005DC923 /* SkyRun.swift */; };
 		D058AEC31B686F92005DC923 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEC21B686F92005DC923 /* DetailViewController.swift */; };
-		D058AEC41B686F92005DC923 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEC21B686F92005DC923 /* DetailViewController.swift */; };
 		D058AEC61B689546005DC923 /* DetailViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEC51B689546005DC923 /* DetailViewControllerTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -340,8 +340,8 @@
 				D00E87041B5F69A200F95A97 /* AppDelegate.swift in Sources */,
 				D00E87071B5F69A200F95A97 /* SkyRunner.xcdatamodeld in Sources */,
 				D00E872F1B6081C100F95A97 /* HomeViewController.swift in Sources */,
+				D0511BF51B6B403600C27677 /* Run.swift in Sources */,
 				D058AEA51B62001C005DC923 /* BadgesTableViewController.swift in Sources */,
-				D058AEB31B65C431005DC923 /* Run.swift in Sources */,
 				D058AEB61B65C44B005DC923 /* Location.swift in Sources */,
 				D058AEC01B674152005DC923 /* SkyRun.swift in Sources */,
 				D058AEC31B686F92005DC923 /* DetailViewController.swift in Sources */,
@@ -356,11 +356,10 @@
 			files = (
 				D00E87381B60BD8600F95A97 /* NewRunViewController.swift in Sources */,
 				D058AEA81B62020C005DC923 /* BadgesTableViewControllerTests.swift in Sources */,
-				D058AEC41B686F92005DC923 /* DetailViewController.swift in Sources */,
 				D00E872D1B5F6BC600F95A97 /* Badge.swift in Sources */,
 				D00E87291B5F6B1000F95A97 /* BadgeTests.swift in Sources */,
-				D058AEB71B65C44B005DC923 /* Location.swift in Sources */,
 				D058AEA61B62001C005DC923 /* BadgesTableViewController.swift in Sources */,
+				D0511BF41B6B3E2800C27677 /* Location.swift in Sources */,
 				D00E87421B60E26500F95A97 /* BadgeDataManger.swift in Sources */,
 				D058AEAE1B621D57005DC923 /* BadgesDataSourceProviderTests.swift in Sources */,
 				D00E87301B6081D800F95A97 /* HomeViewController.swift in Sources */,
@@ -370,14 +369,15 @@
 				D0511BEF1B6A362F00C27677 /* ColorfulPolyline.swift in Sources */,
 				D058AEBC1B65FFD8005DC923 /* LocationManager.swift in Sources */,
 				D058AEAB1B620D48005DC923 /* BadgesDataSourceProvider.swift in Sources */,
+				D0511BF61B6B403700C27677 /* Run.swift in Sources */,
 				D00E873F1B60C45F00F95A97 /* JsonFileParserTests.swift in Sources */,
+				D0511BF21B6B3E1A00C27677 /* DetailViewController.swift in Sources */,
 				D00E87341B60B3AB00F95A97 /* AppDelegate.swift in Sources */,
 				D058AEB11B6230DB005DC923 /* BadgeCell.swift in Sources */,
 				D0511BF11B6A37AD00C27677 /* ColorfulPolylineTests.swift in Sources */,
 				D058AEC11B674152005DC923 /* SkyRun.swift in Sources */,
 				D00E873D1B60C40800F95A97 /* JsonFileParser.swift in Sources */,
 				D058AEBE1B660E1F005DC923 /* LocationManagerTests.swift in Sources */,
-				D058AEB41B65C431005DC923 /* Run.swift in Sources */,
 				D00E87321B60AF3B00F95A97 /* HomeViewControllerTests.swift in Sources */,
 				D058AEC61B689546005DC923 /* DetailViewControllerTests.swift in Sources */,
 			);
