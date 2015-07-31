@@ -41,8 +41,43 @@ class DetailViewController: UIViewController {
     
     // MARK: - IBActions
     @IBAction func saveRun(sender: UIButton) {
+        saveSkyRun()
+        goBackToHomeView()
+    }
+    
+    @IBAction func discardRun(sender: UIButton) {
+        goBackToHomeView()
+    }
+    
+    // MARK: - Override super methods
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        updateLabelUI()
+        loadRunMap()
+    }
+    
+    // MARK: - Private methods -- Unwind Segue
+    private func goBackToHomeView() {
+        performSegueWithIdentifier(StoryBoardConstants.DiscardRun, sender: nil)
+    }
+    
+    // MARK: - Private methods -- Core Data
+    private func saveSkyRun() {
         if let context = managedObjectContext {
-            let savedRun = NSEntityDescription.insertNewObjectForEntityForName("Run", inManagedObjectContext: context) as! Run
+            
+            // Note: please do NOT use:
+            // "let savedRun = NSEntityDescription.insertNewObjectForEntityForName("Run",inManagedObjectContext: context) as! Run"
+            // The reason is that currently Swift has one bug, for product target, above code works just fine
+            // But for test product, above code returns nil
+            
+            // Uncomment following lines and try to debug for unit test & product target
+            //let test1 = NSEntityDescription.insertNewObjectForEntityForName("Run", inManagedObjectContext: context)!
+            //let test2 = test1 as? NSManagedObject
+            //let test3 = test2 as? Run // Gets normal object for product target, but nil for unit test
+            
+            // Instead, we add one convenience init in model class
+            let savedRun = Run(context: context)
             
             savedRun.distance = skyRun!.distance
             savedRun.duration = skyRun!.duration
@@ -50,8 +85,7 @@ class DetailViewController: UIViewController {
             
             var savedLocations = [Location]()
             for location in skyRun!.locations {
-                let savedLocation = NSEntityDescription.insertNewObjectForEntityForName("Location",
-                    inManagedObjectContext: context) as! Location
+                let savedLocation = Location(context: context)
                 savedLocation.timestamp = location.timestamp
                 savedLocation.latitude = location.coordinate.latitude
                 savedLocation.longitude = location.coordinate.longitude
@@ -67,18 +101,6 @@ class DetailViewController: UIViewController {
                 println("Failed to save the run")
             }
         }
-    }
-    
-    @IBAction func discardRun(sender: UIButton) {
-        performSegueWithIdentifier(StoryBoardConstants.DiscardRun, sender: sender)
-    }
-    
-    // MARK: - Override super methods
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        updateLabelUI()
-        loadRunMap()
     }
     
     // MARK: - Private methods -- Update labels

@@ -17,7 +17,7 @@ class Location: NSManagedObject {
     @NSManaged var run: NSManagedObject
     
     convenience init(context: NSManagedObjectContext) {
-        let entityDescription = NSEntityDescription.entityForName("Run", inManagedObjectContext: context)!
+        let entityDescription = NSEntityDescription.entityForName("Location", inManagedObjectContext: context)!
         self.init(entity: entityDescription, insertIntoManagedObjectContext: context)
     }
     

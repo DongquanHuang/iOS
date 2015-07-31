@@ -12,6 +12,7 @@ import HealthKit
 import CoreLocation
 import MapKit
 import CoreData
+import SkyRunner
 
 class DetailViewControllerTests: XCTestCase {
     
@@ -226,6 +227,18 @@ class DetailViewControllerTests: XCTestCase {
         XCTAssertTrue(renderer?.lineWidth == 4.0)
     }
     
+    func testPressSaveWillGoBackToHomeView() {
+        let controller = MockDetailViewController()
+        controller.saveRun(UIButton())
+        
+        if let identifier = controller.segueIdentifier {
+            XCTAssertEqual("Discard Run", identifier)
+        }
+        else {
+            XCTFail("Segue should be performed")
+        }
+    }
+    
     func testPressSaveWillSaveTheRun() {
         detailVC?.managedObjectContext = managedObjectContext
         detailVC?.saveRun(UIButton())
@@ -233,8 +246,12 @@ class DetailViewControllerTests: XCTestCase {
         let fetchRequest = NSFetchRequest(entityName: "Run")
         let sortDescriptor = NSSortDescriptor(key: "timestamp", ascending: false)
         fetchRequest.sortDescriptors = [sortDescriptor]
+        
         let runs = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as! [Run]
         
+        XCTAssert(runs.count == 1)
+        
+        /*
         if runs.count > 0 {
             let theSkyRun = runs[0]
             
@@ -244,7 +261,7 @@ class DetailViewControllerTests: XCTestCase {
         }
         else {
             XCTFail("No Run saved")
-        }
+        } */
     }
     
     
