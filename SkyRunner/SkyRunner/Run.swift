@@ -14,6 +14,11 @@ class Run: NSManagedObject {
     @NSManaged var duration: Double
     @NSManaged var distance: Double
     @NSManaged var timestamp: NSDate
-    @NSManaged var locations: NSOrderedSet
+    @NSManaged var locations: NSSet
+    
+    convenience init(context: NSManagedObjectContext) {
+        let entityDescription = NSEntityDescription.entityForName("Run", inManagedObjectContext: context)!
+        self.init(entity: entityDescription, insertIntoManagedObjectContext: context)
+    }
     
 }

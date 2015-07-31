@@ -125,16 +125,3 @@ extension UIViewController {
     }
 }
 
-extension NSEntityDescription {
-    class public func entityName() -> String {
-        let fullClassName: String = NSStringFromClass(object_getClass(self))
-        let classNameComponents: [String] = split(fullClassName) { $0 == "." }
-        return last(classNameComponents)!
-    }
-    
-    class public func insertNewObject(name: String, InContextcontext context: NSManagedObjectContext) -> AnyObject {
-        return NSEntityDescription.insertNewObjectForEntityForName(entityName() + "." + name, inManagedObjectContext: context)
-    }
-    
-}
-

@@ -44,36 +44,29 @@ class DetailViewController: UIViewController {
         if let context = managedObjectContext {
             let savedRun = NSEntityDescription.insertNewObjectForEntityForName("Run", inManagedObjectContext: context) as! Run
             
+            savedRun.distance = skyRun!.distance
+            savedRun.duration = skyRun!.duration
+            savedRun.timestamp = skyRun!.timestamp!
+            
+            var savedLocations = [Location]()
+            for location in skyRun!.locations {
+                let savedLocation = NSEntityDescription.insertNewObjectForEntityForName("Location",
+                    inManagedObjectContext: context) as! Location
+                savedLocation.timestamp = location.timestamp
+                savedLocation.latitude = location.coordinate.latitude
+                savedLocation.longitude = location.coordinate.longitude
+                savedLocation.run = savedRun
+                savedLocations.append(savedLocation)
+            }
+            
+            savedRun.locations = NSSet(array: savedLocations)
+            
             var error: NSError?
             let success = context.save(&error)
             if !success {
                 println("Failed to save the run")
             }
         }
-        /*
-        let savedRun = NSEntityDescription.insertNewObjectForEntityForName("Run",
-            inManagedObjectContext: managedObjectContext!) as! Run
-        savedRun.distance = skyRun!.distance
-        savedRun.duration = skyRun!.duration
-        savedRun.timestamp = skyRun!.timestamp!
-        
-        var savedLocations = [Location]()
-        for location in skyRun!.locations {
-            let savedLocation = NSEntityDescription.insertNewObjectForEntityForName("Location",
-                inManagedObjectContext: managedObjectContext!) as! Location
-            savedLocation.timestamp = location.timestamp
-            savedLocation.latitude = location.coordinate.latitude
-            savedLocation.longitude = location.coordinate.longitude
-            savedLocations.append(savedLocation)
-        }
-        
-        savedRun.locations = NSOrderedSet(array: savedLocations)
-        
-        var error: NSError?
-        let success = managedObjectContext!.save(&error)
-        if !success {
-            println("Could not save the run!")
-        } */
     }
     
     @IBAction func discardRun(sender: UIButton) {

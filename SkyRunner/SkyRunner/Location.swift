@@ -16,4 +16,9 @@ class Location: NSManagedObject {
     @NSManaged var longitude: Double
     @NSManaged var run: NSManagedObject
     
+    convenience init(context: NSManagedObjectContext) {
+        let entityDescription = NSEntityDescription.entityForName("Run", inManagedObjectContext: context)!
+        self.init(entity: entityDescription, insertIntoManagedObjectContext: context)
+    }
+    
 }
