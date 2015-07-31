@@ -247,11 +247,12 @@ class DetailViewControllerTests: XCTestCase {
         let sortDescriptor = NSSortDescriptor(key: "timestamp", ascending: false)
         fetchRequest.sortDescriptors = [sortDescriptor]
         
-        let runs = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as! [Run]
+        // Must use SkyRunner.Run, otherwise during run time the type is SkyRunnerTests.Run
+        // This will cause cast failure
+        let runs = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as! [SkyRunner.Run]
         
         XCTAssert(runs.count == 1)
         
-        /*
         if runs.count > 0 {
             let theSkyRun = runs[0]
             
@@ -261,7 +262,7 @@ class DetailViewControllerTests: XCTestCase {
         }
         else {
             XCTFail("No Run saved")
-        } */
+        }
     }
     
     

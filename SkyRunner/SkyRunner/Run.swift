@@ -9,12 +9,15 @@
 import Foundation
 import CoreData
 
-class Run: NSManagedObject {
+// Make it public so when running unit test we can import module (SkyRunner) and use SkyRunner.Run
+// Otherwise, the type will be SkyRunnerTests.Run, which will cause cast failure
+
+public class Run: NSManagedObject {
     
-    @NSManaged var duration: Double
-    @NSManaged var distance: Double
-    @NSManaged var timestamp: NSDate
-    @NSManaged var locations: NSSet
+    @NSManaged public var duration: Double
+    @NSManaged public var distance: Double
+    @NSManaged public var timestamp: NSDate
+    @NSManaged public var locations: NSSet
     
     convenience init(context: NSManagedObjectContext) {
         let entityDescription = NSEntityDescription.entityForName("Run", inManagedObjectContext: context)!

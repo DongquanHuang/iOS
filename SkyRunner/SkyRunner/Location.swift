@@ -9,12 +9,15 @@
 import Foundation
 import CoreData
 
-class Location: NSManagedObject {
+// Make it public so when running unit test we can import module (SkyRunner) and use SkyRunner.Location
+// Otherwise, the type will be SkyRunnerTests.Location, which will cause cast failure
+
+public class Location: NSManagedObject {
     
-    @NSManaged var timestamp: NSDate
-    @NSManaged var latitude: Double
-    @NSManaged var longitude: Double
-    @NSManaged var run: NSManagedObject
+    @NSManaged public var timestamp: NSDate
+    @NSManaged public var latitude: Double
+    @NSManaged public var longitude: Double
+    @NSManaged public var run: NSManagedObject
     
     convenience init(context: NSManagedObjectContext) {
         let entityDescription = NSEntityDescription.entityForName("Location", inManagedObjectContext: context)!
