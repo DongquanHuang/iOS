@@ -1,0 +1,601 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D00E87041B5F69A200F95A97 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00E87031B5F69A200F95A97 /* AppDelegate.swift */; };
+		D00E87071B5F69A200F95A97 /* SkyRunner.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D00E87051B5F69A200F95A97 /* SkyRunner.xcdatamodeld */; };
+		D00E870C1B5F69A200F95A97 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D00E870A1B5F69A200F95A97 /* Main.storyboard */; };
+		D00E870E1B5F69A200F95A97 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D00E870D1B5F69A200F95A97 /* Images.xcassets */; };
+		D00E87111B5F69A200F95A97 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D00E870F1B5F69A200F95A97 /* LaunchScreen.xib */; };
+		D00E87271B5F6A4500F95A97 /* badges.json in Resources */ = {isa = PBXBuildFile; fileRef = D00E87261B5F6A4500F95A97 /* badges.json */; };
+		D00E87291B5F6B1000F95A97 /* BadgeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00E87281B5F6B1000F95A97 /* BadgeTests.swift */; };
+		D00E872B1B5F6B6000F95A97 /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00E872A1B5F6B6000F95A97 /* Badge.swift */; };
+		D00E872D1B5F6BC600F95A97 /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00E872A1B5F6B6000F95A97 /* Badge.swift */; };
+		D00E872F1B6081C100F95A97 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00E872E1B6081C100F95A97 /* HomeViewController.swift */; };
+		D00E87301B6081D800F95A97 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00E872E1B6081C100F95A97 /* HomeViewController.swift */; };
+		D00E87321B60AF3B00F95A97 /* HomeViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00E87311B60AF3B00F95A97 /* HomeViewControllerTests.swift */; };
+		D00E87331B60B3A600F95A97 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D00E870A1B5F69A200F95A97 /* Main.storyboard */; };
+		D00E87341B60B3AB00F95A97 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00E87031B5F69A200F95A97 /* AppDelegate.swift */; };
+		D00E87351B60B3B000F95A97 /* SkyRunner.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D00E87051B5F69A200F95A97 /* SkyRunner.xcdatamodeld */; };
+		D00E87371B60BD8600F95A97 /* NewRunViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00E87361B60BD8600F95A97 /* NewRunViewController.swift */; };
+		D00E87381B60BD8600F95A97 /* NewRunViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00E87361B60BD8600F95A97 /* NewRunViewController.swift */; };
+		D00E873A1B60BED100F95A97 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D00E87391B60BED100F95A97 /* MapKit.framework */; };
+		D00E873C1B60C40800F95A97 /* JsonFileParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00E873B1B60C40800F95A97 /* JsonFileParser.swift */; };
+		D00E873D1B60C40800F95A97 /* JsonFileParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00E873B1B60C40800F95A97 /* JsonFileParser.swift */; };
+		D00E873F1B60C45F00F95A97 /* JsonFileParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00E873E1B60C45F00F95A97 /* JsonFileParserTests.swift */; };
+		D00E87411B60E26500F95A97 /* BadgeDataManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00E87401B60E26500F95A97 /* BadgeDataManger.swift */; };
+		D00E87421B60E26500F95A97 /* BadgeDataManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00E87401B60E26500F95A97 /* BadgeDataManger.swift */; };
+		D00E87441B61C67C00F95A97 /* BadgeDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00E87431B61C67C00F95A97 /* BadgeDataManagerTests.swift */; };
+		D0511BEE1B6A362F00C27677 /* ColorfulPolyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0511BED1B6A362F00C27677 /* ColorfulPolyline.swift */; };
+		D0511BEF1B6A362F00C27677 /* ColorfulPolyline.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0511BED1B6A362F00C27677 /* ColorfulPolyline.swift */; };
+		D0511BF11B6A37AD00C27677 /* ColorfulPolylineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0511BF01B6A37AD00C27677 /* ColorfulPolylineTests.swift */; };
+		D058AEA51B62001C005DC923 /* BadgesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEA41B62001C005DC923 /* BadgesTableViewController.swift */; };
+		D058AEA61B62001C005DC923 /* BadgesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEA41B62001C005DC923 /* BadgesTableViewController.swift */; };
+		D058AEA81B62020C005DC923 /* BadgesTableViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEA71B62020C005DC923 /* BadgesTableViewControllerTests.swift */; };
+		D058AEAA1B620D48005DC923 /* BadgesDataSourceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEA91B620D48005DC923 /* BadgesDataSourceProvider.swift */; };
+		D058AEAB1B620D48005DC923 /* BadgesDataSourceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEA91B620D48005DC923 /* BadgesDataSourceProvider.swift */; };
+		D058AEAE1B621D57005DC923 /* BadgesDataSourceProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEAD1B621D57005DC923 /* BadgesDataSourceProviderTests.swift */; };
+		D058AEB01B6230DB005DC923 /* BadgeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEAF1B6230DB005DC923 /* BadgeCell.swift */; };
+		D058AEB11B6230DB005DC923 /* BadgeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEAF1B6230DB005DC923 /* BadgeCell.swift */; };
+		D058AEB31B65C431005DC923 /* Run.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEB21B65C431005DC923 /* Run.swift */; };
+		D058AEB41B65C431005DC923 /* Run.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEB21B65C431005DC923 /* Run.swift */; };
+		D058AEB61B65C44B005DC923 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEB51B65C44B005DC923 /* Location.swift */; };
+		D058AEB71B65C44B005DC923 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEB51B65C44B005DC923 /* Location.swift */; };
+		D058AEB91B65CC9B005DC923 /* NewRunViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEB81B65CC9B005DC923 /* NewRunViewControllerTests.swift */; };
+		D058AEBB1B65FFD8005DC923 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEBA1B65FFD8005DC923 /* LocationManager.swift */; };
+		D058AEBC1B65FFD8005DC923 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEBA1B65FFD8005DC923 /* LocationManager.swift */; };
+		D058AEBE1B660E1F005DC923 /* LocationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEBD1B660E1F005DC923 /* LocationManagerTests.swift */; };
+		D058AEC01B674152005DC923 /* SkyRun.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEBF1B674152005DC923 /* SkyRun.swift */; };
+		D058AEC11B674152005DC923 /* SkyRun.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEBF1B674152005DC923 /* SkyRun.swift */; };
+		D058AEC31B686F92005DC923 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEC21B686F92005DC923 /* DetailViewController.swift */; };
+		D058AEC41B686F92005DC923 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEC21B686F92005DC923 /* DetailViewController.swift */; };
+		D058AEC61B689546005DC923 /* DetailViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEC51B689546005DC923 /* DetailViewControllerTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D00E87171B5F69A200F95A97 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D00E86F61B5F69A100F95A97 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D00E86FD1B5F69A100F95A97;
+			remoteInfo = SkyRunner;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		D00E86FE1B5F69A100F95A97 /* SkyRunner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SkyRunner.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D00E87021B5F69A200F95A97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D00E87031B5F69A200F95A97 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D00E87061B5F69A200F95A97 /* SkyRunner.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SkyRunner.xcdatamodel; sourceTree = "<group>"; };
+		D00E870B1B5F69A200F95A97 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D00E870D1B5F69A200F95A97 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		D00E87101B5F69A200F95A97 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		D00E87161B5F69A200F95A97 /* SkyRunnerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SkyRunnerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D00E871B1B5F69A200F95A97 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D00E87261B5F6A4500F95A97 /* badges.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = badges.json; sourceTree = "<group>"; };
+		D00E87281B5F6B1000F95A97 /* BadgeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeTests.swift; sourceTree = "<group>"; };
+		D00E872A1B5F6B6000F95A97 /* Badge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
+		D00E872E1B6081C100F95A97 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		D00E87311B60AF3B00F95A97 /* HomeViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewControllerTests.swift; sourceTree = "<group>"; };
+		D00E87361B60BD8600F95A97 /* NewRunViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewRunViewController.swift; sourceTree = "<group>"; };
+		D00E87391B60BED100F95A97 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		D00E873B1B60C40800F95A97 /* JsonFileParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonFileParser.swift; sourceTree = "<group>"; };
+		D00E873E1B60C45F00F95A97 /* JsonFileParserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonFileParserTests.swift; sourceTree = "<group>"; };
+		D00E87401B60E26500F95A97 /* BadgeDataManger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeDataManger.swift; sourceTree = "<group>"; };
+		D00E87431B61C67C00F95A97 /* BadgeDataManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeDataManagerTests.swift; sourceTree = "<group>"; };
+		D0511BED1B6A362F00C27677 /* ColorfulPolyline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorfulPolyline.swift; sourceTree = "<group>"; };
+		D0511BF01B6A37AD00C27677 /* ColorfulPolylineTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorfulPolylineTests.swift; sourceTree = "<group>"; };
+		D058AEA41B62001C005DC923 /* BadgesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgesTableViewController.swift; sourceTree = "<group>"; };
+		D058AEA71B62020C005DC923 /* BadgesTableViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgesTableViewControllerTests.swift; sourceTree = "<group>"; };
+		D058AEA91B620D48005DC923 /* BadgesDataSourceProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgesDataSourceProvider.swift; sourceTree = "<group>"; };
+		D058AEAD1B621D57005DC923 /* BadgesDataSourceProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgesDataSourceProviderTests.swift; sourceTree = "<group>"; };
+		D058AEAF1B6230DB005DC923 /* BadgeCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeCell.swift; sourceTree = "<group>"; };
+		D058AEB21B65C431005DC923 /* Run.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Run.swift; sourceTree = "<group>"; };
+		D058AEB51B65C44B005DC923 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		D058AEB81B65CC9B005DC923 /* NewRunViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewRunViewControllerTests.swift; sourceTree = "<group>"; };
+		D058AEBA1B65FFD8005DC923 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		D058AEBD1B660E1F005DC923 /* LocationManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManagerTests.swift; sourceTree = "<group>"; };
+		D058AEBF1B674152005DC923 /* SkyRun.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkyRun.swift; sourceTree = "<group>"; };
+		D058AEC21B686F92005DC923 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		D058AEC51B689546005DC923 /* DetailViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewControllerTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D00E86FB1B5F69A100F95A97 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D00E873A1B60BED100F95A97 /* MapKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D00E87131B5F69A200F95A97 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D00E86F51B5F69A100F95A97 = {
+			isa = PBXGroup;
+			children = (
+				D00E87001B5F69A200F95A97 /* SkyRunner */,
+				D00E87191B5F69A200F95A97 /* SkyRunnerTests */,
+				D058AEAC1B621BAB005DC923 /* Frameworks and Libraries */,
+				D00E86FF1B5F69A100F95A97 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D00E86FF1B5F69A100F95A97 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D00E86FE1B5F69A100F95A97 /* SkyRunner.app */,
+				D00E87161B5F69A200F95A97 /* SkyRunnerTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D00E87001B5F69A200F95A97 /* SkyRunner */ = {
+			isa = PBXGroup;
+			children = (
+				D00E87031B5F69A200F95A97 /* AppDelegate.swift */,
+				D00E872E1B6081C100F95A97 /* HomeViewController.swift */,
+				D00E87361B60BD8600F95A97 /* NewRunViewController.swift */,
+				D058AEC21B686F92005DC923 /* DetailViewController.swift */,
+				D058AEBA1B65FFD8005DC923 /* LocationManager.swift */,
+				D0511BED1B6A362F00C27677 /* ColorfulPolyline.swift */,
+				D058AEA41B62001C005DC923 /* BadgesTableViewController.swift */,
+				D058AEA91B620D48005DC923 /* BadgesDataSourceProvider.swift */,
+				D058AEAF1B6230DB005DC923 /* BadgeCell.swift */,
+				D00E870A1B5F69A200F95A97 /* Main.storyboard */,
+				D00E87051B5F69A200F95A97 /* SkyRunner.xcdatamodeld */,
+				D00E872C1B5F6B6B00F95A97 /* Models */,
+				D00E87011B5F69A200F95A97 /* Supporting Files */,
+			);
+			path = SkyRunner;
+			sourceTree = "<group>";
+		};
+		D00E87011B5F69A200F95A97 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D00E87261B5F6A4500F95A97 /* badges.json */,
+				D00E87021B5F69A200F95A97 /* Info.plist */,
+				D00E870F1B5F69A200F95A97 /* LaunchScreen.xib */,
+				D00E870D1B5F69A200F95A97 /* Images.xcassets */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D00E87191B5F69A200F95A97 /* SkyRunnerTests */ = {
+			isa = PBXGroup;
+			children = (
+				D00E871A1B5F69A200F95A97 /* Supporting Files */,
+				D00E87281B5F6B1000F95A97 /* BadgeTests.swift */,
+				D00E87431B61C67C00F95A97 /* BadgeDataManagerTests.swift */,
+				D00E873E1B60C45F00F95A97 /* JsonFileParserTests.swift */,
+				D00E87311B60AF3B00F95A97 /* HomeViewControllerTests.swift */,
+				D058AEA71B62020C005DC923 /* BadgesTableViewControllerTests.swift */,
+				D058AEAD1B621D57005DC923 /* BadgesDataSourceProviderTests.swift */,
+				D058AEB81B65CC9B005DC923 /* NewRunViewControllerTests.swift */,
+				D058AEBD1B660E1F005DC923 /* LocationManagerTests.swift */,
+				D058AEC51B689546005DC923 /* DetailViewControllerTests.swift */,
+				D0511BF01B6A37AD00C27677 /* ColorfulPolylineTests.swift */,
+			);
+			path = SkyRunnerTests;
+			sourceTree = "<group>";
+		};
+		D00E871A1B5F69A200F95A97 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D00E871B1B5F69A200F95A97 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D00E872C1B5F6B6B00F95A97 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				D00E872A1B5F6B6000F95A97 /* Badge.swift */,
+				D00E87401B60E26500F95A97 /* BadgeDataManger.swift */,
+				D00E873B1B60C40800F95A97 /* JsonFileParser.swift */,
+				D058AEBF1B674152005DC923 /* SkyRun.swift */,
+				D058AEB21B65C431005DC923 /* Run.swift */,
+				D058AEB51B65C44B005DC923 /* Location.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		D058AEAC1B621BAB005DC923 /* Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				D00E87391B60BED100F95A97 /* MapKit.framework */,
+			);
+			name = "Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D00E86FD1B5F69A100F95A97 /* SkyRunner */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D00E87201B5F69A200F95A97 /* Build configuration list for PBXNativeTarget "SkyRunner" */;
+			buildPhases = (
+				D00E86FA1B5F69A100F95A97 /* Sources */,
+				D00E86FB1B5F69A100F95A97 /* Frameworks */,
+				D00E86FC1B5F69A100F95A97 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SkyRunner;
+			productName = SkyRunner;
+			productReference = D00E86FE1B5F69A100F95A97 /* SkyRunner.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D00E87151B5F69A200F95A97 /* SkyRunnerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D00E87231B5F69A200F95A97 /* Build configuration list for PBXNativeTarget "SkyRunnerTests" */;
+			buildPhases = (
+				D00E87121B5F69A200F95A97 /* Sources */,
+				D00E87131B5F69A200F95A97 /* Frameworks */,
+				D00E87141B5F69A200F95A97 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D00E87181B5F69A200F95A97 /* PBXTargetDependency */,
+			);
+			name = SkyRunnerTests;
+			productName = SkyRunnerTests;
+			productReference = D00E87161B5F69A200F95A97 /* SkyRunnerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D00E86F61B5F69A100F95A97 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0640;
+				ORGANIZATIONNAME = "Peter Huang";
+				TargetAttributes = {
+					D00E86FD1B5F69A100F95A97 = {
+						CreatedOnToolsVersion = 6.4;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
+					};
+					D00E87151B5F69A200F95A97 = {
+						CreatedOnToolsVersion = 6.4;
+						TestTargetID = D00E86FD1B5F69A100F95A97;
+					};
+				};
+			};
+			buildConfigurationList = D00E86F91B5F69A100F95A97 /* Build configuration list for PBXProject "SkyRunner" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D00E86F51B5F69A100F95A97;
+			productRefGroup = D00E86FF1B5F69A100F95A97 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D00E86FD1B5F69A100F95A97 /* SkyRunner */,
+				D00E87151B5F69A200F95A97 /* SkyRunnerTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D00E86FC1B5F69A100F95A97 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D00E870C1B5F69A200F95A97 /* Main.storyboard in Resources */,
+				D00E87271B5F6A4500F95A97 /* badges.json in Resources */,
+				D00E87111B5F69A200F95A97 /* LaunchScreen.xib in Resources */,
+				D00E870E1B5F69A200F95A97 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D00E87141B5F69A200F95A97 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D00E87331B60B3A600F95A97 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D00E86FA1B5F69A100F95A97 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D00E873C1B60C40800F95A97 /* JsonFileParser.swift in Sources */,
+				D00E87371B60BD8600F95A97 /* NewRunViewController.swift in Sources */,
+				D00E87411B60E26500F95A97 /* BadgeDataManger.swift in Sources */,
+				D0511BEE1B6A362F00C27677 /* ColorfulPolyline.swift in Sources */,
+				D058AEAA1B620D48005DC923 /* BadgesDataSourceProvider.swift in Sources */,
+				D00E872B1B5F6B6000F95A97 /* Badge.swift in Sources */,
+				D00E87041B5F69A200F95A97 /* AppDelegate.swift in Sources */,
+				D00E87071B5F69A200F95A97 /* SkyRunner.xcdatamodeld in Sources */,
+				D00E872F1B6081C100F95A97 /* HomeViewController.swift in Sources */,
+				D058AEA51B62001C005DC923 /* BadgesTableViewController.swift in Sources */,
+				D058AEB31B65C431005DC923 /* Run.swift in Sources */,
+				D058AEB61B65C44B005DC923 /* Location.swift in Sources */,
+				D058AEC01B674152005DC923 /* SkyRun.swift in Sources */,
+				D058AEC31B686F92005DC923 /* DetailViewController.swift in Sources */,
+				D058AEB01B6230DB005DC923 /* BadgeCell.swift in Sources */,
+				D058AEBB1B65FFD8005DC923 /* LocationManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D00E87121B5F69A200F95A97 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D00E87381B60BD8600F95A97 /* NewRunViewController.swift in Sources */,
+				D058AEA81B62020C005DC923 /* BadgesTableViewControllerTests.swift in Sources */,
+				D058AEC41B686F92005DC923 /* DetailViewController.swift in Sources */,
+				D00E872D1B5F6BC600F95A97 /* Badge.swift in Sources */,
+				D00E87291B5F6B1000F95A97 /* BadgeTests.swift in Sources */,
+				D058AEB71B65C44B005DC923 /* Location.swift in Sources */,
+				D058AEA61B62001C005DC923 /* BadgesTableViewController.swift in Sources */,
+				D00E87421B60E26500F95A97 /* BadgeDataManger.swift in Sources */,
+				D058AEAE1B621D57005DC923 /* BadgesDataSourceProviderTests.swift in Sources */,
+				D00E87301B6081D800F95A97 /* HomeViewController.swift in Sources */,
+				D00E87351B60B3B000F95A97 /* SkyRunner.xcdatamodeld in Sources */,
+				D00E87441B61C67C00F95A97 /* BadgeDataManagerTests.swift in Sources */,
+				D058AEB91B65CC9B005DC923 /* NewRunViewControllerTests.swift in Sources */,
+				D0511BEF1B6A362F00C27677 /* ColorfulPolyline.swift in Sources */,
+				D058AEBC1B65FFD8005DC923 /* LocationManager.swift in Sources */,
+				D058AEAB1B620D48005DC923 /* BadgesDataSourceProvider.swift in Sources */,
+				D00E873F1B60C45F00F95A97 /* JsonFileParserTests.swift in Sources */,
+				D00E87341B60B3AB00F95A97 /* AppDelegate.swift in Sources */,
+				D058AEB11B6230DB005DC923 /* BadgeCell.swift in Sources */,
+				D0511BF11B6A37AD00C27677 /* ColorfulPolylineTests.swift in Sources */,
+				D058AEC11B674152005DC923 /* SkyRun.swift in Sources */,
+				D00E873D1B60C40800F95A97 /* JsonFileParser.swift in Sources */,
+				D058AEBE1B660E1F005DC923 /* LocationManagerTests.swift in Sources */,
+				D058AEB41B65C431005DC923 /* Run.swift in Sources */,
+				D00E87321B60AF3B00F95A97 /* HomeViewControllerTests.swift in Sources */,
+				D058AEC61B689546005DC923 /* DetailViewControllerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D00E87181B5F69A200F95A97 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D00E86FD1B5F69A100F95A97 /* SkyRunner */;
+			targetProxy = D00E87171B5F69A200F95A97 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		D00E870A1B5F69A200F95A97 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D00E870B1B5F69A200F95A97 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		D00E870F1B5F69A200F95A97 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D00E87101B5F69A200F95A97 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D00E871E1B5F69A200F95A97 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		D00E871F1B5F69A200F95A97 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D00E87211B5F69A200F95A97 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEFINES_MODULE = YES;
+				INFOPLIST_FILE = SkyRunner/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D00E87221B5F69A200F95A97 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEFINES_MODULE = YES;
+				INFOPLIST_FILE = SkyRunner/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		D00E87241B5F69A200F95A97 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = SkyRunnerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SkyRunner.app/SkyRunner";
+			};
+			name = Debug;
+		};
+		D00E87251B5F69A200F95A97 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = SkyRunnerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SkyRunner.app/SkyRunner";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D00E86F91B5F69A100F95A97 /* Build configuration list for PBXProject "SkyRunner" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D00E871E1B5F69A200F95A97 /* Debug */,
+				D00E871F1B5F69A200F95A97 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D00E87201B5F69A200F95A97 /* Build configuration list for PBXNativeTarget "SkyRunner" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D00E87211B5F69A200F95A97 /* Debug */,
+				D00E87221B5F69A200F95A97 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D00E87231B5F69A200F95A97 /* Build configuration list for PBXNativeTarget "SkyRunnerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D00E87241B5F69A200F95A97 /* Debug */,
+				D00E87251B5F69A200F95A97 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		D00E87051B5F69A200F95A97 /* SkyRunner.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				D00E87061B5F69A200F95A97 /* SkyRunner.xcdatamodel */,
+			);
+			currentVersion = D00E87061B5F69A200F95A97 /* SkyRunner.xcdatamodel */;
+			path = SkyRunner.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = D00E86F61B5F69A100F95A97 /* Project object */;
+}
