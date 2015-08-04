@@ -12,6 +12,8 @@ import CoreData
 class BadgeEarnStatus {
     var badge: Badge?
     var earnRun: Run?
+    var silverRun: Run?
+    var goldRun: Run?
     
     init(badge: Badge) {
         self.badge = badge
@@ -19,6 +21,14 @@ class BadgeEarnStatus {
     
     func badgeEarned() -> Bool {
         return earnRun != nil
+    }
+    
+    func deserveSilver() -> Bool {
+        return silverRun != nil
+    }
+    
+    func deserveGold() -> Bool {
+        return goldRun != nil
     }
     
 }
@@ -42,7 +52,7 @@ class BadgeEarnStatusMgr: NSObject, BadgeEarnStatusDataProvider {
         return self.badgeDataMgr.getBadgesFromFile(self.filePath)
     }()
     
-    private var badgeEarnStatusList = [BadgeEarnStatus]()
+    private var badgeEarnStatusList: [BadgeEarnStatus]?
     private var runs = [Run]()
     
     private func getBadgeEarnStatuses() -> [BadgeEarnStatus]? {
@@ -50,19 +60,23 @@ class BadgeEarnStatusMgr: NSObject, BadgeEarnStatusDataProvider {
         readRunsFromDatabase()
         fillRunInfoToBadgeEarnStatuses()
         
-        return badgeEarnStatuses
+        return badgeEarnStatusList
     }
     
     private func generateBadgeEarnStatuses() {
+        badgeEarnStatusList = [BadgeEarnStatus]()
+        
         if let badgeList = badges {
             for badge in badgeList {
                 var badgeEarnStatus = BadgeEarnStatus(badge: badge)
-                badgeEarnStatusList.append(badgeEarnStatus)
+                badgeEarnStatusList?.append(badgeEarnStatus)
             }
         }
     }
     
     private func readRunsFromDatabase() {
+        runs = [Run]()
+        
         if let context = self.managedObjectContext {
             let fetchRequest = NSFetchRequest(entityName: "Run")
             let sortDescriptor = NSSortDescriptor(key: "timestamp", ascending: false)
@@ -86,8 +100,8 @@ class BadgeEarnStatusMgr: NSObject, BadgeEarnStatusDataProvider {
     }
     
     private func fillRunInfoToBadgeEarnStatuses() {
-        if let badgeEarnStatusList = badgeEarnStatuses {
-            for badgeEarnStatus in badgeEarnStatusList {
+        if let earnStatusList = badgeEarnStatusList {
+            for badgeEarnStatus in earnStatusList {
                 fillRunInfoToBadgeEarnStatus(badgeEarnStatus)
             }
         }

@@ -14,8 +14,16 @@ protocol BadgeDataProvider: UITableViewDataSource {
 }
 
 class BadgesDataSourceProvider: NSObject, BadgeDataProvider {
-    var managedObjectContext: NSManagedObjectContext?
-    var badgeEarnStatusMgr: BadgeEarnStatusDataProvider = BadgeEarnStatusMgr()
+    var managedObjectContext: NSManagedObjectContext? {
+        didSet {
+            badgeEarnStatusMgr.managedObjectContext = managedObjectContext
+        }
+    }
+    var badgeEarnStatusMgr: BadgeEarnStatusDataProvider = BadgeEarnStatusMgr() {
+        didSet {
+            badgeEarnStatusMgr.managedObjectContext = managedObjectContext
+        }
+    }
     
 }
 
@@ -36,11 +44,14 @@ extension BadgesDataSourceProvider: UITableViewDataSource {
     
     struct CellConstants {
         static let UnEarnedName = "??????"
+        static let EarnedLabelText = "Earned"
+        static let InvalidEarnLabelText = "N/A"
     }
     
     private func configureCell(cell: BadgeCell?, WithBadgeEarnStatus badgeEarnStatus: BadgeEarnStatus?) {
         configureNameForCell(cell, WithBadgeEarnStatus: badgeEarnStatus)
         configureImageForCell(cell, WithBadgeEarnStatus: badgeEarnStatus)
+        configureEarnLabelForCell(cell, WithBadgeEarnStatus: badgeEarnStatus)
     }
     
     private func configureNameForCell(cell: BadgeCell?, WithBadgeEarnStatus badgeEarnStatus: BadgeEarnStatus?) {
@@ -53,8 +64,27 @@ extension BadgesDataSourceProvider: UITableViewDataSource {
     }
     
     private func configureImageForCell(cell: BadgeCell?, WithBadgeEarnStatus badgeEarnStatus: BadgeEarnStatus?) {
-        if let badge = badgeEarnStatus?.badge {
-            cell?.badgeImageView.image = UIImage(named: badge.imageName!)
+        if let earnStatus = badgeEarnStatus {
+            if let badge = earnStatus.badge {
+                cell?.badgeImageView.image = UIImage(named: badge.imageName!)
+            }
+            
+            cell?.silverImageView.hidden = !earnStatus.deserveSilver()
+            cell?.goldImageView.hidden = !earnStatus.deserveGold()
+        }
+    }
+    
+    private func configureEarnLabelForCell(cell: BadgeCell?, WithBadgeEarnStatus badgeEarnStatus: BadgeEarnStatus?) {
+        if badgeEarnStatus?.badgeEarned() == true {
+            cell?.badgeEarnedLabel.text = CellConstants.EarnedLabelText
+        }
+        else {
+            if let badge = badgeEarnStatus?.badge {
+                cell?.badgeEarnedLabel.text =  "Run \(badge.distance!) meters to earn"
+            }
+            else {
+                cell?.badgeEarnedLabel.text = CellConstants.InvalidEarnLabelText
+            }
         }
     }
 }

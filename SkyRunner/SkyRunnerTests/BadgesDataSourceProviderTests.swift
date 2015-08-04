@@ -12,6 +12,19 @@ import CoreData
 
 class BadgesDataSourceProviderTests: XCTestCase {
     
+    class MockBadgeEarnStatus: BadgeEarnStatus {
+        var isDeserveSiler: Bool = false
+        var isDeserveGold: Bool = false
+        
+        override func deserveSilver() -> Bool {
+            return isDeserveSiler
+        }
+        
+        override func deserveGold() -> Bool {
+            return isDeserveGold
+        }
+    }
+    
     class MockBadgeEarnStatusMgr: BadgeEarnStatusDataProvider {
         let badgeJsonString1 = ["name":"Earth", "imageName":"earth", "distance":"0", "information": "badgeInformation1"]
         var badge1: Badge?
@@ -26,9 +39,11 @@ class BadgesDataSourceProviderTests: XCTestCase {
             
             self.badge1 = Badge(badgeJsonString: self.badgeJsonString1)
             self.badge2 = Badge(badgeJsonString: self.badgeJsonString2)
-            var _badgeEarnStatus1 = BadgeEarnStatus(badge: self.badge1!)
+            var _badgeEarnStatus1 = MockBadgeEarnStatus(badge: self.badge1!)
             _badgeEarnStatus1.earnRun = Run()
-            var _badgeEarnStatus2 = BadgeEarnStatus(badge: self.badge2!)
+            _badgeEarnStatus1.isDeserveSiler = true
+            _badgeEarnStatus1.isDeserveGold = true
+            var _badgeEarnStatus2 = MockBadgeEarnStatus(badge: self.badge2!)
             
             _badgeEarnStatuses.append(_badgeEarnStatus1)
             _badgeEarnStatuses.append(_badgeEarnStatus2)
@@ -41,6 +56,11 @@ class BadgesDataSourceProviderTests: XCTestCase {
     var mockBadgeEarnStatusMgr = MockBadgeEarnStatusMgr()
     var tableView: UITableView?
     var cell: BadgeCell?
+    
+    var storeCoordinator: NSPersistentStoreCoordinator!
+    var managedObjectContext: NSManagedObjectContext!
+    var managedObjectModel: NSManagedObjectModel!
+    var store: NSPersistentStore!
 
     override func setUp() {
         super.setUp()
@@ -51,6 +71,16 @@ class BadgesDataSourceProviderTests: XCTestCase {
         
         var storyBoard = UIStoryboard(name: "Main", bundle: NSBundle(forClass: self.dynamicType))
         var badgesTVC = storyBoard.instantiateViewControllerWithIdentifier("BadgesTableViewController") as? BadgesTableViewController
+        
+        managedObjectModel = NSManagedObjectModel.mergedModelFromBundles([NSBundle.mainBundle()])
+        storeCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
+        store = storeCoordinator.addPersistentStoreWithType(NSInMemoryStoreType,
+            configuration: nil, URL: nil, options: nil, error: nil)
+        managedObjectContext = NSManagedObjectContext()
+        managedObjectContext.persistentStoreCoordinator = storeCoordinator
+        
+        dataProvider?.managedObjectContext = managedObjectContext
+        
         tableView = badgesTVC?.tableView
         cell = dataProvider?.tableView(tableView!, cellForRowAtIndexPath: NSIndexPath(forRow: 1, inSection: 0)) as? BadgeCell
     }
@@ -58,6 +88,15 @@ class BadgesDataSourceProviderTests: XCTestCase {
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
+    }
+    
+    func testDataProviderWillPassTheCoreDataContext() {
+        XCTAssertTrue(dataProvider?.badgeEarnStatusMgr.managedObjectContext != nil)
+    }
+    
+    func testChangeBadgeEarnStatusMgrWillSetCoreDataContextAsWell() {
+        dataProvider?.badgeEarnStatusMgr = MockBadgeEarnStatusMgr()
+        XCTAssertTrue(dataProvider?.badgeEarnStatusMgr.managedObjectContext != nil)
     }
     
     func testBadgeNumberIsCorrect() {
@@ -80,6 +119,23 @@ class BadgesDataSourceProviderTests: XCTestCase {
     
     func testBadgeImageIsSetCorrectly() {
         XCTAssertTrue(cell?.badgeImageView.image != nil)
+    }
+    
+    func testSilierImageIsInvisibleIfNotDeserve() {
+        XCTAssertTrue(cell?.silverImageView.hidden == true)
+    }
+    
+    func testGoldImageIsInvisibleIfNotDeserve() {
+        XCTAssertTrue(cell?.goldImageView.hidden == true)
+    }
+    
+    func testEarnLabelSetToEarnedIfThisBadgeIsAlreadyEarned() {
+        cell = dataProvider?.tableView(tableView!, cellForRowAtIndexPath: NSIndexPath(forRow: 0, inSection: 0)) as? BadgeCell
+        XCTAssertTrue(cell?.badgeEarnedLabel.text == "Earned")
+    }
+    
+    func testEarnLabelIsSetToProperTextIfThisBadgeIsNotEarnedYet() {
+        XCTAssertTrue(cell?.badgeEarnedLabel.text == "Run 804.672 meters to earn")
     }
 
 }
