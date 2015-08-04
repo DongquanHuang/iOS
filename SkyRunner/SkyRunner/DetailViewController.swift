@@ -126,7 +126,11 @@ class DetailViewController: UIViewController {
     
     private func updateDateLabel() {
         if let theRun = skyRun {
-            if let dateString = theRun.timestamp?.description {
+            if let timestamp = theRun.timestamp {
+                let formatter = NSDateFormatter()
+                formatter.dateStyle = .MediumStyle
+                formatter.timeStyle = .MediumStyle
+                let dateString = formatter.stringFromDate(timestamp)
                 dateLabel.text = "Date: " + dateString
             }
         }

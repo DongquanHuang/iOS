@@ -137,5 +137,14 @@ class BadgesDataSourceProviderTests: XCTestCase {
     func testEarnLabelIsSetToProperTextIfThisBadgeIsNotEarnedYet() {
         XCTAssertTrue(cell?.badgeEarnedLabel.text == "Run 804.672 meters to earn")
     }
+    
+    func testEarnedCellCanAcceptUserTouch() {
+        cell = dataProvider?.tableView(tableView!, cellForRowAtIndexPath: NSIndexPath(forRow: 0, inSection: 0)) as? BadgeCell
+        XCTAssertTrue(cell?.userInteractionEnabled == true)
+    }
+    
+    func testUnearnedCellCannotAcceptUserTouch() {
+        XCTAssertTrue(cell?.userInteractionEnabled == false)
+    }
 
 }

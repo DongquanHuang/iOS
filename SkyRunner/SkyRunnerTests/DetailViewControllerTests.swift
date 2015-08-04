@@ -105,7 +105,9 @@ class DetailViewControllerTests: XCTestCase {
     }
     
     func testDateLabelShowsCorrectValue() {
-        XCTAssertTrue(detailVC?.dateLabel.text == "Date: " + NSDate(timeIntervalSince1970: 100000).description)
+        let expectedDateString = "Jan 2, 1970, 11:46:40 AM"  //NSDate(timeIntervalSince1970: 100000)
+        println("Time Label: \(detailVC?.dateLabel.text)")
+        XCTAssertTrue(detailVC?.dateLabel.text == "Date: " + expectedDateString)
     }
     
     func testDateLabelShowsNAIfNoRunValue() {

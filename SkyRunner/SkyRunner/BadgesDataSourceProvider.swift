@@ -52,6 +52,7 @@ extension BadgesDataSourceProvider: UITableViewDataSource {
         configureNameForCell(cell, WithBadgeEarnStatus: badgeEarnStatus)
         configureImageForCell(cell, WithBadgeEarnStatus: badgeEarnStatus)
         configureEarnLabelForCell(cell, WithBadgeEarnStatus: badgeEarnStatus)
+        configureUserInteractiveForCell(cell, WithBadgeEarnStatus: badgeEarnStatus)
     }
     
     private func configureNameForCell(cell: BadgeCell?, WithBadgeEarnStatus badgeEarnStatus: BadgeEarnStatus?) {
@@ -85,6 +86,15 @@ extension BadgesDataSourceProvider: UITableViewDataSource {
             else {
                 cell?.badgeEarnedLabel.text = CellConstants.InvalidEarnLabelText
             }
+        }
+    }
+    
+    private func configureUserInteractiveForCell(cell: BadgeCell?, WithBadgeEarnStatus badgeEarnStatus: BadgeEarnStatus?) {
+        if badgeEarnStatus?.badgeEarned() == true {
+            cell?.userInteractionEnabled = true
+        }
+        else {
+            cell?.userInteractionEnabled = false
         }
     }
 }
