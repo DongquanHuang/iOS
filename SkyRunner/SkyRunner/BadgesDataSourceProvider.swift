@@ -7,31 +7,54 @@
 //
 
 import UIKit
+import CoreData
 
-class BadgesDataSourceProvider: NSObject, UITableViewDataSource {
-    var filePath = NSBundle.mainBundle().pathForResource("badges", ofType: "json")
-    var badgeDataMgr = BadgeDataManager()
-    lazy var badges : [Badge]? = {
-        return self.badgeDataMgr.getBadgesFromFile(self.filePath)
-    }()
+protocol BadgeDataProvider: UITableViewDataSource {
+    var managedObjectContext: NSManagedObjectContext? {get set}
+}
+
+class BadgesDataSourceProvider: NSObject, BadgeDataProvider {
+    var managedObjectContext: NSManagedObjectContext?
+    var badgeEarnStatusMgr: BadgeEarnStatusDataProvider = BadgeEarnStatusMgr()
     
 }
 
 extension BadgesDataSourceProvider: UITableViewDataSource {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if badges != nil {
-            return badges!.count
+        if badgeEarnStatusMgr.badgeEarnStatuses != nil {
+            return badgeEarnStatusMgr.badgeEarnStatuses!.count
         }
         return 0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("BadgeCell") as? BadgeCell
-        if let badge = badges?[indexPath.row] {
-            cell?.badgeNameLabel.text = badge.name
+        let badgeEarnStatus = badgeEarnStatusMgr.badgeEarnStatuses?[indexPath.row]
+        configureCell(cell, WithBadgeEarnStatus: badgeEarnStatus)
+        return cell!
+    }
+    
+    struct CellConstants {
+        static let UnEarnedName = "??????"
+    }
+    
+    private func configureCell(cell: BadgeCell?, WithBadgeEarnStatus badgeEarnStatus: BadgeEarnStatus?) {
+        configureNameForCell(cell, WithBadgeEarnStatus: badgeEarnStatus)
+        configureImageForCell(cell, WithBadgeEarnStatus: badgeEarnStatus)
+    }
+    
+    private func configureNameForCell(cell: BadgeCell?, WithBadgeEarnStatus badgeEarnStatus: BadgeEarnStatus?) {
+        if badgeEarnStatus?.badgeEarned() == true {
+            cell?.badgeNameLabel.text = badgeEarnStatus?.badge?.name
+        }
+        else {
+            cell?.badgeNameLabel.text =  CellConstants.UnEarnedName
+        }
+    }
+    
+    private func configureImageForCell(cell: BadgeCell?, WithBadgeEarnStatus badgeEarnStatus: BadgeEarnStatus?) {
+        if let badge = badgeEarnStatus?.badge {
             cell?.badgeImageView.image = UIImage(named: badge.imageName!)
         }
-        
-        return cell!
     }
 }

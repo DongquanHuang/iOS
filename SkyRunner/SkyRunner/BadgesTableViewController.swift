@@ -10,8 +10,16 @@ import UIKit
 import CoreData
 
 class BadgesTableViewController: UITableViewController {
-    var managedObjectContext: NSManagedObjectContext?
-    var dataSourceProvider: UITableViewDataSource! = BadgesDataSourceProvider()
+    var managedObjectContext: NSManagedObjectContext? {
+        didSet {
+            dataSourceProvider.managedObjectContext = managedObjectContext
+        }
+    }
+    var dataSourceProvider: BadgeDataProvider = BadgesDataSourceProvider() {
+        didSet {
+            dataSourceProvider.managedObjectContext = managedObjectContext
+        }
+    }
 }
 
 extension BadgesTableViewController: UITableViewDataSource {

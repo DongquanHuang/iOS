@@ -13,8 +13,7 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
-
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         let rootVC = window!.rootViewController as! UINavigationController
@@ -62,6 +61,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let modelURL = NSBundle.mainBundle().URLForResource("SkyRunner", withExtension: "momd")!
         return NSManagedObjectModel(contentsOfURL: modelURL)!
     }()
+    
+    /*
+    lazy var managedObjectModel: NSManagedObjectModel = {
+        // The managed object model for the application. This property is not optional...
+        let modelURL = NSBundle.mainBundle().URLForResource("SkyRunner", withExtension: "momd")!
+        let managedObjectModel = NSManagedObjectModel(contentsOfURL: modelURL)!
+        
+        // Check if we are running as test or not
+        let environment = NSProcessInfo.processInfo().environment as! [String : AnyObject]
+        let isTest = (environment["XCInjectBundle"] as? String)?.pathExtension == "xctest"
+        
+        // Create the module name
+        let moduleName = (isTest) ? "SkyRunnerTests" : "SkyRunner"
+        
+        // Create a new managed object model with updated entity class names
+        var newEntities = [] as [NSEntityDescription]
+        for (_, entity) in enumerate(managedObjectModel.entities) {
+            let newEntity = entity.copy() as! NSEntityDescription
+            newEntity.managedObjectClassName = "\(moduleName).\(entity.name)"
+            newEntities.append(newEntity)
+        }
+        let newManagedObjectModel = NSManagedObjectModel()
+        newManagedObjectModel.entities = newEntities
+        
+        return newManagedObjectModel
+    }() */
 
     lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator? = {
         // The persistent store coordinator for the application. This implementation creates and return a coordinator, having added the store for the application to it. This property is optional since there are legitimate error conditions that could cause the creation of the store to fail.

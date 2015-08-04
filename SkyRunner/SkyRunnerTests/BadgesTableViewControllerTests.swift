@@ -8,14 +8,21 @@
 
 import UIKit
 import XCTest
+import CoreData
 
 class BadgesTableViewControllerTests: XCTestCase {
-    
     var storyBoard: UIStoryboard?
     var badgesTVC: BadgesTableViewController?
     var mockDataSourceProvider: MockDataSourceProvider?
     
-    class MockDataSourceProvider: NSObject, UITableViewDataSource {
+    var storeCoordinator: NSPersistentStoreCoordinator!
+    var managedObjectContext: NSManagedObjectContext!
+    var managedObjectModel: NSManagedObjectModel!
+    var store: NSPersistentStore!
+    
+    class MockDataSourceProvider: NSObject, BadgeDataProvider {
+        var managedObjectContext: NSManagedObjectContext?
+        
         var numberOfRowsInSectionFuncGetsCalled = false
         var cellForRowAtIndexPathFuncGetsCalled = false
         
@@ -36,12 +43,31 @@ class BadgesTableViewControllerTests: XCTestCase {
         storyBoard = UIStoryboard(name: "Main", bundle: NSBundle(forClass: self.dynamicType))
         badgesTVC = storyBoard?.instantiateViewControllerWithIdentifier("BadgesTableViewController") as? BadgesTableViewController
         mockDataSourceProvider = MockDataSourceProvider()
-        badgesTVC?.dataSourceProvider = mockDataSourceProvider
+        
+        managedObjectModel = NSManagedObjectModel.mergedModelFromBundles([NSBundle.mainBundle()])
+        storeCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
+        store = storeCoordinator.addPersistentStoreWithType(NSInMemoryStoreType,
+            configuration: nil, URL: nil, options: nil, error: nil)
+        managedObjectContext = NSManagedObjectContext()
+        managedObjectContext.persistentStoreCoordinator = storeCoordinator
+        
+        badgesTVC?.managedObjectContext = managedObjectContext
+        
+        badgesTVC?.dataSourceProvider = mockDataSourceProvider!
     }
     
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
+    }
+    
+    func testChangeCoreDataContextWillUpdateToDataProviderAsWell() {
+        badgesTVC?.managedObjectContext = managedObjectContext
+        XCTAssertTrue(badgesTVC?.dataSourceProvider.managedObjectContext != nil)
+    }
+    
+    func testAssignDataSourceProviderWillSetCoreDataContext() {
+        XCTAssertTrue(badgesTVC?.dataSourceProvider.managedObjectContext != nil)
     }
     
     func testCanGetRowNumbers() {
