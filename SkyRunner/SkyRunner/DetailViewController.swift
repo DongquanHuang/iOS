@@ -27,6 +27,10 @@ class DetailViewController: UIViewController {
         static let LongtitudeDelta = 1.1
     }
     
+    struct NumberDecimalPlaceConstants {
+        static let DecimalPlaceConstants = 3
+    }
+    
     // MARK: - Variables
     var managedObjectContext: NSManagedObjectContext?
     var skyRun: SkyRun?
@@ -113,7 +117,7 @@ class DetailViewController: UIViewController {
     
     private func updateDistanceLabel() {
         if let theRun = skyRun {
-            distanceLabel.text = "Distance: " + theRun.distance.description + " m"
+            distanceLabel.text = "Distance: " + theRun.distance.round(NumberDecimalPlaceConstants.DecimalPlaceConstants).description + " m"
         }
         else {
             distanceLabel.text = "Distance: " + LabelConstants.InvalidValue
@@ -133,7 +137,7 @@ class DetailViewController: UIViewController {
     
     private func updateTimeLabel() {
         if let theRun = skyRun {
-            timeLabel.text = "Duration: " + theRun.duration.description + " s"
+            timeLabel.text = "Duration: " + theRun.duration.round(NumberDecimalPlaceConstants.DecimalPlaceConstants).description + " s"
         }
         else {
             timeLabel.text = "Duration: " + LabelConstants.InvalidValue

@@ -254,9 +254,9 @@
                     <connections>
                         <outlet property="cancelButton" destination="Dc2-By-dKh" id="jRl-zm-aLp"/>
                         <outlet property="distanceLabel" destination="KD8-x3-CFR" id="eR0-oU-jB7"/>
-                        <outlet property="earnedBadgeImageView" destination="Y4V-8C-kcc" id="R8S-7n-5ce"/>
-                        <outlet property="earnedBadgeLabel" destination="DwX-xw-L1T" id="che-Ub-11O"/>
                         <outlet property="mapView" destination="9Bz-mK-Ifk" id="gRT-Ic-c84"/>
+                        <outlet property="nextBadgeToEarnImageView" destination="Y4V-8C-kcc" id="ZEu-Gw-chB"/>
+                        <outlet property="nextBadgeToEarnLabel" destination="DwX-xw-L1T" id="aMh-aZ-BeS"/>
                         <outlet property="paceLabel" destination="TdZ-Zd-LyH" id="70u-gS-ieE"/>
                         <outlet property="promptLabel" destination="X6i-8G-JRv" id="2ET-yA-1El"/>
                         <outlet property="startButton" destination="0Rz-N9-714" id="cKG-jV-YEm"/>

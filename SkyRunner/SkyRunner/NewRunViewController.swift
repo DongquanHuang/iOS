@@ -19,6 +19,10 @@ class NewRunViewController: UIViewController {
         static let CancelRun = "Cancel Run"
     }
     
+    struct NumberDecimalPlaceConstants {
+        static let DecimalPlaceConstants = 3
+    }
+    
     // MARK: - IBOutlets
     @IBOutlet weak var promptLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
@@ -31,8 +35,8 @@ class NewRunViewController: UIViewController {
     @IBOutlet weak var stopButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
     
-    @IBOutlet weak var earnedBadgeImageView: UIImageView!
-    @IBOutlet weak var earnedBadgeLabel: UILabel!
+    @IBOutlet weak var nextBadgeToEarnImageView: UIImageView!
+    @IBOutlet weak var nextBadgeToEarnLabel: UILabel!
     
     // MARK: - Variables
     var managedObjectContext: NSManagedObjectContext?
@@ -40,6 +44,7 @@ class NewRunViewController: UIViewController {
     var locationManager: LocationManager?
     var skyRun = SkyRun()
     var timestamp = NSDate()
+    var nextBadgeProvider: NextBadgeDataProvider = BadgeEarnStatusMgr()
     
     // MARK: - Override super class methods
     override func viewWillAppear(animated: Bool) {
@@ -101,8 +106,8 @@ class NewRunViewController: UIViewController {
     }
     
     private func prepareAchievementUIForNewRun() {
-        earnedBadgeImageView.hidden = true
-        earnedBadgeLabel.hidden = true
+        nextBadgeToEarnImageView.hidden = true
+        nextBadgeToEarnLabel.hidden = true
     }
     
     private func prepareUIForRunning() {
@@ -125,8 +130,8 @@ class NewRunViewController: UIViewController {
     }
     
     private func prepareAchievementUIForRunning() {
-        earnedBadgeImageView.hidden = false
-        earnedBadgeLabel.hidden = false
+        nextBadgeToEarnImageView.hidden = false
+        nextBadgeToEarnLabel.hidden = false
     }
     
     // MARK: - Private methods -- Using HealthKit to update labels
@@ -217,6 +222,7 @@ extension NewRunViewController: LocationManagerDelegate {
         updateRunDistance()
         appendLocationToRun()
         updateRunPath()
+        updateNextBadgeInformation()
     }
     
     private func updateRunDistance() {
@@ -241,6 +247,14 @@ extension NewRunViewController: LocationManagerDelegate {
             mapView.setRegion(region, animated: true)
             
             mapView.addOverlay(MKPolyline(coordinates: &coords, count: coords.count))
+        }
+    }
+    
+    private func updateNextBadgeInformation() {
+        if let nextBadge = nextBadgeProvider.nextBadge(skyRun.distance) {
+            nextBadgeToEarnImageView.image = UIImage(named: nextBadge.imageName!)
+            let distanceToGo = nextBadge.distance! - skyRun.distance
+            nextBadgeToEarnLabel.text = "\(distanceToGo.round(NumberDecimalPlaceConstants.DecimalPlaceConstants)) m to \(nextBadge.name!)"
         }
     }
     

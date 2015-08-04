@@ -31,5 +31,17 @@ class BadgeEarnStatusTests: XCTestCase {
     func testCanInitBadgeEarnStatusWithBadge() {
         XCTAssertTrue(badgeEarnStatus?.badge != nil)
     }
+    
+    func testNextBadgeIsReturnedCorrectly() {
+        let currentDistance = 0.0
+        let nextBadge = badgeEarnStatusMgr.nextBadge(currentDistance)
+        XCTAssertTrue(nextBadge?.name == "Earth's Atmosphere")
+    }
+    
+    func testWillReturnLastBadgeIfAllTagetsReached() {
+        let currentDistance = 42195.0
+        let nextBadge = badgeEarnStatusMgr.nextBadge(currentDistance)
+        XCTAssertTrue(nextBadge?.name == "Interstellar Space")
+    }
 
 }

@@ -124,11 +124,11 @@ class NewRunViewControllerTests: XCTestCase {
     }
     
     func testEarnedBadgeImageViewShouldBeHideAfterViewAppears() {
-        XCTAssertTrue(newRunVC?.earnedBadgeImageView.hidden == true)
+        XCTAssertTrue(newRunVC?.nextBadgeToEarnImageView.hidden == true)
     }
     
     func testEarnedBadgeLabelShouldBeHideAfterViewAppears() {
-        XCTAssertTrue(newRunVC?.earnedBadgeLabel.hidden == true)
+        XCTAssertTrue(newRunVC?.nextBadgeToEarnLabel.hidden == true)
     }
     
     func testNoTimerBeforeRun() {
@@ -179,12 +179,12 @@ class NewRunViewControllerTests: XCTestCase {
     
     func testPressStartWillMakeEarnedBadgeImageViewVisible() {
         newRunVC?.startRun(newRunVC!.startButton)
-        XCTAssertTrue(newRunVC?.earnedBadgeImageView.hidden == false)
+        XCTAssertTrue(newRunVC?.nextBadgeToEarnImageView.hidden == false)
     }
     
     func testPressStartWillMakeEarnedBadgeLabelVisible() {
         newRunVC?.startRun(newRunVC!.startButton)
-        XCTAssertTrue(newRunVC?.earnedBadgeLabel.hidden == false)
+        XCTAssertTrue(newRunVC?.nextBadgeToEarnLabel.hidden == false)
     }
     
     func testPressStartWillMakePromptLabelHidden() {
@@ -437,6 +437,18 @@ class NewRunViewControllerTests: XCTestCase {
     
     func testMapViewDelegateIsSetCorrectly() {
         XCTAssertTrue(newRunVC?.mapView?.delegate.isKindOfClass(NewRunViewController) == true)
+    }
+    
+    func testNextBadgeToEarnImageViewIsSetCorrectly() {
+        newRunVC?.startRun(newRunVC!.startButton)
+        serveTwoLocations()
+        XCTAssertTrue(newRunVC?.nextBadgeToEarnImageView.image != nil)
+    }
+    
+    func testNextBadgeToEarnLabelIsSetCorrectly() {
+        newRunVC?.startRun(newRunVC!.startButton)
+        serveTwoLocations()
+        XCTAssertTrue(newRunVC?.nextBadgeToEarnLabel.text == "51.951 m to The Moon")
     }
     
     // MARK: - stop run

@@ -58,6 +58,9 @@
 		D058AEC11B674152005DC923 /* SkyRun.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEBF1B674152005DC923 /* SkyRun.swift */; };
 		D058AEC31B686F92005DC923 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEC21B686F92005DC923 /* DetailViewController.swift */; };
 		D058AEC61B689546005DC923 /* DetailViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D058AEC51B689546005DC923 /* DetailViewControllerTests.swift */; };
+		D0DC68001B70A9B400163710 /* Double+Round.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DC67FF1B70A9B400163710 /* Double+Round.swift */; };
+		D0DC68031B70A9F800163710 /* DoubleRoundTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DC68021B70A9F800163710 /* DoubleRoundTests.swift */; };
+		D0DC68041B70A9FF00163710 /* Double+Round.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DC67FF1B70A9B400163710 /* Double+Round.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,6 +111,8 @@
 		D058AEBF1B674152005DC923 /* SkyRun.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkyRun.swift; sourceTree = "<group>"; };
 		D058AEC21B686F92005DC923 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		D058AEC51B689546005DC923 /* DetailViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewControllerTests.swift; sourceTree = "<group>"; };
+		D0DC67FF1B70A9B400163710 /* Double+Round.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Double+Round.swift"; sourceTree = "<group>"; };
+		D0DC68021B70A9F800163710 /* DoubleRoundTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoubleRoundTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +167,7 @@
 				D058AEAF1B6230DB005DC923 /* BadgeCell.swift */,
 				D00E870A1B5F69A200F95A97 /* Main.storyboard */,
 				D00E87051B5F69A200F95A97 /* SkyRunner.xcdatamodeld */,
+				D0DC68011B70A9BA00163710 /* Util */,
 				D00E872C1B5F6B6B00F95A97 /* Models */,
 				D00E87011B5F69A200F95A97 /* Supporting Files */,
 			);
@@ -194,6 +200,7 @@
 				D058AEC51B689546005DC923 /* DetailViewControllerTests.swift */,
 				D0511BF01B6A37AD00C27677 /* ColorfulPolylineTests.swift */,
 				D0511C2C1B6F3E7000C27677 /* BadgeEarnStatusTests.swift */,
+				D0DC68021B70A9F800163710 /* DoubleRoundTests.swift */,
 			);
 			path = SkyRunnerTests;
 			sourceTree = "<group>";
@@ -226,6 +233,14 @@
 				D00E87391B60BED100F95A97 /* MapKit.framework */,
 			);
 			name = "Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		D0DC68011B70A9BA00163710 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				D0DC67FF1B70A9B400163710 /* Double+Round.swift */,
+			);
+			name = Util;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -339,6 +354,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D00E873C1B60C40800F95A97 /* JsonFileParser.swift in Sources */,
+				D0DC68001B70A9B400163710 /* Double+Round.swift in Sources */,
 				D00E87371B60BD8600F95A97 /* NewRunViewController.swift in Sources */,
 				D00E87411B60E26500F95A97 /* BadgeDataManger.swift in Sources */,
 				D0511BEE1B6A362F00C27677 /* ColorfulPolyline.swift in Sources */,
@@ -363,10 +379,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				D00E87381B60BD8600F95A97 /* NewRunViewController.swift in Sources */,
+				D0DC68041B70A9FF00163710 /* Double+Round.swift in Sources */,
 				D058AEA81B62020C005DC923 /* BadgesTableViewControllerTests.swift in Sources */,
 				D00E872D1B5F6BC600F95A97 /* Badge.swift in Sources */,
 				D00E87291B5F6B1000F95A97 /* BadgeTests.swift in Sources */,
 				D058AEA61B62001C005DC923 /* BadgesTableViewController.swift in Sources */,
+				D0DC68031B70A9F800163710 /* DoubleRoundTests.swift in Sources */,
 				D0511BF41B6B3E2800C27677 /* Location.swift in Sources */,
 				D00E87421B60E26500F95A97 /* BadgeDataManger.swift in Sources */,
 				D058AEAE1B621D57005DC923 /* BadgesDataSourceProviderTests.swift in Sources */,
