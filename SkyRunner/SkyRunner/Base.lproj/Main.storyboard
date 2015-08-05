@@ -600,6 +600,9 @@
                                 <state key="normal" backgroundImage="info">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="showInfo:" destination="BRh-yj-qNC" eventType="touchUpInside" id="ce8-Yn-mlI"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -613,6 +616,17 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="953-Fh-2Zc"/>
+                    <connections>
+                        <outlet property="badgeImageView" destination="6wk-Dw-mvY" id="YHr-vi-l2v"/>
+                        <outlet property="badgeNameLabel" destination="TA4-Uu-TCe" id="0pr-oW-xxk"/>
+                        <outlet property="bestRunLabel" destination="rCw-8g-h0r" id="zcw-iF-B9Q"/>
+                        <outlet property="distanceLabel" destination="QtM-pb-q8h" id="KbK-qU-rXb"/>
+                        <outlet property="earnRunLabel" destination="yli-tA-Bf3" id="dqO-dX-hJj"/>
+                        <outlet property="goldImageView" destination="FlM-c9-7HI" id="nmc-YP-SfO"/>
+                        <outlet property="goldRunLabel" destination="QHh-Dk-nvL" id="Huw-vG-rmw"/>
+                        <outlet property="silverImageView" destination="s2C-WX-xQV" id="Cx5-2K-ytX"/>
+                        <outlet property="silverRunLabel" destination="x3A-LR-nHx" id="RgR-py-W8n"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iLz-QZ-Vw7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
