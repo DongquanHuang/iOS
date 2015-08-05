@@ -67,6 +67,9 @@
 		D0DC68221B719BE900163710 /* Badges.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DC68211B719BE900163710 /* Badges.swift */; };
 		D0DC68231B719BE900163710 /* Badges.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DC68211B719BE900163710 /* Badges.swift */; };
 		D0DC68251B719C0200163710 /* BadgesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DC68241B719C0200163710 /* BadgesTests.swift */; };
+		D0DC68271B71A30E00163710 /* BadgeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DC68261B71A30E00163710 /* BadgeDetailViewController.swift */; };
+		D0DC68281B71A30E00163710 /* BadgeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DC68261B71A30E00163710 /* BadgeDetailViewController.swift */; };
+		D0DC68431B71D42C00163710 /* BadgeDetailViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DC68421B71D42C00163710 /* BadgeDetailViewControllerTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,6 +126,8 @@
 		D0DC681F1B7199FB00163710 /* NextBadgeProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NextBadgeProviderTests.swift; sourceTree = "<group>"; };
 		D0DC68211B719BE900163710 /* Badges.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Badges.swift; sourceTree = "<group>"; };
 		D0DC68241B719C0200163710 /* BadgesTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgesTests.swift; sourceTree = "<group>"; };
+		D0DC68261B71A30E00163710 /* BadgeDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeDetailViewController.swift; sourceTree = "<group>"; };
+		D0DC68421B71D42C00163710 /* BadgeDetailViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeDetailViewControllerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,6 +180,7 @@
 				D058AEA41B62001C005DC923 /* BadgesTableViewController.swift */,
 				D058AEA91B620D48005DC923 /* BadgesDataSourceProvider.swift */,
 				D058AEAF1B6230DB005DC923 /* BadgeCell.swift */,
+				D0DC68261B71A30E00163710 /* BadgeDetailViewController.swift */,
 				D00E870A1B5F69A200F95A97 /* Main.storyboard */,
 				D00E87051B5F69A200F95A97 /* SkyRunner.xcdatamodeld */,
 				D0DC68011B70A9BA00163710 /* Util */,
@@ -213,6 +219,7 @@
 				D0511C2C1B6F3E7000C27677 /* BadgeEarnStatusTests.swift */,
 				D0DC68021B70A9F800163710 /* DoubleRoundTests.swift */,
 				D0DC681F1B7199FB00163710 /* NextBadgeProviderTests.swift */,
+				D0DC68421B71D42C00163710 /* BadgeDetailViewControllerTests.swift */,
 			);
 			path = SkyRunnerTests;
 			sourceTree = "<group>";
@@ -371,6 +378,7 @@
 				D0DC68001B70A9B400163710 /* Double+Round.swift in Sources */,
 				D00E87371B60BD8600F95A97 /* NewRunViewController.swift in Sources */,
 				D00E87411B60E26500F95A97 /* BadgeDataManger.swift in Sources */,
+				D0DC68271B71A30E00163710 /* BadgeDetailViewController.swift in Sources */,
 				D0511BEE1B6A362F00C27677 /* ColorfulPolyline.swift in Sources */,
 				D0DC68221B719BE900163710 /* Badges.swift in Sources */,
 				D0DC681D1B7198F500163710 /* NextBadgeDataProvider.swift in Sources */,
@@ -397,6 +405,7 @@
 				D00E87381B60BD8600F95A97 /* NewRunViewController.swift in Sources */,
 				D0DC68041B70A9FF00163710 /* Double+Round.swift in Sources */,
 				D058AEA81B62020C005DC923 /* BadgesTableViewControllerTests.swift in Sources */,
+				D0DC68431B71D42C00163710 /* BadgeDetailViewControllerTests.swift in Sources */,
 				D00E872D1B5F6BC600F95A97 /* Badge.swift in Sources */,
 				D00E87291B5F6B1000F95A97 /* BadgeTests.swift in Sources */,
 				D058AEA61B62001C005DC923 /* BadgesTableViewController.swift in Sources */,
@@ -419,6 +428,7 @@
 				D0511BF21B6B3E1A00C27677 /* DetailViewController.swift in Sources */,
 				D00E87341B60B3AB00F95A97 /* AppDelegate.swift in Sources */,
 				D0511C2B1B6F3CAB00C27677 /* BadgeEarnStatus.swift in Sources */,
+				D0DC68281B71A30E00163710 /* BadgeDetailViewController.swift in Sources */,
 				D0DC68231B719BE900163710 /* Badges.swift in Sources */,
 				D058AEB11B6230DB005DC923 /* BadgeCell.swift in Sources */,
 				D0511BF11B6A37AD00C27677 /* ColorfulPolylineTests.swift in Sources */,

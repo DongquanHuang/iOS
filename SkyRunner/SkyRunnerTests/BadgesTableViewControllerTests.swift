@@ -14,6 +14,8 @@ class BadgesTableViewControllerTests: XCTestCase {
     var storyBoard: UIStoryboard?
     var badgesTVC: BadgesTableViewController?
     var mockDataSourceProvider: MockDataSourceProvider?
+    var badgeDetailVC: BadgeDetailViewController?
+    var mockBTVC: MockBadgesTVC?
     
     var storeCoordinator: NSPersistentStoreCoordinator!
     var managedObjectContext: NSManagedObjectContext!
@@ -35,6 +37,18 @@ class BadgesTableViewControllerTests: XCTestCase {
             cellForRowAtIndexPathFuncGetsCalled = true
             return UITableViewCell()
         }
+        
+        func badgeEarnStatusForIndex(index: Int) -> BadgeEarnStatus? {
+            return nil
+        }
+    }
+    
+    class MockBadgesTVC: BadgesTableViewController {
+        var segueIdentifier: NSString?
+        
+        override func performSegueWithIdentifier(identifier: String?, sender: AnyObject?) {
+            segueIdentifier = identifier
+        }
     }
 
     override func setUp() {
@@ -43,6 +57,8 @@ class BadgesTableViewControllerTests: XCTestCase {
         storyBoard = UIStoryboard(name: "Main", bundle: NSBundle(forClass: self.dynamicType))
         badgesTVC = storyBoard?.instantiateViewControllerWithIdentifier("BadgesTableViewController") as? BadgesTableViewController
         mockDataSourceProvider = MockDataSourceProvider()
+        badgeDetailVC = storyBoard?.instantiateViewControllerWithIdentifier("BadgeDetailViewController") as? BadgeDetailViewController
+        mockBTVC = MockBadgesTVC()
         
         managedObjectModel = NSManagedObjectModel.mergedModelFromBundles([NSBundle.mainBundle()])
         storeCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
@@ -94,6 +110,26 @@ class BadgesTableViewControllerTests: XCTestCase {
         let btvc = storyBoard?.instantiateViewControllerWithIdentifier("BadgesTableViewController") as? BadgesTableViewController
         XCTAssertTrue(btvc?.dataSourceProvider != nil)
         
+    }
+    
+    func testPressCellWillPerformSegue() {
+        mockBTVC?.tableView(UITableView(), didSelectRowAtIndexPath: NSIndexPath(forRow: 0, inSection: 0))
+        XCTAssertTrue(mockBTVC?.segueIdentifier == "Show Badge Detail")
+    }
+    
+    func testPressCellWillGenerateOneBadgeEarnStatus() {
+        mockBTVC?.tableView(UITableView(), didSelectRowAtIndexPath: NSIndexPath(forRow: 0, inSection: 0))
+        XCTAssertTrue(mockBTVC?.badgeEarnStatus != nil)
+    }
+    
+    func testPressCellWillPassBadgeEarnStatusToNextViewController() {
+        let btvc = storyBoard?.instantiateViewControllerWithIdentifier("BadgesTableViewController") as? BadgesTableViewController
+        btvc?.tableView(UITableView(), didSelectRowAtIndexPath: NSIndexPath(forRow: 0, inSection: 0))
+        
+        let segue = UIStoryboardSegue(identifier: "Show Badge Detail", source: btvc!, destination: badgeDetailVC!)
+        btvc?.prepareForSegue(segue, sender: nil)
+        
+        XCTAssertTrue(badgeDetailVC?.badgeEarnStatus != nil)
     }
 
 }

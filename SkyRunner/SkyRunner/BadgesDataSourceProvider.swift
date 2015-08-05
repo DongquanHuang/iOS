@@ -11,6 +11,7 @@ import CoreData
 
 protocol BadgeDataProvider: UITableViewDataSource {
     var managedObjectContext: NSManagedObjectContext? {get set}
+    func badgeEarnStatusForIndex(index: Int) -> BadgeEarnStatus?
 }
 
 class BadgesDataSourceProvider: NSObject, BadgeDataProvider {
@@ -23,6 +24,13 @@ class BadgesDataSourceProvider: NSObject, BadgeDataProvider {
         didSet {
             badgeEarnStatusMgr.managedObjectContext = managedObjectContext
         }
+    }
+    
+    func badgeEarnStatusForIndex(index: Int) -> BadgeEarnStatus? {
+        if let badgeEarnStatuses = badgeEarnStatusMgr.badgeEarnStatuses {
+            return badgeEarnStatuses[index]
+        }
+        return nil
     }
     
 }
