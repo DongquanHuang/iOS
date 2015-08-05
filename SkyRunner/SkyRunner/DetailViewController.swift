@@ -172,6 +172,20 @@ class DetailViewController: UIViewController {
         mapView.setRegion(mapRegion(), animated: true)
     }
     
+    private func removeOverlays() {
+        if let existingOverlays = mapView.overlays {
+            mapView.removeOverlays(existingOverlays)
+        }
+    }
+    
+    private func canAddOverlays() -> Bool {
+        return skyRun?.locations.count > 1
+    }
+    
+    private func addOverlays() {
+        mapView.addOverlays(overlaysForRun())
+    }
+    
     private func mapRegion() -> MKCoordinateRegion {
         if let regionOfRunLocations = regionOfLocations(skyRun?.locations) {
             let regionCenter = centerOfRegion(regionOfRunLocations)
@@ -216,20 +230,6 @@ class DetailViewController: UIViewController {
     
     private func spanOfRegion(region: (minLat: Double, minLng: Double, maxLat: Double, maxLng: Double)) -> MKCoordinateSpan {
         return MKCoordinateSpan(latitudeDelta: (region.maxLat - region.minLat) * MapConstants.LatitudeDelta, longitudeDelta: (region.maxLng - region.minLng) * MapConstants.LongtitudeDelta)
-    }
-    
-    private func removeOverlays() {
-        if let existingOverlays = mapView.overlays {
-            mapView.removeOverlays(existingOverlays)
-        }
-    }
-    
-    private func canAddOverlays() -> Bool {
-        return skyRun?.locations.count > 1
-    }
-    
-    private func addOverlays() {
-        mapView.addOverlays(overlaysForRun())
     }
     
     private func overlaysForRun() -> [ColorfulPolyline] {

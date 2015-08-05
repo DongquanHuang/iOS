@@ -61,7 +61,7 @@ class NewRunViewController: UIViewController {
     // MARK: - IBActions
     @IBAction func startRun(sender: UIButton) {
         prepareUIForRunning()
-        skyRun.timestamp = NSDate(timeIntervalSince1970: timestamp.timeIntervalSince1970)
+        updateTimestampForRun()
         startTimer()
         startLocationUpdate()
     }
@@ -149,6 +149,11 @@ class NewRunViewController: UIViewController {
         let paceUnit = HKUnit.meterUnit().unitDividedByUnit(HKUnit.secondUnit())
         let paceQuantity = HKQuantity(unit: paceUnit, doubleValue: skyRun.distance / skyRun.duration)
         paceLabel.text = "Pace: " + paceQuantity.description
+    }
+    
+    // MARK: - Private methods -- Update timestamp for un
+    private func updateTimestampForRun() {
+        skyRun.timestamp = NSDate(timeIntervalSince1970: timestamp.timeIntervalSince1970)
     }
 
     // MARK: - Private methods -- Timer
