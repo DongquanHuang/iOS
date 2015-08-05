@@ -44,7 +44,7 @@ class NewRunViewController: UIViewController {
     var locationManager: LocationManager?
     var skyRun = SkyRun()
     var timestamp = NSDate()
-    var nextBadgeProvider: NextBadgeDataProvider = BadgeEarnStatusMgr()
+    var nextBadgeProvider: NextBadgeDataProvider = NextBadgeProvider()
     
     // MARK: - Override super class methods
     override func viewWillAppear(animated: Bool) {

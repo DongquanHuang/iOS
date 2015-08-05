@@ -38,36 +38,14 @@ protocol BadgeEarnStatusDataProvider {
     var badgeEarnStatuses: [BadgeEarnStatus]? {get}
 }
 
-protocol NextBadgeDataProvider {
-    func nextBadge(currentDistance: Double) -> Badge?
-}
-
-class BadgeEarnStatusMgr: NSObject, BadgeEarnStatusDataProvider, NextBadgeDataProvider {
+class BadgeEarnStatusMgr: NSObject, BadgeEarnStatusDataProvider {
     var managedObjectContext: NSManagedObjectContext?
     lazy var badgeEarnStatuses: [BadgeEarnStatus]? = {
         [unowned self] in
         return self.getBadgeEarnStatuses()
     }()
     
-    func nextBadge(currentDistance: Double) -> Badge? {
-        if let badgeList = badges {
-            for badge in badgeList {
-                if badge.distance > currentDistance {
-                    return badge
-                }
-            }
-        }
-        
-        return badges?.last
-    }
-    
-    private var filePath = NSBundle.mainBundle().pathForResource("badges", ofType: "json")
-    private var badgeDataMgr = BadgeDataManager()
-    private lazy var badges: [Badge]? = {
-        [unowned self] in
-        return self.badgeDataMgr.getBadgesFromFile(self.filePath)
-    }()
-    
+    private var badges = Badges()
     private var badgeEarnStatusList: [BadgeEarnStatus]?
     private var runs = [Run]()
     
@@ -82,7 +60,7 @@ class BadgeEarnStatusMgr: NSObject, BadgeEarnStatusDataProvider, NextBadgeDataPr
     private func generateBadgeEarnStatuses() {
         badgeEarnStatusList = [BadgeEarnStatus]()
         
-        if let badgeList = badges {
+        if let badgeList = badges.badges {
             for badge in badgeList {
                 var badgeEarnStatus = BadgeEarnStatus(badge: badge)
                 badgeEarnStatusList?.append(badgeEarnStatus)
