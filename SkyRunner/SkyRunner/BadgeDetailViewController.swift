@@ -22,6 +22,7 @@ class BadgeDetailViewController: UIViewController {
     
     // MARK: - Variables
     var badgeEarnStatus: BadgeEarnStatus?
+    var badgeInfoAlertView = UIAlertView()
     
     // MARK: - IBOutlets
     @IBOutlet weak var badgeImageView: UIImageView!
@@ -43,9 +44,19 @@ class BadgeDetailViewController: UIViewController {
     
     // MARK: - IBActions
     @IBAction func showInfo(sender: UIButton) {
+        popupBadgeInfo()
     }
     
     // MARK: - Private methods
+    private func popupBadgeInfo() {
+        badgeInfoAlertView.title = badgeEarnStatus!.badge!.name!
+        badgeInfoAlertView.message = badgeEarnStatus!.badge!.information!
+        badgeInfoAlertView.delegate = nil
+        badgeInfoAlertView.addButtonWithTitle("OK")
+        
+        badgeInfoAlertView.show()
+    }
+    
     private func configureView() {
         if badgeEarnStatus == nil {
             return
@@ -66,6 +77,7 @@ class BadgeDetailViewController: UIViewController {
         configureEarnRunLabel()
         configureSilverRunLabel()
         configureGoldRunLabel()
+        configureBestRunLabel()
     }
     
     private func configureAchievementImageViews() {
@@ -89,13 +101,37 @@ class BadgeDetailViewController: UIViewController {
     }
     
     private func configureSilverRunLabel() {
-        let silverSpeed = (earnRunSpeed() * AchievementConstants.SilverSpeedFactor).round(NumberDecimalPlaceConstants.DecimalPlaceConstants)
-        silverRunLabel.text = "Silver: " + "Run " + silverSpeed.description + " m/s to earn"
+        if badgeEarnStatus?.silverRun != nil {
+            let timestamp = badgeEarnStatus!.silverRun!.timestamp
+            let dateString = timeFormatter().stringFromDate(timestamp)
+            silverRunLabel.text = "Silver: " + "Reached @ " + dateString
+        }
+        else {
+            let silverSpeed = (earnRunSpeed() * AchievementConstants.SilverSpeedFactor).round(NumberDecimalPlaceConstants.DecimalPlaceConstants)
+            silverRunLabel.text = "Silver: " + "Run " + silverSpeed.description + " m/s to earn"
+        }
     }
     
     private func configureGoldRunLabel() {
-        let goldSpeed = (earnRunSpeed() * AchievementConstants.GoldSpeedFactor).round(NumberDecimalPlaceConstants.DecimalPlaceConstants)
-        goldRunLabel.text = "Gold: " + "Run " + goldSpeed.description + " m/s to earn"
+        if badgeEarnStatus?.goldRun != nil {
+            let timestamp = badgeEarnStatus!.goldRun!.timestamp
+            let dateString = timeFormatter().stringFromDate(timestamp)
+            goldRunLabel.text = "Gold: " + "Reached @ " + dateString
+        }
+        else {
+            let goldSpeed = (earnRunSpeed() * AchievementConstants.GoldSpeedFactor).round(NumberDecimalPlaceConstants.DecimalPlaceConstants)
+            goldRunLabel.text = "Gold: " + "Run " + goldSpeed.description + " m/s to earn"
+        }
+    }
+    
+    private func configureBestRunLabel() {
+        let bestSpeed = bestRunSpeed().round(NumberDecimalPlaceConstants.DecimalPlaceConstants)
+        if bestSpeed > 0 {
+            bestRunLabel.text = "Best: " + "Your best speed is " + bestSpeed.description + " m/s"
+        }
+        else {
+            bestRunLabel.hidden = true
+        }
     }
     
     private func configureSilverAchievementImageView() {
@@ -127,6 +163,14 @@ class BadgeDetailViewController: UIViewController {
     private func earnRunSpeed() -> Double {
         if let earnRun = badgeEarnStatus?.earnRun {
             return earnRun.distance / earnRun.duration
+        }
+        
+        return 0.0
+    }
+    
+    private func bestRunSpeed() -> Double {
+        if let bestRun = badgeEarnStatus?.bestRun {
+            return bestRun.distance / bestRun.duration
         }
         
         return 0.0

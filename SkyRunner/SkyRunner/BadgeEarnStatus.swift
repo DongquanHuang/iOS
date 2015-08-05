@@ -14,6 +14,7 @@ class BadgeEarnStatus {
     var earnRun: Run?
     var silverRun: Run?
     var goldRun: Run?
+    var bestRun: Run?
     
     init(badge: Badge) {
         self.badge = badge
@@ -96,6 +97,7 @@ class BadgeEarnStatusMgr: NSObject, BadgeEarnStatusDataProvider {
         fillEarnRunToBadgeEarnStatus(badgeEarnStatus)
         fillSilverRunToBadgeEarnStatus(badgeEarnStatus)
         fillGoldRunToBadgeEarnStatus(badgeEarnStatus)
+        fillBestRunToBadgeEarnStatus(badgeEarnStatus)
     }
     
     private func fillEarnRunToBadgeEarnStatus(badgeEarnStatus: BadgeEarnStatus) {
@@ -108,24 +110,6 @@ class BadgeEarnStatusMgr: NSObject, BadgeEarnStatusDataProvider {
                 }
             }
         }
-    }
-    
-    struct AchievementConstants {
-        static let SilverSpeedFactor = 1.05
-        static let GoldSpeedFactor = 1.1
-    }
-    
-    private func findRunForMiniumDistance(minDistance: Double, AndMiniumSpeed minSpeed: Double) -> Run? {
-        for run in runs {
-            if run.distance >= minDistance {
-                let runSpeed = run.distance / run.duration
-                if runSpeed >= minSpeed {
-                    return run
-                }
-            }
-        }
-        
-        return nil
     }
     
     private func fillSilverRunToBadgeEarnStatus(badgeEarnStatus: BadgeEarnStatus) {
@@ -152,6 +136,71 @@ class BadgeEarnStatusMgr: NSObject, BadgeEarnStatusDataProvider {
         if let run = findRunForMiniumDistance(badgeEarnStatus.earnRun!.distance, AndMiniumSpeed: targetSpeed) {
             badgeEarnStatus.goldRun = run
         }
+    }
+    
+    private func fillBestRunToBadgeEarnStatus(badgeEarnStatus: BadgeEarnStatus) {
+        var earnedRuns = allRunsForBadge(badgeEarnStatus.badge)
+        var bestRun = bestRunInRuns(earnedRuns)
+        badgeEarnStatus.bestRun = bestRun
+    }
+    
+    struct AchievementConstants {
+        static let SilverSpeedFactor = 1.05
+        static let GoldSpeedFactor = 1.1
+    }
+    
+    private func findRunForMiniumDistance(minDistance: Double, AndMiniumSpeed minSpeed: Double) -> Run? {
+        for run in runs {
+            if run.distance >= minDistance {
+                let runSpeed = run.distance / run.duration
+                if runSpeed >= minSpeed {
+                    return run
+                }
+            }
+        }
+        
+        return nil
+    }
+    
+    private func allRunsForBadge(badge: Badge?) -> [Run] {
+        var earnedRuns = [Run]()
+        
+        if badge == nil {
+            return earnedRuns
+        }
+        
+        if let context = self.managedObjectContext {
+            let fetchRequest = NSFetchRequest(entityName: "Run")
+            
+            let sortDescriptor = NSSortDescriptor(key: "timestamp", ascending: true)
+            fetchRequest.sortDescriptors = [sortDescriptor]
+            
+            let predicate = NSPredicate(format: "distance >= %@", badge!.distance!.description)
+            fetchRequest.predicate = predicate
+            
+            if let runList = context.executeFetchRequest(fetchRequest, error: nil) as? [Run] {
+                for run in runList {
+                    earnedRuns.append(run)
+                }
+            }
+        }
+        
+        return earnedRuns
+    }
+    
+    private func bestRunInRuns(runs: [Run]) -> Run? {
+        var run: Run?
+        var maxSpeed = 0.0
+        
+        for eachRun in runs {
+            var runSpeed = eachRun.distance / eachRun.duration
+            if runSpeed > maxSpeed {
+                maxSpeed = runSpeed
+                run = eachRun
+            }
+        }
+        
+        return run
     }
 
 }
