@@ -70,6 +70,9 @@
 		D0DC68271B71A30E00163710 /* BadgeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DC68261B71A30E00163710 /* BadgeDetailViewController.swift */; };
 		D0DC68281B71A30E00163710 /* BadgeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DC68261B71A30E00163710 /* BadgeDetailViewController.swift */; };
 		D0DC68431B71D42C00163710 /* BadgeDetailViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DC68421B71D42C00163710 /* BadgeDetailViewControllerTests.swift */; };
+		D0DC69941B73110400163710 /* SkyRunDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DC69931B73110400163710 /* SkyRunDatabase.swift */; };
+		D0DC69951B73110400163710 /* SkyRunDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DC69931B73110400163710 /* SkyRunDatabase.swift */; };
+		D0DC69971B7313D600163710 /* SkyRunDatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DC69961B7313D600163710 /* SkyRunDatabaseTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -128,6 +131,8 @@
 		D0DC68241B719C0200163710 /* BadgesTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgesTests.swift; sourceTree = "<group>"; };
 		D0DC68261B71A30E00163710 /* BadgeDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeDetailViewController.swift; sourceTree = "<group>"; };
 		D0DC68421B71D42C00163710 /* BadgeDetailViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BadgeDetailViewControllerTests.swift; sourceTree = "<group>"; };
+		D0DC69931B73110400163710 /* SkyRunDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkyRunDatabase.swift; sourceTree = "<group>"; };
+		D0DC69961B7313D600163710 /* SkyRunDatabaseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SkyRunDatabaseTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -204,7 +209,6 @@
 		D00E87191B5F69A200F95A97 /* SkyRunnerTests */ = {
 			isa = PBXGroup;
 			children = (
-				D00E871A1B5F69A200F95A97 /* Supporting Files */,
 				D00E87281B5F6B1000F95A97 /* BadgeTests.swift */,
 				D00E87431B61C67C00F95A97 /* BadgeDataManagerTests.swift */,
 				D0DC68241B719C0200163710 /* BadgesTests.swift */,
@@ -220,6 +224,8 @@
 				D0DC68021B70A9F800163710 /* DoubleRoundTests.swift */,
 				D0DC681F1B7199FB00163710 /* NextBadgeProviderTests.swift */,
 				D0DC68421B71D42C00163710 /* BadgeDetailViewControllerTests.swift */,
+				D0DC69961B7313D600163710 /* SkyRunDatabaseTests.swift */,
+				D00E871A1B5F69A200F95A97 /* Supporting Files */,
 			);
 			path = SkyRunnerTests;
 			sourceTree = "<group>";
@@ -242,6 +248,7 @@
 				D0511C291B6F3CAB00C27677 /* BadgeEarnStatus.swift */,
 				D0DC681C1B7198F500163710 /* NextBadgeDataProvider.swift */,
 				D058AEBF1B674152005DC923 /* SkyRun.swift */,
+				D0DC69931B73110400163710 /* SkyRunDatabase.swift */,
 				D058AEB21B65C431005DC923 /* Run.swift */,
 				D058AEB51B65C44B005DC923 /* Location.swift */,
 			);
@@ -388,6 +395,7 @@
 				D00E87071B5F69A200F95A97 /* SkyRunner.xcdatamodeld in Sources */,
 				D00E872F1B6081C100F95A97 /* HomeViewController.swift in Sources */,
 				D0511BF51B6B403600C27677 /* Run.swift in Sources */,
+				D0DC69941B73110400163710 /* SkyRunDatabase.swift in Sources */,
 				D058AEA51B62001C005DC923 /* BadgesTableViewController.swift in Sources */,
 				D0511C2A1B6F3CAB00C27677 /* BadgeEarnStatus.swift in Sources */,
 				D058AEB61B65C44B005DC923 /* Location.swift in Sources */,
@@ -410,6 +418,7 @@
 				D00E87291B5F6B1000F95A97 /* BadgeTests.swift in Sources */,
 				D058AEA61B62001C005DC923 /* BadgesTableViewController.swift in Sources */,
 				D0DC68031B70A9F800163710 /* DoubleRoundTests.swift in Sources */,
+				D0DC69971B7313D600163710 /* SkyRunDatabaseTests.swift in Sources */,
 				D0DC68201B7199FB00163710 /* NextBadgeProviderTests.swift in Sources */,
 				D0511BF41B6B3E2800C27677 /* Location.swift in Sources */,
 				D00E87421B60E26500F95A97 /* BadgeDataManger.swift in Sources */,
@@ -437,6 +446,7 @@
 				D058AEBE1B660E1F005DC923 /* LocationManagerTests.swift in Sources */,
 				D0DC681E1B7198F500163710 /* NextBadgeDataProvider.swift in Sources */,
 				D00E87321B60AF3B00F95A97 /* HomeViewControllerTests.swift in Sources */,
+				D0DC69951B73110400163710 /* SkyRunDatabase.swift in Sources */,
 				D058AEC61B689546005DC923 /* DetailViewControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

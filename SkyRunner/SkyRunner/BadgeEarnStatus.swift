@@ -40,11 +40,22 @@ protocol BadgeEarnStatusDataProvider {
 }
 
 class BadgeEarnStatusMgr: NSObject, BadgeEarnStatusDataProvider {
-    var managedObjectContext: NSManagedObjectContext?
+    var managedObjectContext: NSManagedObjectContext? {
+        didSet {
+            databaseReader.managedObjectContext = managedObjectContext
+        }
+    }
+    
     lazy var badgeEarnStatuses: [BadgeEarnStatus]? = {
         [unowned self] in
         return self.getBadgeEarnStatuses()
     }()
+    
+    var databaseReader: SkyRunDatabaseInterface = SkyRunDatabase() {
+        didSet {
+            databaseReader.managedObjectContext = managedObjectContext
+        }
+    }
     
     private var badges = Badges()
     private var badgeEarnStatusList: [BadgeEarnStatus]?
@@ -72,26 +83,9 @@ class BadgeEarnStatusMgr: NSObject, BadgeEarnStatusDataProvider {
     private func readRunsFromDatabase() {
         runs = [Run]()
         
-        if let context = self.managedObjectContext {
-            let fetchRequest = NSFetchRequest(entityName: "Run")
-            let sortDescriptor = NSSortDescriptor(key: "timestamp", ascending: true)
-            fetchRequest.sortDescriptors = [sortDescriptor]
-            
-            // Swift bug here for core data unit test
-            // Try to set debug point and run test case "testBadgeEarnStatusMgrWillGenerateBadgeEarnStatuses()"
-            
-            // Works
-            //let anyObjects = context.executeFetchRequest(fetchRequest, error: nil)
-            // Works
-            //let managedObjects = anyObjects as? [NSManagedObject]
-            // Get nil from below code
-            //let runArray = managedObjects as? [Run]
-            
-            if let runList = context.executeFetchRequest(fetchRequest, error: nil) as? [Run] {
-                for run in runList {
-                    runs.append(run)
-                }
-            }
+        let allRuns = databaseReader.allRuns()
+        for run in allRuns {
+            runs.append(run)
         }
     }
     
@@ -179,25 +173,9 @@ class BadgeEarnStatusMgr: NSObject, BadgeEarnStatusDataProvider {
             return earnedRuns
         }
         
-        if let context = self.managedObjectContext {
-            let fetchRequest = NSFetchRequest(entityName: "Run")
-            
-            let sortDescriptor = NSSortDescriptor(key: "timestamp", ascending: true)
-            fetchRequest.sortDescriptors = [sortDescriptor]
-            
-            let predicate = NSPredicate(format: "distance >= %@", badge!.distance!.description)
-            fetchRequest.predicate = predicate
-            
-            // Note: If you run unit test "testBadgeEarnStatusMgrWillGenerateBadgeEarnStatuses"
-            // You will get a crash in next line
-            // This is related to above predicate for fetch request
-            // Dont know why yet, perhaps Swift bug
-            
-            if let runList = context.executeFetchRequest(fetchRequest, error: nil) as? [Run] {
-                for run in runList {
-                    earnedRuns.append(run)
-                }
-            }
+        let allEarnedRuns = databaseReader.allRunsForBadge(badge!)
+        for run in allEarnedRuns {
+            earnedRuns.append(run)
         }
         
         return earnedRuns
