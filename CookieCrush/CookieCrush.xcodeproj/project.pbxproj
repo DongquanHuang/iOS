@@ -13,8 +13,13 @@
 		D07AAFC01B783B6D00998A67 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D07AAFBE1B783B6D00998A67 /* Main.storyboard */; };
 		D07AAFC21B783B6D00998A67 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D07AAFC11B783B6D00998A67 /* Images.xcassets */; };
 		D07AAFC51B783B6D00998A67 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D07AAFC31B783B6D00998A67 /* LaunchScreen.xib */; };
-		D07AAFD11B783B6D00998A67 /* CookieCrushTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07AAFD01B783B6D00998A67 /* CookieCrushTests.swift */; };
 		D07AAFDB1B783BEE00998A67 /* Sprites.atlas in Resources */ = {isa = PBXBuildFile; fileRef = D07AAFDA1B783BEE00998A67 /* Sprites.atlas */; };
+		D07AAFDD1B783E4C00998A67 /* GameViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07AAFDC1B783E4C00998A67 /* GameViewControllerTests.swift */; };
+		D07AAFDE1B783E4F00998A67 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07AAFBC1B783B6D00998A67 /* GameViewController.swift */; };
+		D07AAFDF1B783E5200998A67 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07AAFBA1B783B6D00998A67 /* GameScene.swift */; };
+		D07AAFE01B783E5500998A67 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07AAFB61B783B6D00998A67 /* AppDelegate.swift */; };
+		D07AAFE31B78406E00998A67 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D07AAFBE1B783B6D00998A67 /* Main.storyboard */; };
+		D07AAFE51B7846DE00998A67 /* GameSceneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07AAFE41B7846DE00998A67 /* GameSceneTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,8 +43,9 @@
 		D07AAFC41B783B6D00998A67 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		D07AAFCA1B783B6D00998A67 /* CookieCrushTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CookieCrushTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D07AAFCF1B783B6D00998A67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D07AAFD01B783B6D00998A67 /* CookieCrushTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookieCrushTests.swift; sourceTree = "<group>"; };
 		D07AAFDA1B783BEE00998A67 /* Sprites.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = Sprites.atlas; path = Resources/Sprites.atlas; sourceTree = SOURCE_ROOT; };
+		D07AAFDC1B783E4C00998A67 /* GameViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewControllerTests.swift; sourceTree = "<group>"; };
+		D07AAFE41B7846DE00998A67 /* GameSceneTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSceneTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,8 +110,9 @@
 		D07AAFCD1B783B6D00998A67 /* CookieCrushTests */ = {
 			isa = PBXGroup;
 			children = (
-				D07AAFD01B783B6D00998A67 /* CookieCrushTests.swift */,
 				D07AAFCE1B783B6D00998A67 /* Supporting Files */,
+				D07AAFDC1B783E4C00998A67 /* GameViewControllerTests.swift */,
+				D07AAFE41B7846DE00998A67 /* GameSceneTests.swift */,
 			);
 			path = CookieCrushTests;
 			sourceTree = "<group>";
@@ -209,6 +216,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D07AAFE31B78406E00998A67 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -229,7 +237,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D07AAFD11B783B6D00998A67 /* CookieCrushTests.swift in Sources */,
+				D07AAFE01B783E5500998A67 /* AppDelegate.swift in Sources */,
+				D07AAFDF1B783E5200998A67 /* GameScene.swift in Sources */,
+				D07AAFE51B7846DE00998A67 /* GameSceneTests.swift in Sources */,
+				D07AAFDE1B783E4F00998A67 /* GameViewController.swift in Sources */,
+				D07AAFDD1B783E4C00998A67 /* GameViewControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -368,6 +380,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -379,6 +392,7 @@
 				INFOPLIST_FILE = CookieCrushTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CookieCrush.app/CookieCrush";
 			};
 			name = Debug;
@@ -387,6 +401,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
