@@ -22,6 +22,26 @@ class GameViewControllerTests: XCTestCase {
             scenePresented = true
         }
     }
+    
+    class MockLevel: Level {
+        var shuffleCalled = false
+        
+        override func shuffle() -> Set<Cookie> {
+            var cookies = Set<Cookie>()
+            
+            shuffleCalled = true
+            
+            return cookies
+        }
+    }
+    
+    class MockGameScene: GameScene {
+        var addSpritesCalled = false
+        
+        override func addSpritesForCookies(cookies: Set<Cookie>) {
+            addSpritesCalled = true
+        }
+    }
 
     override func setUp() {
         super.setUp()
@@ -63,6 +83,28 @@ class GameViewControllerTests: XCTestCase {
         gameVC.view = mockSKView
         gameVC.viewDidLoad()
         XCTAssertTrue(mockSKView.scenePresented == true)
+    }
+    
+    func testLevelIsPreparedAfterViewDidLoad() {
+        XCTAssertTrue(gameVC.level != nil)
+    }
+    
+    func testLevelIsSetToGameSceneAfterViewDidLoad() {
+        XCTAssertTrue(gameVC.scene.level != nil)
+    }
+    
+    func testSuffleMethodOfLevelClassWillBeCalledWhenLoadingGameVC() {
+        let mockLevel = MockLevel()
+        gameVC.level = mockLevel
+        gameVC.viewDidLoad()
+        XCTAssertTrue(mockLevel.shuffleCalled == true)
+    }
+    
+    func testAddSpritesIsCalledWhenLoadingGameVC() {
+        let mockScene = MockGameScene(size: CGSize(width: 100, height: 100))
+        gameVC.scene = mockScene
+        gameVC.viewDidLoad()
+        XCTAssertTrue(mockScene.addSpritesCalled == true)
     }
 
 }

@@ -54,5 +54,14 @@ class CookieTests: XCTestCase {
     func testCanPrintCookie() {
         XCTAssertTrue(cookie!.description == "Type:Croissant Square:(0,0)")
     }
+    
+    func testCookieHasHashValue() {
+        XCTAssertTrue(cookie!.hashValue == 0)
+    }
+    
+    func testCanCompareTwoCookies() {
+        var otherCookie = Cookie(column: 0, row: 0, cookieType: cookieType)
+        XCTAssertTrue(cookie == otherCookie)
+    }
 
 }
