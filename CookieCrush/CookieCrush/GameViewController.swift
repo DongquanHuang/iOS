@@ -35,6 +35,7 @@ class GameViewController: UIViewController {
         
         configureSceneScaleMode(.AspectFill)
         passLevelToGameScene()
+        passSwapHanderToGameScene()
         addTilesInGameScene()
         presentScene()
         
@@ -60,6 +61,10 @@ class GameViewController: UIViewController {
         scene.level = level
     }
     
+    private func passSwapHanderToGameScene() {
+        scene.swipeHandler = handleSwipe
+    }
+    
     private func addTilesInGameScene() {
         scene.addTiles()
     }
@@ -76,5 +81,15 @@ class GameViewController: UIViewController {
     func shuffle() {
         let newCookies = level.shuffle()
         scene.addSpritesForCookies(newCookies)
+    }
+    
+    func handleSwipe(swap: Swap) {
+        view.userInteractionEnabled = false // Not covered by unit test
+        
+        level.performSwap(swap)
+        
+        scene.animateSwap(swap) {
+            self.view.userInteractionEnabled = true
+        }
     }
 }

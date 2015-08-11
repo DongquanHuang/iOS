@@ -16,6 +16,12 @@ class GameViewControllerTests: XCTestCase {
     var skView: SKView!
     var mockObjConfiguration = MockObjConfiguration()
     
+    var cookie1: Cookie?
+    var cookie1Type = CookieType.Croissant
+    var cookie2: Cookie?
+    var cookie2Type = CookieType.Cupcake
+    var swap: Swap?
+    
     class MockSKView: SKView {
         var scenePresented = false
         
@@ -34,11 +40,18 @@ class GameViewControllerTests: XCTestCase {
             
             return cookies
         }
+        
+        var performSwapCalled = false
+        
+        override func performSwap(swap: Swap) {
+            performSwapCalled = true
+        }
     }
     
     class MockGameScene: GameScene {
         var addSpritesCalled = false
         var addTilesCalled = false
+        var animateSwapCalled = false
         
         override func addSpritesForCookies(cookies: Set<Cookie>) {
             addSpritesCalled = true
@@ -46,6 +59,10 @@ class GameViewControllerTests: XCTestCase {
         
         override func addTiles() {
             addTilesCalled = true
+        }
+        
+        override func animateSwap(swap: Swap, completion: () -> ()) {
+            animateSwapCalled = true
         }
     }
     
@@ -66,6 +83,10 @@ class GameViewControllerTests: XCTestCase {
         gameVC = storyBoard.instantiateViewControllerWithIdentifier("GameViewController") as! GameViewController
         skView = gameVC.view as! SKView
         gameVC.viewDidLoad()
+        
+        cookie1 = Cookie(column: 0, row: 0, cookieType: cookie1Type)
+        cookie2 = Cookie(column: 1, row: 1, cookieType: cookie2Type)
+        swap = Swap(cookieA: cookie1!, cookieB: cookie2!)
     }
     
     override func tearDown() {
@@ -127,6 +148,28 @@ class GameViewControllerTests: XCTestCase {
         gameVC.viewDidLoad()
         let scene = gameVC.scene as! MockGameScene
         XCTAssertTrue(scene.addTilesCalled == true)
+    }
+    
+    func testHandleSwapWillCallPerformSwapInLevelDataModel() {
+        gameVC.level = MockLevel(filename: "filename")
+        gameVC.scene = MockGameScene(size: CGSize(width: 100, height: 100))
+        gameVC.handleSwipe(swap!)
+        let mockLevel = gameVC.level as! MockLevel
+        XCTAssertTrue(mockLevel.performSwapCalled == true)
+    }
+    
+    func testhandleSwapWillCallAnimateSwapInGameScene() {
+        gameVC.scene = MockGameScene(size: CGSize(width: 100, height: 100))
+        gameVC.handleSwipe(swap!)
+        let mockScene = gameVC.scene as! MockGameScene
+        XCTAssertTrue(mockScene.animateSwapCalled == true)
+    }
+    
+    func testSwapHanderIsSetToGameScene() {
+        gameVC.objConfiguration = mockObjConfiguration
+        gameVC.viewDidLoad()
+        let mockScene = gameVC.scene as! MockGameScene
+        XCTAssertTrue(mockScene.swipeHandler != nil)
     }
 
 }

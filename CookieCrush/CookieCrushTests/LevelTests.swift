@@ -47,5 +47,17 @@ class LevelTests: XCTestCase {
         XCTAssertNotNil(level.tileAtColumn(3, row: 3))
         XCTAssertNil(level.tileAtColumn(0, row: 0))
     }
+    
+    func testSwapCookies() {
+        level.shuffle()
+        let cookie1 = level.cookieAtColumn(3, row: 3)
+        let cookie2 = level.cookieAtColumn(3, row: 4)
+        let swap = Swap(cookieA: cookie1!, cookieB: cookie2!)
+        level.performSwap(swap)
+        XCTAssertEqual(cookie1!, level.cookieAtColumn(3, row: 4)!)
+        XCTAssertEqual(cookie2!, level.cookieAtColumn(3, row: 3)!)
+        XCTAssertEqual(cookie1!.row, 4)
+        XCTAssertEqual(cookie2!.row, 3)
+    }
 
 }

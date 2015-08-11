@@ -16,14 +16,56 @@ class GameSceneTests: XCTestCase {
     
     var cookie1: Cookie?
     var cookie1Type = CookieType.Croissant
-    
     var cookies = Set<Cookie>()
+    
+    var mockGameScene = MockGameScene(size: CGSize(width: 100, height: 100))
+    var mockTouch = MockUITouch()
+    var touches = Set<NSObject>()
+    
+    static let expectedCol = 5
+    static let expectedRow = 4
+    static let point = CGPoint(x: GameScene.GameSceneConstants.TileWidth * CGFloat(GameSceneTests.expectedCol) + 1, y: GameScene.GameSceneConstants.TileHeight * CGFloat(GameSceneTests.expectedRow) + 1)
+    
+    class MockUITouch: UITouch {
+        override func locationInNode(node: SKNode!) -> CGPoint {
+            return GameSceneTests.point
+        }
+    }
+    
+    class MockLevel: Level {
+        override func cookieAtColumn(column: Int, row: Int) -> Cookie? {
+            return Cookie(column: 5, row: 4, cookieType: .Croissant)
+        }
+    }
+    
+    class MockLevel2: Level {
+        override func cookieAtColumn(column: Int, row: Int) -> Cookie? {
+            return nil
+        }
+    }
+    
+    class MockGameScene: GameScene {
+        var horzontalDelta = 0
+        var verticalDelta = 0
+        
+        override func trySwapHorizontal(horzDelta: Int, vertical vertDelta: Int) {
+            horzontalDelta = horzDelta
+            verticalDelta = vertDelta
+        }
+    }
+    
+    var mockSwipeHandlerGetsCalled = false
+    func mockSwipeHander(swap: Swap) {
+        mockSwipeHandlerGetsCalled = true
+    }
 
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
-        cookie1 = Cookie(column: 3, row: 3, cookieType: cookie1Type)
+        cookie1 = Cookie(column: 5, row: 4, cookieType: cookie1Type)
         cookies.insert(cookie1!)
+        
+        touches.insert(mockTouch)
     }
     
     override func tearDown() {
@@ -115,5 +157,181 @@ class GameSceneTests: XCTestCase {
         XCTAssertTrue(tile.position == expectedPostion)
     }
 
+    func testSwipeFromRowAndColumnAreNilAfterGameSceneInit() {
+        XCTAssertNil(gameScene.swipeFromRow)
+        XCTAssertNil(gameScene.swipeFromColumn)
+    }
+    
+    func testConvertInvalidPointToColumnAndRowReturnsFalseTupleWithColumnAndRowSetToZero() {
+        let point = CGPoint(x: 9999, y: -9)
+        let result = gameScene.convertPointToColumnAndRow(point)
+        XCTAssertTrue(result.success == false)
+        XCTAssertTrue(result.column == 0)
+        XCTAssertTrue(result.row == 0)
+    }
+    
+    func testConvertValidPointToColumnAndRowReturnsTrueTupleWithCorrectColumnAndRow() {
+        let result = gameScene.convertPointToColumnAndRow(GameSceneTests.point)
+        XCTAssertTrue(result.success == true)
+        println("Row: \(result.row), Col: \(result.column)")
+        XCTAssertTrue(result.column == GameSceneTests.expectedCol)
+        XCTAssertTrue(result.row == GameSceneTests.expectedRow)
+    }
+    
+    func testTouchesBeganWillSetSwipeColumnAndRow() {
+        gameScene.level = MockLevel(filename: "filename")
+        
+        gameScene.touchesBegan(touches, withEvent: UIEvent())
+        
+        XCTAssertTrue(gameScene.swipeFromColumn == 5)
+        XCTAssertTrue(gameScene.swipeFromRow == 4)
+    }
+    
+    func testTouchesMovedToLeft() {
+        mockGameScene.swipeFromColumn = 4
+        mockGameScene.swipeFromRow = 4
+        
+        mockGameScene.level = MockLevel(filename: "filename")
+        
+        mockGameScene.touchesMoved(touches, withEvent: UIEvent())
+        XCTAssertTrue(mockGameScene.horzontalDelta == 1)
+        XCTAssertTrue(mockGameScene.verticalDelta == 0)
+    }
+    
+    func testTouchesMovedToRight() {
+        mockGameScene.swipeFromColumn = 6
+        mockGameScene.swipeFromRow = 4
+        
+        mockGameScene.level = MockLevel(filename: "filename")
+        
+        mockGameScene.touchesMoved(touches, withEvent: UIEvent())
+        XCTAssertTrue(mockGameScene.horzontalDelta == -1)
+        XCTAssertTrue(mockGameScene.verticalDelta == 0)
+    }
+    
+    func testTouchesMovedUpside() {
+        mockGameScene.swipeFromColumn = 5
+        mockGameScene.swipeFromRow = 3
+        
+        mockGameScene.level = MockLevel(filename: "filename")
+        
+        mockGameScene.touchesMoved(touches, withEvent: UIEvent())
+        XCTAssertTrue(mockGameScene.horzontalDelta == 0)
+        XCTAssertTrue(mockGameScene.verticalDelta == 1)
+    }
+    
+    func testTouchesMovedDownside() {
+        mockGameScene.swipeFromColumn = 5
+        mockGameScene.swipeFromRow = 5
+        
+        mockGameScene.level = MockLevel(filename: "filename")
+        
+        mockGameScene.touchesMoved(touches, withEvent: UIEvent())
+        XCTAssertTrue(mockGameScene.horzontalDelta == 0)
+        XCTAssertTrue(mockGameScene.verticalDelta == -1)
+    }
+    
+    func testTouchesMovedWillNotPerformSwipeIfNotMoveOutside() {
+        mockGameScene.horzontalDelta = -10
+        mockGameScene.verticalDelta = -10
+        
+        mockGameScene.swipeFromColumn = 5
+        mockGameScene.swipeFromRow = 4
+        
+        mockGameScene.level = MockLevel(filename: "filename")
+        
+        mockGameScene.touchesMoved(touches, withEvent: UIEvent())
+        XCTAssertTrue(mockGameScene.horzontalDelta == -10)
+        XCTAssertTrue(mockGameScene.verticalDelta == -10)
+    }
+    
+    func testTouchesMovedWillIgnoreMoveEventIfSwipeFromInvalidPosition() {
+        mockGameScene.horzontalDelta = -10
+        mockGameScene.verticalDelta = -10
+        
+        mockGameScene.level = MockLevel(filename: "filename")
+        
+        mockGameScene.touchesMoved(touches, withEvent: UIEvent())
+        XCTAssertTrue(mockGameScene.horzontalDelta == -10)
+        XCTAssertTrue(mockGameScene.verticalDelta == -10)
+    }
+    
+    func testTouchesMovedWillSetSwipeColumnAndRowBackToNilWhenSuccessfulMoveEnds() {
+        mockGameScene.swipeFromColumn = 5
+        mockGameScene.swipeFromRow = 5
+        
+        mockGameScene.level = MockLevel(filename: "filename")
+        
+        mockGameScene.touchesMoved(touches, withEvent: UIEvent())
+        
+        XCTAssertNil(mockGameScene.swipeFromColumn)
+        XCTAssertNil(mockGameScene.swipeFromRow)
+    }
+    
+    func testTouchesMovedWillNotResetSwipeColumnAndRowIfMoveInsideOneCookie() {
+        mockGameScene.swipeFromColumn = 5
+        mockGameScene.swipeFromRow = 4
+        
+        mockGameScene.level = MockLevel(filename: "filename")
+        
+        mockGameScene.touchesMoved(touches, withEvent: UIEvent())
+        
+        XCTAssertTrue(mockGameScene.swipeFromColumn == 5)
+        XCTAssertTrue(mockGameScene.swipeFromRow == 4)
+        
+    }
+    
+    func testTouchesEndWillResetSwipeColumnAndRow() {
+        gameScene.swipeFromColumn = 5
+        gameScene.swipeFromRow = 4
+        gameScene.touchesEnded(touches, withEvent: UIEvent())
+        XCTAssertNil(mockGameScene.swipeFromColumn)
+        XCTAssertNil(mockGameScene.swipeFromRow)
+    }
+    
+    func testTouchesCancelledWillResetSwipeColumnAndRow() {
+        gameScene.swipeFromColumn = 5
+        gameScene.swipeFromRow = 4
+        gameScene.touchesCancelled(touches, withEvent: UIEvent())
+        XCTAssertNil(mockGameScene.swipeFromColumn)
+        XCTAssertNil(mockGameScene.swipeFromRow)
+    }
+    
+    func testGameSceneHaseSwipeHandlerAndItsNilByDefault() {
+        XCTAssertTrue(gameScene.swipeHandler == nil)
+    }
+    
+    func testSwipeHandlerIsCalledForValidSwipe() {
+        gameScene.swipeHandler = mockSwipeHander
+        
+        gameScene.swipeFromColumn = 5
+        gameScene.swipeFromRow = 5
+        
+        gameScene.level = MockLevel(filename: "filename")
+        
+        gameScene.touchesMoved(touches, withEvent: UIEvent())
+        XCTAssertTrue(mockSwipeHandlerGetsCalled == true)
+    }
+    
+    func testSwipeHanderIsNotCalledForSwipeOutsideCase() {
+        gameScene.swipeHandler = mockSwipeHander
+        
+        gameScene.swipeFromColumn = 8
+        gameScene.swipeFromRow = 8
+        
+        gameScene.trySwapHorizontal(1, vertical: 0)
+        XCTAssertTrue(mockSwipeHandlerGetsCalled == false)
+    }
+    
+    func testSwipeHanderIsNotCalledForSwipeToHoleCase() {
+        gameScene.swipeHandler = mockSwipeHander
+        gameScene.level = MockLevel2(filename: "filename")
+        
+        gameScene.swipeFromColumn = 8
+        gameScene.swipeFromRow = 8
+        
+        gameScene.trySwapHorizontal(-1, vertical: 0)
+        XCTAssertTrue(mockSwipeHandlerGetsCalled == false)
+    }
 
 }

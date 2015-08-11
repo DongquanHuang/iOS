@@ -48,6 +48,9 @@
 		D07AB0131B798A6E00998A67 /* LevelFileParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07AB0121B798A6E00998A67 /* LevelFileParser.swift */; };
 		D07AB0141B798A6E00998A67 /* LevelFileParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07AB0121B798A6E00998A67 /* LevelFileParser.swift */; };
 		D07AB0171B798AC700998A67 /* LevelFileParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07AB0161B798AC700998A67 /* LevelFileParserTests.swift */; };
+		D07AB01A1B79E0FD00998A67 /* Swap.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07AB0191B79E0FD00998A67 /* Swap.swift */; };
+		D07AB01B1B79E0FD00998A67 /* Swap.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07AB0191B79E0FD00998A67 /* Swap.swift */; };
+		D07AB01D1B79E12000998A67 /* SwapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07AB01C1B79E12000998A67 /* SwapTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +93,8 @@
 		D07AB00F1B79885D00998A67 /* Tile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tile.swift; sourceTree = "<group>"; };
 		D07AB0121B798A6E00998A67 /* LevelFileParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelFileParser.swift; sourceTree = "<group>"; };
 		D07AB0161B798AC700998A67 /* LevelFileParserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelFileParserTests.swift; sourceTree = "<group>"; };
+		D07AB0191B79E0FD00998A67 /* Swap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Swap.swift; sourceTree = "<group>"; };
+		D07AB01C1B79E12000998A67 /* SwapTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwapTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +187,7 @@
 				D07AAFE61B785F6900998A67 /* Cookie.swift */,
 				D07AB00F1B79885D00998A67 /* Tile.swift */,
 				D07AAFF51B7889A400998A67 /* Level.swift */,
+				D07AB0191B79E0FD00998A67 /* Swap.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -193,6 +199,7 @@
 				D07AAFF31B78865A00998A67 /* Array2DTests.swift */,
 				D07AAFEA1B785FA200998A67 /* CookieTests.swift */,
 				D07AAFF81B7889B000998A67 /* LevelTests.swift */,
+				D07AB01C1B79E12000998A67 /* SwapTests.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -342,6 +349,7 @@
 				D07AAFF61B7889A400998A67 /* Level.swift in Sources */,
 				D07AAFBB1B783B6D00998A67 /* GameScene.swift in Sources */,
 				D07AB0101B79885D00998A67 /* Tile.swift in Sources */,
+				D07AB01A1B79E0FD00998A67 /* Swap.swift in Sources */,
 				D07AAFE71B785F6900998A67 /* Cookie.swift in Sources */,
 				D07AAFBD1B783B6D00998A67 /* GameViewController.swift in Sources */,
 				D07AB0131B798A6E00998A67 /* LevelFileParser.swift in Sources */,
@@ -366,9 +374,11 @@
 				D07AAFDE1B783E4F00998A67 /* GameViewController.swift in Sources */,
 				D07AAFFE1B79818900998A67 /* ObjectConfigurationTests.swift in Sources */,
 				D07AAFF71B7889A400998A67 /* Level.swift in Sources */,
+				D07AB01D1B79E12000998A67 /* SwapTests.swift in Sources */,
 				D07AB0141B798A6E00998A67 /* LevelFileParser.swift in Sources */,
 				D07AB0171B798AC700998A67 /* LevelFileParserTests.swift in Sources */,
 				D07AAFDD1B783E4C00998A67 /* GameViewControllerTests.swift in Sources */,
+				D07AB01B1B79E0FD00998A67 /* Swap.swift in Sources */,
 				D07AAFF91B7889B000998A67 /* LevelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

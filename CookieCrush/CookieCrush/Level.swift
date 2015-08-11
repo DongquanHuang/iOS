@@ -85,4 +85,23 @@ class Level {
         
         return cookieSet
     }
+    
+    // MARK: - Swipe cookies
+    func performSwap(swap: Swap) {
+        let cookieA = swap.cookieA
+        let cookieB = swap.cookieB
+        
+        let columnA = cookieA.column
+        let rowA = cookieA.row
+        let columnB = cookieB.column
+        let rowB = cookieB.row
+        
+        cookies[columnA, rowA] = cookieB
+        cookieB.column = columnA
+        cookieB.row = rowA
+        
+        cookies[columnB, rowB] = cookieA
+        cookieA.column = columnB
+        cookieA.row = rowB
+    }
 }

@@ -23,6 +23,10 @@ class GameScene: SKScene {
     let tilesLayer = SKNode()
     let cookiesLayer = SKNode()
     
+    var swipeFromColumn: Int?
+    var swipeFromRow: Int?
+    var swipeHandler: ((Swap) -> ())?
+    
     // MARK: - Init method
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder) is not used in this app")
@@ -100,9 +104,152 @@ class GameScene: SKScene {
         }
     }
     
+    // MARK: - Convert points
     func pointForColumn(column: Int, row: Int) -> CGPoint {
         return CGPoint(
             x: CGFloat(column) * GameSceneConstants.TileWidth + GameSceneConstants.TileWidth / 2,
             y: CGFloat(row) * GameSceneConstants.TileHeight + GameSceneConstants.TileHeight / 2)
     }
+    
+    func convertPointToColumnAndRow(point: CGPoint) -> (success: Bool, column: Int, row: Int) {
+        if pointInsideCookiesLayer(point) {
+            return (true, Int(point.x / GameSceneConstants.TileWidth), Int(point.y / GameSceneConstants.TileHeight))
+        }
+        return (false, 0, 0)
+    }
+    
+    private func pointInsideCookiesLayer(point: CGPoint) -> Bool {
+        return point.x >= 0 && point.x < rangeOfCookiesLayer().width && point.y >= 0 && point.y < rangeOfCookiesLayer().height
+    }
+    
+    private func rangeOfTilesLayer() -> (width: CGFloat, height: CGFloat) {
+        let widthOfLayer = CGFloat(LevelConstants.NumColumns) * GameSceneConstants.TileWidth
+        let heightOfLayer = CGFloat(LevelConstants.NumRows) * GameSceneConstants.TileHeight
+        
+        return (widthOfLayer, heightOfLayer)
+    }
+    
+    private func rangeOfCookiesLayer() -> (width: CGFloat, height: CGFloat) {
+        return rangeOfTilesLayer()
+    }
+    
+    // MARK: - Handle touches
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        let location = locationInCookiesLayerFromTouch(touches)
+        setSwipeStartPosition(location)
+    }
+    
+    override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
+        if moveStartsFromValidPosition() == false {
+            return
+        }
+        
+        let location = locationInCookiesLayerFromTouch(touches)
+        let (horzontalDelta, verticalDelta) = getMoveDelta(location)
+        
+        if horzontalDelta != 0 || verticalDelta != 0 {
+            trySwapHorizontal(horzontalDelta, vertical: verticalDelta)
+            resetSwipeStartPosition()
+        }
+    }
+    
+    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+        resetSwipeStartPosition()
+    }
+    
+    override func touchesCancelled(touches: Set<NSObject>, withEvent event: UIEvent) {
+        resetSwipeStartPosition()
+    }
+    
+    private func locationInCookiesLayerFromTouch(touches: Set<NSObject>) -> CGPoint {
+        let touch = touches.first as! UITouch
+        return touch.locationInNode(cookiesLayer)
+    }
+    
+    private func setSwipeStartPosition(location: CGPoint) {
+        let (column, row) = getCookieIndexForTouchPosition(location)
+        swipeFromColumn = column
+        swipeFromRow = row
+    }
+    
+    private func getCookieIndexForTouchPosition(location: CGPoint) -> (column: Int?, row: Int?) {
+        var cookieColumn: Int?
+        var cookieRow: Int?
+        
+        let (success, column, row) = convertPointToColumnAndRow(location)
+        if success {
+            if let cookie = level.cookieAtColumn(column, row: row) {
+                cookieColumn = column
+                cookieRow = row
+            }
+        }
+        
+        return (cookieColumn, cookieRow)
+    }
+    
+    private func moveStartsFromValidPosition() -> Bool {
+        return swipeFromColumn != nil && swipeFromRow != nil
+    }
+    
+    private func getMoveDelta(location: CGPoint) -> (horzontalDelta: Int, verticalDelta: Int) {
+        var horzDelta = 0, vertDelta = 0
+        
+        let (newColumn, newRow) = getCookieIndexForTouchPosition(location)
+        if newColumn != nil && newRow != nil {
+            if newColumn! < swipeFromColumn! {          // swipe left
+                horzDelta = -1
+            } else if newColumn! > swipeFromColumn! {   // swipe right
+                horzDelta = 1
+            } else if newRow! < swipeFromRow! {         // swipe down
+                vertDelta = -1
+            } else if newRow! > swipeFromRow! {         // swipe up
+                vertDelta = 1
+            }
+        }
+        
+        return (horzDelta, vertDelta)
+    }
+    
+    private func resetSwipeStartPosition() {
+        swipeFromColumn = nil
+        swipeFromRow = nil
+    }
+    
+    // MARK: - Swipe cookies
+    func trySwapHorizontal(horzDelta: Int, vertical vertDelta: Int) {
+        let toColumn = swipeFromColumn! + horzDelta
+        let toRow = swipeFromRow! + vertDelta
+        
+        if toColumn < 0 || toColumn >= LevelConstants.NumColumns { return }
+        if toRow < 0 || toRow >= LevelConstants.NumRows { return }
+        
+        if let toCookie = level.cookieAtColumn(toColumn, row: toRow) {
+            if let fromCookie = level.cookieAtColumn(swipeFromColumn!, row: swipeFromRow!) {
+                if let handler = swipeHandler {
+                    let swap = Swap(cookieA: fromCookie, cookieB: toCookie)
+                    handler(swap)
+                }
+            }
+        }
+    }
+    
+    // This func is not covered by unit test
+    func animateSwap(swap: Swap, completion: () -> ()) {
+        let spriteA = swap.cookieA.sprite!
+        let spriteB = swap.cookieB.sprite!
+        
+        spriteA.zPosition = 100
+        spriteB.zPosition = 90
+        
+        let Duration: NSTimeInterval = 0.3
+        
+        let moveA = SKAction.moveTo(spriteB.position, duration: Duration)
+        moveA.timingMode = .EaseOut
+        spriteA.runAction(moveA, completion: completion)
+        
+        let moveB = SKAction.moveTo(spriteA.position, duration: Duration)
+        moveB.timingMode = .EaseOut
+        spriteB.runAction(moveB)
+    }
+    
 }
