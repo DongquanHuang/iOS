@@ -9,7 +9,10 @@
 import SpriteKit
 
 class ObjectConfiguration {
-    var level = Level()
+    
+    func level(filename: String) -> Level {
+        return Level(filename: filename)
+    }
     
     func gameScene(size: CGSize) -> GameScene {
         return GameScene(size: size)

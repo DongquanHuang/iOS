@@ -20,6 +20,7 @@ class GameScene: SKScene {
     var level: Level!
     
     let gameLayer = SKNode()
+    let tilesLayer = SKNode()
     let cookiesLayer = SKNode()
     
     // MARK: - Init method
@@ -33,8 +34,7 @@ class GameScene: SKScene {
         setAnchorPointToMiddle()
         addBackgroundNode()
         addGameLayer()
-        configureCookiesLayerPosition()
-        addCookiesLayerIntoGameLayer()
+        addOtherLayersIntoGameLayer()
     }
     
     private func setAnchorPointToMiddle() {
@@ -50,16 +50,47 @@ class GameScene: SKScene {
         addChild(gameLayer)
     }
     
+    private func addOtherLayersIntoGameLayer() {
+        configureTilesLayerPosition()
+        addTilesLayerIntoGameLayer()
+        
+        configureCookiesLayerPosition()
+        addCookiesLayerIntoGameLayer()
+    }
+    
+    private func configureTilesLayerPosition() {
+        tilesLayer.position = commonLayerPosition()
+    }
+    
+    private func addTilesLayerIntoGameLayer() {
+        gameLayer.addChild(tilesLayer)
+    }
+    
     private func configureCookiesLayerPosition() {
-        let layerPosition = CGPoint(x: -GameSceneConstants.TileWidth * CGFloat(LevelConstants.NumColumns) / 2, y: -GameSceneConstants.TileHeight * CGFloat(LevelConstants.NumRows) / 2)
-        cookiesLayer.position = layerPosition
+        cookiesLayer.position = commonLayerPosition()
     }
     
     private func addCookiesLayerIntoGameLayer() {
         gameLayer.addChild(cookiesLayer)
     }
     
-    // MARK: - 
+    private func commonLayerPosition() -> CGPoint {
+        return CGPoint(x: -GameSceneConstants.TileWidth * CGFloat(LevelConstants.NumColumns) / 2, y: -GameSceneConstants.TileHeight * CGFloat(LevelConstants.NumRows) / 2)
+    }
+    
+    // MARK: - Add Tiles & Cookies
+    func addTiles() {
+        for row in 0 ..< LevelConstants.NumRows {
+            for column in 0 ..< LevelConstants.NumColumns {
+                if let tile = level.tileAtColumn(column, row: row) {
+                    let tileNode = SKSpriteNode(imageNamed: "Tile")
+                    tileNode.position = pointForColumn(column, row: row)
+                    tilesLayer.addChild(tileNode)
+                }
+            }
+        }
+    }
+    
     func addSpritesForCookies(cookies: Set<Cookie>) {
         for cookie in cookies {
             let sprite = SKSpriteNode(imageNamed: cookie.cookieType.spriteName)

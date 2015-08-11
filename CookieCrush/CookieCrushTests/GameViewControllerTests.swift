@@ -38,13 +38,21 @@ class GameViewControllerTests: XCTestCase {
     
     class MockGameScene: GameScene {
         var addSpritesCalled = false
+        var addTilesCalled = false
         
         override func addSpritesForCookies(cookies: Set<Cookie>) {
             addSpritesCalled = true
         }
+        
+        override func addTiles() {
+            addTilesCalled = true
+        }
     }
     
     class MockObjConfiguration: ObjectConfiguration {
+        override func level(filename: String) -> Level {
+            return MockLevel(filename: filename)
+        }
         override func gameScene(size: CGSize) -> GameScene {
             return MockGameScene(size: size)
         }
@@ -101,11 +109,9 @@ class GameViewControllerTests: XCTestCase {
     }
     
     func testSuffleMethodOfLevelClassWillBeCalledWhenLoadingGameVC() {
-        let mockLevel = MockLevel()
-        mockObjConfiguration.level = mockLevel
         gameVC.objConfiguration = mockObjConfiguration
-
         gameVC.viewDidLoad()
+        let mockLevel = gameVC.level as! MockLevel
         XCTAssertTrue(mockLevel.shuffleCalled == true)
     }
     
@@ -114,6 +120,13 @@ class GameViewControllerTests: XCTestCase {
         gameVC.viewDidLoad()
         let scene = gameVC.scene as! MockGameScene
         XCTAssertTrue(scene.addSpritesCalled == true)
+    }
+    
+    func testAddTilesIsCalledWhenLoadingGameVC() {
+        gameVC.objConfiguration = mockObjConfiguration
+        gameVC.viewDidLoad()
+        let scene = gameVC.scene as! MockGameScene
+        XCTAssertTrue(scene.addTilesCalled == true)
     }
 
 }

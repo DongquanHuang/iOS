@@ -22,7 +22,7 @@ class GameSceneTests: XCTestCase {
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
-        cookie1 = Cookie(column: 0, row: 0, cookieType: cookie1Type)
+        cookie1 = Cookie(column: 3, row: 3, cookieType: cookie1Type)
         cookies.insert(cookie1!)
     }
     
@@ -60,9 +60,9 @@ class GameSceneTests: XCTestCase {
         XCTAssertTrue(gameScene.cookiesLayer.position == expectedPosition)
     }
     
-    func testGameLayerHasCookiesLayerAsItsFirstChildNode() {
+    func testGameLayerHasCookiesLayerAsItsSecondChildNode() {
         let nodes = gameScene.gameLayer.children as! [SKNode]
-        let cookiesLayer = nodes.first
+        let cookiesLayer = nodes[1]
         XCTAssertTrue(cookiesLayer == gameScene.cookiesLayer)
     }
     
@@ -82,5 +82,38 @@ class GameSceneTests: XCTestCase {
         gameScene.addSpritesForCookies(cookies)
         XCTAssertTrue(cookie1!.sprite?.position == expectedPostion)
     }
+    
+    func testGameSceneHasTilesLayerProperty() {
+        XCTAssertNotNil(gameScene.tilesLayer)
+    }
+    
+    func testTilesLayerPositionIsCorrect() {
+        let expectedPosition = CGPoint(x: -GameScene.GameSceneConstants.TileWidth * CGFloat(LevelConstants.NumColumns) / 2, y: -GameScene.GameSceneConstants.TileHeight * CGFloat(LevelConstants.NumRows) / 2)
+        XCTAssertTrue(gameScene.tilesLayer.position == expectedPosition)
+    }
+    
+    func testGameLayerHasTilesLayerAsItsFirstChildNode() {
+        let nodes = gameScene.gameLayer.children as! [SKNode]
+        let tilesLayer = nodes.first
+        XCTAssertTrue(tilesLayer == gameScene.tilesLayer)
+    }
+    
+    func testCanAddTilesIntoTilesLayer() {
+        gameScene.level = Level(filename: "Level_4")
+        gameScene.addTiles()
+        XCTAssertTrue(gameScene.tilesLayer.children.count == 9)
+    }
+    
+    func testTileSpritePositionIsSetCorrectly() {
+        let expectedPostion = CGPoint(x: CGFloat(3) * GameScene.GameSceneConstants.TileWidth + GameScene.GameSceneConstants.TileWidth / 2, y: CGFloat(3) * GameScene.GameSceneConstants.TileHeight + GameScene.GameSceneConstants.TileHeight / 2)
+        
+        gameScene.level = Level(filename: "Level_4")
+        gameScene.addTiles()
+        
+        let tile = gameScene.tilesLayer.children.first as! SKSpriteNode
+        
+        XCTAssertTrue(tile.position == expectedPostion)
+    }
+
 
 }

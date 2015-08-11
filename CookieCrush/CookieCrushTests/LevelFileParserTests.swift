@@ -1,5 +1,5 @@
 //
-//  ObjectConfigurationTests.swift
+//  LevelFileParserTests.swift
 //  CookieCrush
 //
 //  Created by Peter Huang on 8/11/15.
@@ -9,9 +9,7 @@
 import UIKit
 import XCTest
 
-class ObjectConfigurationTests: XCTestCase {
-    
-    var objConfiguration = ObjectConfiguration()
+class LevelFileParserTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
@@ -23,12 +21,14 @@ class ObjectConfigurationTests: XCTestCase {
         super.tearDown()
     }
 
-    func testCanGetLevelObject() {
-        XCTAssertNotNil(objConfiguration.level("levelfile"))
+    func testCanGetDictionaryIfTheFilePathIsValid() {
+        let dictionary = LevelFileParser.loadJSONFromBundle("Level_1")
+        XCTAssertNotNil(dictionary)
     }
     
-    func testCanGetGameSceneObject() {
-        XCTAssertNotNil(objConfiguration.gameScene(CGSize(width: 100, height: 100)))
+    func testCannotGetDictionaryIfFilePathIsInvalid() {
+        let dictionary = LevelFileParser.loadJSONFromBundle("Invalid")
+        XCTAssertNil(dictionary)
     }
 
 }

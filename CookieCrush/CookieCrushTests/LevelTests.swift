@@ -11,7 +11,7 @@ import XCTest
 
 class LevelTests: XCTestCase {
     
-    var level = Level()
+    var level = Level(filename: "Level_4")
 
     override func setUp() {
         super.setUp()
@@ -25,12 +25,27 @@ class LevelTests: XCTestCase {
 
     func testCanGetNilCookieForDefaultLevel() {
         let cookie = level.cookieAtColumn(0, row: 0)
-        XCTAssertTrue(cookie == nil)
+        XCTAssertNil(cookie)
     }
     
-    func testShuffleWillFillCookieArray() {
+    func testShuffleWillFillCookieArrayCorrectly() {
         level.shuffle()
-        XCTAssertTrue(level.cookieAtColumn(0, row: 0) != nil)
+        XCTAssertNil(level.cookieAtColumn(0, row: 0))
+        XCTAssertNotNil(level.cookieAtColumn(3, row: 3))
+    }
+    
+    func testCanGetNilTileForDefaultLevel() {
+        let tile = level.tileAtColumn(0, row: 0)
+        XCTAssertNil(tile)
+    }
+    
+    func testCanInitLevelWithLevelFile() {
+        XCTAssertNotNil(level)
+    }
+    
+    func testTilesArePreparedAfterInit() {
+        XCTAssertNotNil(level.tileAtColumn(3, row: 3))
+        XCTAssertNil(level.tileAtColumn(0, row: 0))
     }
 
 }
