@@ -233,7 +233,7 @@ class GameScene: SKScene {
         }
     }
     
-    // This func is not covered by unit test
+    // TODO: This func is not covered by unit test
     func animateSwap(swap: Swap, completion: () -> ()) {
         let spriteA = swap.cookieA.sprite!
         let spriteB = swap.cookieB.sprite!

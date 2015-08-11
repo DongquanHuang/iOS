@@ -89,7 +89,7 @@ class GameViewController: UIViewController {
         level.performSwap(swap)
         
         scene.animateSwap(swap) {
-            self.view.userInteractionEnabled = true
+            self.view.userInteractionEnabled = true // Not covered by unit test
         }
     }
 }
