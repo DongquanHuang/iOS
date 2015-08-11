@@ -10,6 +10,8 @@ import UIKit
 import SpriteKit
 
 class GameViewController: UIViewController {
+    
+    var objConfiguration = ObjectConfiguration()
     var scene: GameScene!
     var level: Level!
     
@@ -43,16 +45,12 @@ class GameViewController: UIViewController {
     }
     
     private func setupLevel() {
-        if level == nil {
-            level = Level()
-        }
+        level = objConfiguration.level
     }
     
     private func configureSceneScaleMode(mode: SKSceneScaleMode) {
         let skView = view as! SKView
-        if scene == nil {
-            scene = GameScene(size: skView.bounds.size)
-        }
+        scene = objConfiguration.gameScene(skView.bounds.size)
         scene.scaleMode = mode
     }
     
