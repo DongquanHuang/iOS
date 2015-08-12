@@ -27,6 +27,8 @@ class GameScene: SKScene {
     var swipeFromRow: Int?
     var swipeHandler: ((Swap) -> ())?
     
+    var selectionSprite = SKSpriteNode()
+    
     // MARK: - Init method
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder) is not used in this app")
@@ -137,6 +139,7 @@ class GameScene: SKScene {
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         let location = locationInCookiesLayerFromTouch(touches)
         setSwipeStartPosition(location)
+        highlightSelectedCookie()
     }
     
     override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
@@ -149,16 +152,18 @@ class GameScene: SKScene {
         
         if horzontalDelta != 0 || verticalDelta != 0 {
             trySwapHorizontal(horzontalDelta, vertical: verticalDelta)
+            cancelHighlightSelectionIndication()
             resetSwipeStartPosition()
         }
     }
     
     override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+        cancelHighlightSelectionIndication()
         resetSwipeStartPosition()
     }
     
     override func touchesCancelled(touches: Set<NSObject>, withEvent event: UIEvent) {
-        resetSwipeStartPosition()
+        touchesEnded(touches, withEvent: event)
     }
     
     private func locationInCookiesLayerFromTouch(touches: Set<NSObject>) -> CGPoint {
@@ -213,6 +218,30 @@ class GameScene: SKScene {
     private func resetSwipeStartPosition() {
         swipeFromColumn = nil
         swipeFromRow = nil
+    }
+    
+    // MARK: - Highlight the cookie
+    private func highlightSelectedCookie() {
+        if moveStartsFromValidPosition() {
+            if let selectedCookie = level.cookieAtColumn(swipeFromColumn!, row: swipeFromRow!) {
+                addHighlightedTextureToSpriteOfCookie(selectedCookie)
+            }
+        }
+    }
+    
+    private func addHighlightedTextureToSpriteOfCookie(selectedCookie: Cookie) {
+        let texture = SKTexture(imageNamed: selectedCookie.cookieType.highlightedSpriteName)
+        selectionSprite.size = texture.size()
+        selectionSprite.runAction(SKAction.setTexture(texture))
+        
+        selectedCookie.sprite!.addChild(selectionSprite)
+        selectionSprite.alpha = 1.0
+    }
+    
+    private func cancelHighlightSelectionIndication() {
+        if selectionSprite.parent != nil {
+            selectionSprite.removeFromParent()
+        }
     }
     
     // MARK: - Swipe cookies

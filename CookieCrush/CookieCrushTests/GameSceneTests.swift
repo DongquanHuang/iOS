@@ -33,8 +33,16 @@ class GameSceneTests: XCTestCase {
     }
     
     class MockLevel: Level {
+        var cookie: Cookie?
+        
         override func cookieAtColumn(column: Int, row: Int) -> Cookie? {
-            return Cookie(column: 5, row: 4, cookieType: .Croissant)
+            if cookie == nil {
+                cookie = Cookie(column: 5, row: 4, cookieType: .Croissant)
+                let sprite = SKSpriteNode(imageNamed: cookie!.cookieType.spriteName)
+                cookie!.sprite = sprite
+            }
+            
+            return cookie
         }
     }
     
@@ -332,6 +340,49 @@ class GameSceneTests: XCTestCase {
         
         gameScene.trySwapHorizontal(-1, vertical: 0)
         XCTAssertTrue(mockSwipeHandlerGetsCalled == false)
+    }
+    
+    func testSelectedCookieIsHighlighted() {
+        gameScene.level = MockLevel(filename: "filename")
+        let cookie = gameScene.level.cookieAtColumn(5, row: 4)
+        
+        gameScene.touchesBegan(touches, withEvent: UIEvent())
+        
+        XCTAssertTrue(cookie?.sprite?.children.count == 1)
+    }
+    
+    func testTouchesEndedWillRemoveHighlightedTexture() {
+        gameScene.level = MockLevel(filename: "filename")
+        let cookie = gameScene.level.cookieAtColumn(5, row: 4)
+        
+        gameScene.touchesBegan(touches, withEvent: UIEvent())
+        gameScene.touchesEnded(touches, withEvent: UIEvent())
+        
+        XCTAssertTrue(cookie?.sprite?.children.count == 0)
+    }
+    
+    func testTouchesCancelledWillRemoveHighlightedTexture() {
+        gameScene.level = MockLevel(filename: "filename")
+        let cookie = gameScene.level.cookieAtColumn(5, row: 4)
+        
+        gameScene.touchesBegan(touches, withEvent: UIEvent())
+        gameScene.touchesCancelled(touches, withEvent: UIEvent())
+        
+        XCTAssertTrue(cookie?.sprite?.children.count == 0)
+    }
+    
+    func testTouchesMovedShouldRemoveHighlightedTexture() {
+        gameScene.level = MockLevel(filename: "filename")
+        let cookie = gameScene.level.cookieAtColumn(5, row: 4)
+        
+        gameScene.touchesBegan(touches, withEvent: UIEvent())
+        
+        gameScene.swipeFromColumn = 5
+        gameScene.swipeFromRow = 5
+        gameScene.touchesMoved(touches, withEvent: UIEvent())
+        
+        XCTAssertTrue(cookie?.sprite?.children.count == 0)
+        
     }
 
 }
