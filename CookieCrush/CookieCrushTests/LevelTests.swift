@@ -59,5 +59,59 @@ class LevelTests: XCTestCase {
         XCTAssertEqual(cookie1!.row, 4)
         XCTAssertEqual(cookie2!.row, 3)
     }
+    
+    func testShuffleWillGenerateCookiesWithoutExistingChains() {
+        var theLevel = Level(filename: "Level_0")
+        theLevel.shuffle()
+        
+        XCTAssertTrue(chainExistingInLevel(theLevel) == false)
+    }
+    
+    // MARK: - private methods
+    func chainExistingInLevel(level: Level) -> Bool {
+        for column in 0 ..< LevelConstants.NumColumns {
+            for row in 0 ..< LevelConstants.NumRows {
+                if let cookie = level.cookieAtColumn(column, row: row) {
+                    if detectChainForCookie(cookie, InLevel: level) {
+                        return true
+                    }
+                }
+            }
+        }
+        
+        return false
+    }
+    
+    func detectChainForCookie(cookie: Cookie, InLevel level: Level) -> Bool {
+        if detectHorzontalChainForCookie(cookie, InLevel: level) {
+            return true
+        }
+        
+        if detectVerticalChainForCookie(cookie, InLevel: level) {
+            return true
+        }
+        
+        return false
+    }
+    
+    func detectHorzontalChainForCookie(cookie: Cookie, InLevel level: Level) -> Bool {
+        var cookieType = cookie.cookieType
+        
+        var horzLength = 1
+        for var i = cookie.column - 1; i >= 0 && level.cookieAtColumn(i, row: cookie.row)?.cookieType == cookieType; i--, horzLength++ {}
+        for var i = cookie.column + 1; i < LevelConstants.NumColumns && level.cookieAtColumn(i, row: cookie.row)?.cookieType == cookieType; i++, horzLength++ {}
+        
+        return horzLength >= 3
+    }
+    
+    func detectVerticalChainForCookie(cookie: Cookie, InLevel level: Level) -> Bool {
+        var cookieType = cookie.cookieType
+        
+        var vertLength = 1
+        for var i = cookie.row - 1; i >= 0 && level.cookieAtColumn(cookie.column, row: i)?.cookieType == cookieType; i--, vertLength++ {}
+        for var i = cookie.row + 1; i < LevelConstants.NumRows && level.cookieAtColumn(cookie.column, row: i)?.cookieType == cookieType; i++, vertLength++ {}
+        
+        return vertLength >= 3
+    }
 
 }

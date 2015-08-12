@@ -74,7 +74,7 @@ class Level {
             for column in 0 ..< LevelConstants.NumColumns {
                 
                 if tiles[column, row] != nil {
-                    var cookieType = CookieType.random()
+                    var cookieType = getRandomCookieTypeWithoutMakingChainsForColumn(column, row: row)
                     let cookie = Cookie(column: column, row: row, cookieType: cookieType)
                     cookies[column, row] = cookie
                     
@@ -84,6 +84,24 @@ class Level {
         }
         
         return cookieSet
+    }
+    
+    private func getRandomCookieTypeWithoutMakingChainsForColumn(column: Int, row: Int) -> CookieType {
+        var cookieType: CookieType
+        
+        do {
+            cookieType = CookieType.random()
+        } while (findHorzonalChainIfAddCookieType(cookieType, AtColumn: column, row: row) || findVerticalChainIfAddCookieType(cookieType, AtColumn: column, row: row))
+        
+        return cookieType
+    }
+    
+    private func findHorzonalChainIfAddCookieType(cookieType: CookieType, AtColumn column: Int, row: Int) -> Bool {
+        return column >= 2 && cookies[column - 1, row]?.cookieType == cookieType && cookies[column - 2, row]?.cookieType == cookieType
+    }
+    
+    private func findVerticalChainIfAddCookieType(cookieType: CookieType, AtColumn column: Int, row: Int) -> Bool {
+        return row >= 2 && cookies[column, row - 1]?.cookieType == cookieType && cookies[column, row - 2]?.cookieType == cookieType
     }
     
     // MARK: - Swipe cookies

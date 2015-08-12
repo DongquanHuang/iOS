@@ -31,12 +31,10 @@ class GameViewController: UIViewController {
         super.viewDidLoad()
         
         disableMultipleTouch()
+        
         setupLevel()
         
-        configureSceneScaleMode(.AspectFill)
-        passLevelToGameScene()
-        passSwapHanderToGameScene()
-        addTilesInGameScene()
+        configureGameScene()
         presentScene()
         
         beginGame()
@@ -49,6 +47,15 @@ class GameViewController: UIViewController {
     
     private func setupLevel() {
         level = objConfiguration.level("Level_1")
+    }
+    
+    private func configureGameScene() {
+        configureSceneScaleMode(.AspectFill)
+        
+        passLevelToGameScene()
+        passSwapHanderToGameScene()
+        
+        addTilesInGameScene()
     }
     
     private func configureSceneScaleMode(mode: SKSceneScaleMode) {
