@@ -79,6 +79,21 @@ class LevelTests: XCTestCase {
         XCTAssertTrue(theLevel.possibleSwaps.count == swapSet.count)
     }
     
+    func testIsPossbileSwapWorksCorrectly() {
+        let cookie1 = Cookie(column: 0, row: 0, cookieType: .Croissant)
+        let cookie2 = Cookie(column: 0, row: 1, cookieType: .Cupcake)
+        let cookie3 = Cookie(column: 0, row: 2, cookieType: .Danish)
+        
+        let swap = Swap(cookieA: cookie1, cookieB: cookie2)
+        level.possibleSwaps.insert(swap)
+        
+        let validSwap = Swap(cookieA: cookie1, cookieB: cookie2)
+        let invalidSwap = Swap(cookieA: cookie1, cookieB: cookie3)
+        
+        XCTAssertTrue(level.isPossibleSwap(validSwap) == true)
+        XCTAssertTrue(level.isPossibleSwap(invalidSwap) == false)
+    }
+    
     // MARK: - private methods
     private func chainExistingInLevel(level: Level) -> Bool {
         copyCookiesFromLevel(level)
@@ -137,7 +152,7 @@ class LevelTests: XCTestCase {
         for column in 0 ..< LevelConstants.NumColumns {
             for row in 0 ..< LevelConstants.NumRows {
                 if let cookie = cookies![column, row] {
-                    trySwapCookieWithLeftOne(cookie)
+                    trySwapCookieWithRightOne(cookie)
                     trySwapCookieWithAboveOne(cookie)
                 }
             }
@@ -154,21 +169,19 @@ class LevelTests: XCTestCase {
         }
     }
     
-    private func trySwapCookieWithLeftOne(cookie: Cookie) {
+    private func trySwapCookieWithRightOne(cookie: Cookie) {
         let column = cookie.column
         let row = cookie.row
         
         if column < LevelConstants.NumColumns - 1 {
             if let other = cookies![column + 1, row] {
-                cookies![column, row] = other
-                cookies![column + 1, row] = cookie
+                swapCookie(cookie, withCookie: other)
                 
                 if detectChainForCookie(cookie) || detectChainForCookie(other) {
                     swapSet.insert(Swap(cookieA: cookie, cookieB: other))
                 }
                 
-                cookies![column, row] = cookie
-                cookies![column + 1, row] = other
+                swapCookie(cookie, withCookie: other)
             }
         }
     }
@@ -179,17 +192,30 @@ class LevelTests: XCTestCase {
         
         if row < LevelConstants.NumRows - 1 {
             if let other = cookies![column, row + 1] {
-                cookies![column, row] = other
-                cookies![column, row + 1] = cookie
+                swapCookie(cookie, withCookie: other)
                 
                 if detectChainForCookie(cookie) || detectChainForCookie(other) {
                     swapSet.insert(Swap(cookieA: cookie, cookieB: other))
                 }
                 
-                cookies![column, row] = cookie
-                cookies![column, row + 1] = other
+                swapCookie(cookie, withCookie: other)
             }
         }
+    }
+    
+    private func swapCookie(cookieA: Cookie, withCookie cookieB: Cookie) {
+        let columnA = cookieA.column
+        let rowA = cookieA.row
+        let columnB = cookieB.column
+        let rowB = cookieB.row
+        
+        cookies![columnA, rowA] = cookieB
+        cookieB.column = columnA
+        cookieB.row = rowA
+        
+        cookies![columnB, rowB] = cookieA
+        cookieA.column = columnB
+        cookieA.row = rowB
     }
 
 }

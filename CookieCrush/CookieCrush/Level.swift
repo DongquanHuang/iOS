@@ -123,28 +123,26 @@ class Level {
         for column in 0 ..< LevelConstants.NumColumns {
             for row in 0 ..< LevelConstants.NumRows {
                 if let cookie = cookies[column, row] {
-                    trySwapCookieWithLeftOne(cookie)
+                    trySwapCookieWithRightOne(cookie)
                     trySwapCookieWithAboveOne(cookie)
                 }
             }
         }
     }
     
-    private func trySwapCookieWithLeftOne(cookie: Cookie) {
+    private func trySwapCookieWithRightOne(cookie: Cookie) {
         let column = cookie.column
         let row = cookie.row
         
         if column < LevelConstants.NumColumns - 1 {
             if let other = cookies[column + 1, row] {
-                cookies[column, row] = other
-                cookies[column + 1, row] = cookie
+                swapCookie(cookie, withCookie: other)
                 
                 if detectChainForCookie(cookie) || detectChainForCookie(other) {
                     possibleSwaps.insert(Swap(cookieA: cookie, cookieB: other))
                 }
                 
-                cookies[column, row] = cookie
-                cookies[column + 1, row] = other
+                swapCookie(cookie, withCookie: other)
             }
         }
     }
@@ -155,15 +153,13 @@ class Level {
         
         if row < LevelConstants.NumRows - 1 {
             if let other = cookies[column, row + 1] {
-                cookies[column, row] = other
-                cookies[column, row + 1] = cookie
+                swapCookie(cookie, withCookie: other)
                 
                 if detectChainForCookie(cookie) || detectChainForCookie(other) {
                     possibleSwaps.insert(Swap(cookieA: cookie, cookieB: other))
                 }
                 
-                cookies[column, row] = cookie
-                cookies[column, row + 1] = other
+                swapCookie(cookie, withCookie: other)
             }
         }
     }
@@ -210,9 +206,14 @@ class Level {
     
     // MARK: - Swipe cookies
     func performSwap(swap: Swap) {
-        let cookieA = swap.cookieA
-        let cookieB = swap.cookieB
-        
+        swapCookie(swap.cookieA, withCookie: swap.cookieB)
+    }
+    
+    func isPossibleSwap(swap: Swap) -> Bool {
+        return possibleSwaps.contains(swap)
+    }
+    
+    private func swapCookie(cookieA: Cookie, withCookie cookieB: Cookie) {
         let columnA = cookieA.column
         let rowA = cookieA.row
         let columnB = cookieB.column

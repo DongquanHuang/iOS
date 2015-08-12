@@ -29,6 +29,13 @@ class GameScene: SKScene {
     
     var selectionSprite = SKSpriteNode()
     
+    // Note: below sound variables are not covered by unit test
+    let swapSound = SKAction.playSoundFileNamed("Chomp.wav", waitForCompletion: false)
+    let invalidSwapSound = SKAction.playSoundFileNamed("Error.wav", waitForCompletion: false)
+    let matchSound = SKAction.playSoundFileNamed("Ka-Ching.wav", waitForCompletion: false)
+    let fallingCookieSound = SKAction.playSoundFileNamed("Scrape.wav", waitForCompletion: false)
+    let addCookieSound = SKAction.playSoundFileNamed("Drip.wav", waitForCompletion: false)
+    
     // MARK: - Init method
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder) is not used in this app")
@@ -262,7 +269,7 @@ class GameScene: SKScene {
         }
     }
     
-    // TODO: This func is not covered by unit test
+    // TODO: Below tow functions are not covered by unit test
     func animateSwap(swap: Swap, completion: () -> ()) {
         let spriteA = swap.cookieA.sprite!
         let spriteB = swap.cookieB.sprite!
@@ -274,11 +281,35 @@ class GameScene: SKScene {
         
         let moveA = SKAction.moveTo(spriteB.position, duration: Duration)
         moveA.timingMode = .EaseOut
-        spriteA.runAction(moveA, completion: completion)
         
         let moveB = SKAction.moveTo(spriteA.position, duration: Duration)
         moveB.timingMode = .EaseOut
+        
+        spriteA.runAction(moveA, completion: completion)
         spriteB.runAction(moveB)
+        
+        runAction(swapSound)
+    }
+    
+    func animateInvalidSwap(swap: Swap, completion: () -> ()) {
+        let spriteA = swap.cookieA.sprite!
+        let spriteB = swap.cookieB.sprite!
+        
+        spriteA.zPosition = 100
+        spriteB.zPosition = 90
+        
+        let Duration: NSTimeInterval = 0.2
+        
+        let moveA = SKAction.moveTo(spriteB.position, duration: Duration)
+        moveA.timingMode = .EaseOut
+        
+        let moveB = SKAction.moveTo(spriteA.position, duration: Duration)
+        moveB.timingMode = .EaseOut
+        
+        spriteA.runAction(SKAction.sequence([moveA, moveB]), completion: completion)
+        spriteB.runAction(SKAction.sequence([moveB, moveA]))
+        
+        runAction(invalidSwapSound)
     }
     
 }

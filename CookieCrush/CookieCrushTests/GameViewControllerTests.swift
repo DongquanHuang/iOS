@@ -48,10 +48,23 @@ class GameViewControllerTests: XCTestCase {
         }
     }
     
+    class MockLevelWithPerformSwapImpossible: MockLevel {
+        override func isPossibleSwap(swap: Swap) -> Bool {
+            return false
+        }
+    }
+    
+    class MockLevelWithPerformSwapPossible: MockLevel {
+        override func isPossibleSwap(swap: Swap) -> Bool {
+            return true
+        }
+    }
+    
     class MockGameScene: GameScene {
         var addSpritesCalled = false
         var addTilesCalled = false
         var animateSwapCalled = false
+        var animateInvalidSwapCalled = false
         
         override func addSpritesForCookies(cookies: Set<Cookie>) {
             addSpritesCalled = true
@@ -63,6 +76,10 @@ class GameViewControllerTests: XCTestCase {
         
         override func animateSwap(swap: Swap, completion: () -> ()) {
             animateSwapCalled = true
+        }
+        
+        override func animateInvalidSwap(swap: Swap, completion: () -> ()) {
+            animateInvalidSwapCalled = true
         }
     }
     
@@ -151,7 +168,7 @@ class GameViewControllerTests: XCTestCase {
     }
     
     func testHandleSwapWillCallPerformSwapInLevelDataModel() {
-        gameVC.level = MockLevel(filename: "filename")
+        gameVC.level = MockLevelWithPerformSwapPossible(filename: "filename")
         gameVC.scene = MockGameScene(size: CGSize(width: 100, height: 100))
         gameVC.handleSwipe(swap!)
         let mockLevel = gameVC.level as! MockLevel
@@ -159,6 +176,7 @@ class GameViewControllerTests: XCTestCase {
     }
     
     func testhandleSwapWillCallAnimateSwapInGameScene() {
+        gameVC.level = MockLevelWithPerformSwapPossible(filename: "filename")
         gameVC.scene = MockGameScene(size: CGSize(width: 100, height: 100))
         gameVC.handleSwipe(swap!)
         let mockScene = gameVC.scene as! MockGameScene
@@ -170,6 +188,37 @@ class GameViewControllerTests: XCTestCase {
         gameVC.viewDidLoad()
         let mockScene = gameVC.scene as! MockGameScene
         XCTAssertTrue(mockScene.swipeHandler != nil)
+    }
+    
+    func testPerformSwapNotCalledIfItsImpossible() {
+        gameVC.level = MockLevelWithPerformSwapImpossible(filename: "filename")
+        gameVC.scene = MockGameScene(size: CGSize(width: 100, height: 100))
+        gameVC.handleSwipe(swap!)
+        
+        let mockLevel = gameVC.level as! MockLevelWithPerformSwapImpossible
+        let mockScene = gameVC.scene as! MockGameScene
+        XCTAssertTrue(mockLevel.performSwapCalled == false)
+        XCTAssertTrue(mockScene.animateSwapCalled == false)
+    }
+    
+    func testPerformSwapCalledIfItsPossible() {
+        gameVC.level = MockLevelWithPerformSwapPossible(filename: "filename")
+        gameVC.scene = MockGameScene(size: CGSize(width: 100, height: 100))
+        gameVC.handleSwipe(swap!)
+        
+        let mockLevel = gameVC.level as! MockLevelWithPerformSwapPossible
+        let mockScene = gameVC.scene as! MockGameScene
+        XCTAssertTrue(mockLevel.performSwapCalled == true)
+        XCTAssertTrue(mockScene.animateSwapCalled == true)
+    }
+
+    func testInvalidSwipeWillCallanimateInvalidSwap() {
+        gameVC.level = MockLevelWithPerformSwapImpossible(filename: "filename")
+        gameVC.scene = MockGameScene(size: CGSize(width: 100, height: 100))
+        gameVC.handleSwipe(swap!)
+        
+        let mockScene = gameVC.scene as! MockGameScene
+        XCTAssertTrue(mockScene.animateInvalidSwapCalled == true)
     }
 
 }
