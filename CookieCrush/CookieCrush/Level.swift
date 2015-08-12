@@ -100,9 +100,13 @@ class Level {
         
         do {
             cookieType = CookieType.random()
-        } while (findHorzonalChainIfAddCookieType(cookieType, AtColumn: column, row: row) || findVerticalChainIfAddCookieType(cookieType, AtColumn: column, row: row))
+        } while findChainIfAddCookieType(cookieType, AtColumn: column, row: row)
         
         return cookieType
+    }
+    
+    private func findChainIfAddCookieType(cookieType: CookieType, AtColumn column: Int, row: Int) -> Bool {
+        return findHorzonalChainIfAddCookieType(cookieType, AtColumn: column, row: row) || findVerticalChainIfAddCookieType(cookieType, AtColumn: column, row: row)
     }
     
     private func findHorzonalChainIfAddCookieType(cookieType: CookieType, AtColumn column: Int, row: Int) -> Bool {
@@ -113,7 +117,7 @@ class Level {
         return row >= 2 && cookies[column, row - 1]?.cookieType == cookieType && cookies[column, row - 2]?.cookieType == cookieType
     }
     
-    // MARK: - Detech swaps
+    // MARK: - Detect swaps
     private func detectPossibleSwaps() {
         cleanupPossibleSwaps()
         detectPossibleSwapsForEachCookie()
@@ -122,58 +126,62 @@ class Level {
     private func detectPossibleSwapsForEachCookie() {
         for column in 0 ..< LevelConstants.NumColumns {
             for row in 0 ..< LevelConstants.NumRows {
+                
                 if let cookie = cookies[column, row] {
-                    trySwapCookieWithRightOne(cookie)
-                    trySwapCookieWithAboveOne(cookie)
+                    for neighbour in getRightAndAboveNeighboursForCookie(cookie) {
+                        findPossibleSwapForCookie(cookie, AndNeighbour: neighbour)
+                    }
                 }
+                
             }
         }
     }
     
-    private func trySwapCookieWithRightOne(cookie: Cookie) {
-        let column = cookie.column
-        let row = cookie.row
+    private func getRightAndAboveNeighboursForCookie(cookie: Cookie) -> [Cookie] {
+        var cookiesArray = [Cookie]()
         
-        if column < LevelConstants.NumColumns - 1 {
-            if let other = cookies[column + 1, row] {
-                swapCookie(cookie, withCookie: other)
-                
-                if detectChainForCookie(cookie) || detectChainForCookie(other) {
-                    possibleSwaps.insert(Swap(cookieA: cookie, cookieB: other))
-                }
-                
-                swapCookie(cookie, withCookie: other)
-            }
+        if let right = getRightNeighbourForCookie(cookie) {
+            cookiesArray.append(right)
         }
+        if let above = getAboveNeighbourForCookie(cookie) {
+            cookiesArray.append(above)
+        }
+        
+        return cookiesArray
     }
     
-    private func trySwapCookieWithAboveOne(cookie: Cookie) {
-        let column = cookie.column
-        let row = cookie.row
-        
-        if row < LevelConstants.NumRows - 1 {
-            if let other = cookies[column, row + 1] {
-                swapCookie(cookie, withCookie: other)
-                
-                if detectChainForCookie(cookie) || detectChainForCookie(other) {
-                    possibleSwaps.insert(Swap(cookieA: cookie, cookieB: other))
-                }
-                
-                swapCookie(cookie, withCookie: other)
+    private func getRightNeighbourForCookie(cookie: Cookie) -> Cookie? {
+        if cookie.column < LevelConstants.NumColumns - 1 {
+            if let other = cookies[cookie.column + 1, cookie.row] {
+                return other
             }
+        }
+        return nil
+    }
+    
+    private func getAboveNeighbourForCookie(cookie: Cookie) -> Cookie? {
+        if cookie.row < LevelConstants.NumRows - 1 {
+            if let other = cookies[cookie.column, cookie.row + 1] {
+                return other
+            }
+        }
+        return nil
+    }
+    
+    private func findPossibleSwapForCookie(cookie: Cookie, AndNeighbour neighbour: Cookie) {
+        swapCookie(cookie, withCookie: neighbour)
+        addPossibleSwap(Swap(cookieA: cookie, cookieB: neighbour))
+        swapCookie(cookie, withCookie: neighbour)
+    }
+    
+    private func addPossibleSwap(swap: Swap) {
+        if detectChainForCookie(swap.cookieA) || detectChainForCookie(swap.cookieB) {
+            possibleSwaps.insert(swap)
         }
     }
     
     private func detectChainForCookie(cookie: Cookie) -> Bool {
-        if detectHorzontalChainForCookie(cookie) {
-            return true
-        }
-        
-        if detectVerticalChainForCookie(cookie) {
-            return true
-        }
-        
-        return false
+        return detectHorzontalChainForCookie(cookie) || detectVerticalChainForCookie(cookie)
     }
     
     private func detectHorzontalChainForCookie(cookie: Cookie) -> Bool {
