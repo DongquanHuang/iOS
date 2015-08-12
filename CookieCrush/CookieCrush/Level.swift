@@ -17,6 +17,8 @@ class Level {
     private var cookies = Array2D<Cookie>(columns: LevelConstants.NumColumns, rows: LevelConstants.NumRows)
     private var tiles = Array2D<Tile>(columns: LevelConstants.NumColumns, rows: LevelConstants.NumRows)
     
+    var possibleSwaps = Set<Swap>()
+    
     // MARK: - Init
     init(filename: String) {
         fillTilesFromLevelFile(filename)
@@ -43,7 +45,14 @@ class Level {
     
     // MARK: - Prepare cookies
     func shuffle() -> Set<Cookie> {
-        return createInitialCookies()
+        var cookieSet: Set<Cookie>
+        
+        do {
+            cookieSet = createInitialCookies()
+            detectPossibleSwaps()
+        } while !hasPossbileSwaps()
+        
+        return cookieSet
     }
     
     // MARK: - Private methods - Fill tiles based on level file
@@ -102,6 +111,101 @@ class Level {
     
     private func findVerticalChainIfAddCookieType(cookieType: CookieType, AtColumn column: Int, row: Int) -> Bool {
         return row >= 2 && cookies[column, row - 1]?.cookieType == cookieType && cookies[column, row - 2]?.cookieType == cookieType
+    }
+    
+    // MARK: - Detech swaps
+    private func detectPossibleSwaps() {
+        cleanupPossibleSwaps()
+        detectPossibleSwapsForEachCookie()
+    }
+    
+    private func detectPossibleSwapsForEachCookie() {
+        for column in 0 ..< LevelConstants.NumColumns {
+            for row in 0 ..< LevelConstants.NumRows {
+                if let cookie = cookies[column, row] {
+                    trySwapCookieWithLeftOne(cookie)
+                    trySwapCookieWithAboveOne(cookie)
+                }
+            }
+        }
+    }
+    
+    private func trySwapCookieWithLeftOne(cookie: Cookie) {
+        let column = cookie.column
+        let row = cookie.row
+        
+        if column < LevelConstants.NumColumns - 1 {
+            if let other = cookies[column + 1, row] {
+                cookies[column, row] = other
+                cookies[column + 1, row] = cookie
+                
+                if detectChainForCookie(cookie) || detectChainForCookie(other) {
+                    possibleSwaps.insert(Swap(cookieA: cookie, cookieB: other))
+                }
+                
+                cookies[column, row] = cookie
+                cookies[column + 1, row] = other
+            }
+        }
+    }
+    
+    private func trySwapCookieWithAboveOne(cookie: Cookie) {
+        let column = cookie.column
+        let row = cookie.row
+        
+        if row < LevelConstants.NumRows - 1 {
+            if let other = cookies[column, row + 1] {
+                cookies[column, row] = other
+                cookies[column, row + 1] = cookie
+                
+                if detectChainForCookie(cookie) || detectChainForCookie(other) {
+                    possibleSwaps.insert(Swap(cookieA: cookie, cookieB: other))
+                }
+                
+                cookies[column, row] = cookie
+                cookies[column, row + 1] = other
+            }
+        }
+    }
+    
+    private func detectChainForCookie(cookie: Cookie) -> Bool {
+        if detectHorzontalChainForCookie(cookie) {
+            return true
+        }
+        
+        if detectVerticalChainForCookie(cookie) {
+            return true
+        }
+        
+        return false
+    }
+    
+    private func detectHorzontalChainForCookie(cookie: Cookie) -> Bool {
+        var cookieType = cookie.cookieType
+        
+        var horzLength = 1
+        for var i = cookie.column - 1; i >= 0 && cookies[i, cookie.row]?.cookieType == cookieType; i--, horzLength++ {}
+        for var i = cookie.column + 1; i < LevelConstants.NumColumns && cookies[i, cookie.row]?.cookieType == cookieType; i++, horzLength++ {}
+        
+        return horzLength >= 3
+    }
+    
+    private func detectVerticalChainForCookie(cookie: Cookie) -> Bool {
+        var cookieType = cookie.cookieType
+        
+        var vertLength = 1
+        for var i = cookie.row - 1; i >= 0 && cookies[cookie.column, i]?.cookieType == cookieType; i--, vertLength++ {}
+        for var i = cookie.row + 1; i < LevelConstants.NumRows && cookies[cookie.column, i]?.cookieType == cookieType; i++, vertLength++ {}
+        
+        return vertLength >= 3
+    }
+    
+    private func hasPossbileSwaps() -> Bool {
+        return possibleSwaps.count > 0
+    }
+    
+    private func cleanupPossibleSwaps() {
+        possibleSwaps.removeAll(keepCapacity: false)
     }
     
     // MARK: - Swipe cookies

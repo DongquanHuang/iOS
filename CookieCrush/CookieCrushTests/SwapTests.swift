@@ -35,5 +35,12 @@ class SwapTests: XCTestCase {
     func testSwapConformsToPrintableProtocol() {
         XCTAssertTrue(swap?.description == "swap Type:Croissant Square:(0,0) with Type:Cupcake Square:(1,1)")
     }
+    
+    func testSwapConformsToHashableProtocol() {
+        XCTAssertTrue(swap?.hashValue == cookie1!.hashValue ^ cookie2!.hashValue)
+        
+        let swap2 = Swap(cookieA: cookie1!, cookieB: cookie2!)
+        XCTAssertEqual(swap!, swap2)
+    }
 
 }
