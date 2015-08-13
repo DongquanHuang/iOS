@@ -135,6 +135,28 @@ class LevelTests: XCTestCase {
         XCTAssertTrue(cookieNumberInCookies(originalCookies) == cookieNumberInCookies(cookies) + expectedRemoveCookieNumbers)
     }
     
+    func testHolesShouldBeFilledAfterRemoveMatchedCookies() {
+        var theLevel = Level(filename: "Level_0")
+        theLevel.shuffle()
+        let swaps = theLevel.possibleSwaps
+        theLevel.performSwap(swaps.first!)
+        
+        theLevel.removeMatches()
+        copyCookiesFromLevel(theLevel)
+        
+        let columns = theLevel.fillHoles()
+        let expectedColumns = fillHoles(theLevel)
+        let expectedCookiesArray = copyCookies(cookies)
+        clearCookies()
+        copyCookiesFromLevel(theLevel)
+        
+        XCTAssert(columns.count == expectedColumns.count)
+        for i in 0 ..< columns.count {
+            XCTAssert(columns[i].count == expectedColumns[i].count)
+        }
+        XCTAssertTrue(equalCookieArrays(cookies!, cookies2: expectedCookiesArray) == true)
+    }
+    
     // MARK: - private methods
     private func chainExistingInLevel(level: Level) -> Bool {
         copyCookiesFromLevel(level)
@@ -222,6 +244,18 @@ class LevelTests: XCTestCase {
         }
         
         return copiedCookies
+    }
+    
+    private func equalCookieArrays(cookies1: Array2D<Cookie>, cookies2: Array2D<Cookie>) -> Bool {
+        for column in 0 ..< LevelConstants.NumColumns {
+            for row in 0 ..< LevelConstants.NumRows {
+                if cookies1[column, row] != cookies2[column, row] {
+                    return false
+                }
+            }
+        }
+        
+        return true
     }
     
     private func clearCookies() {
@@ -359,6 +393,37 @@ class LevelTests: XCTestCase {
         }
         
         return verticalMatches
+    }
+    
+    private func fillHoles(level: Level) -> [[Cookie]] {
+        var columns = [[Cookie]]()
+
+        for column in 0 ..< LevelConstants.NumColumns {
+            var array = [Cookie]()
+            for row in 0 ..< LevelConstants.NumRows {
+
+                if level.tileAtColumn(column, row: row) != nil && cookies![column, row] == nil {
+
+                    for lookup in (row + 1) ..< LevelConstants.NumRows {
+                        if let cookie = cookies![column, lookup] {
+
+                            cookies![column, lookup] = nil
+                            cookies![column, row] = cookie
+                            cookie.row = row
+                            
+                            array.append(cookie)
+                            
+                            break
+                        }
+                    }
+                }
+            }
+            
+            if !array.isEmpty {
+                columns.append(array)
+            }
+        }
+        return columns
     }
 
 }

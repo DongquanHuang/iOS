@@ -169,19 +169,22 @@ class Level {
     }
     
     private func findPossibleSwapForCookie(cookie: Cookie, AndNeighbour neighbour: Cookie) {
-        swapCookie(cookie, withCookie: neighbour)
-        addPossibleSwap(Swap(cookieA: cookie, cookieB: neighbour))
-        swapCookie(cookie, withCookie: neighbour)
-    }
-    
-    private func addPossibleSwap(swap: Swap) {
-        if detectChainForSwap(swap) {
+        let swap = Swap(cookieA: cookie, cookieB: neighbour)
+        if detectChainIfPerformSwap(swap) {
             possibleSwaps.insert(swap)
         }
     }
     
-    private func detectChainForSwap(swap: Swap) -> Bool {
-        return detectChainForCookie(swap.cookieA) || detectChainForCookie(swap.cookieB)
+    private func detectChainIfPerformSwap(swap: Swap) -> Bool {
+        var chainDetected = false
+        
+        performSwap(swap)
+        if detectChainForCookie(swap.cookieA) || detectChainForCookie(swap.cookieB) {
+            chainDetected = true
+        }
+        performSwap(swap)
+        
+        return chainDetected
     }
     
     private func detectChainForCookie(cookie: Cookie) -> Bool {
@@ -189,23 +192,53 @@ class Level {
     }
     
     private func detectHorzontalChainForCookie(cookie: Cookie) -> Bool {
-        var cookieType = cookie.cookieType
-        
         var horzLength = 1
-        for var i = cookie.column - 1; i >= 0 && cookies[i, cookie.row]?.cookieType == cookieType; i--, horzLength++ {}
-        for var i = cookie.column + 1; i < LevelConstants.NumColumns && cookies[i, cookie.row]?.cookieType == cookieType; i++, horzLength++ {}
-        
+        horzLength += sameCookieAmountInLeftSideOfCookie(cookie)
+        horzLength += sameCookieAmountInRightSideOfCookie(cookie)
         return horzLength >= 3
     }
     
     private func detectVerticalChainForCookie(cookie: Cookie) -> Bool {
-        var cookieType = cookie.cookieType
-        
         var vertLength = 1
-        for var i = cookie.row - 1; i >= 0 && cookies[cookie.column, i]?.cookieType == cookieType; i--, vertLength++ {}
-        for var i = cookie.row + 1; i < LevelConstants.NumRows && cookies[cookie.column, i]?.cookieType == cookieType; i++, vertLength++ {}
-        
+        vertLength += sameCookieAmountInBelowSideOfCookie(cookie)
+        vertLength += sameCookieAmountInAboveSideOfCookie(cookie)
         return vertLength >= 3
+    }
+    
+    private func sameCookieAmountInLeftSideOfCookie(cookie: Cookie) -> Int {
+        var amount = 0
+        
+        let cookieType = cookie.cookieType
+        for var i = cookie.column - 1; i >= 0 && cookies[i, cookie.row]?.cookieType == cookieType; i--, amount++ {}
+        
+        return amount
+    }
+    
+    private func sameCookieAmountInRightSideOfCookie(cookie: Cookie) -> Int {
+        var amount = 0
+        
+        let cookieType = cookie.cookieType
+        for var i = cookie.column + 1; i < LevelConstants.NumColumns && cookies[i, cookie.row]?.cookieType == cookieType; i++, amount++ {}
+        
+        return amount
+    }
+    
+    private func sameCookieAmountInBelowSideOfCookie(cookie: Cookie) -> Int {
+        var amount = 0
+        
+        let cookieType = cookie.cookieType
+        for var i = cookie.row - 1; i >= 0 && cookies[cookie.column, i]?.cookieType == cookieType; i--, amount++ {}
+        
+        return amount
+    }
+    
+    private func sameCookieAmountInAboveSideOfCookie(cookie: Cookie) -> Int {
+        var amount = 0
+        
+        let cookieType = cookie.cookieType
+        for var i = cookie.row + 1; i < LevelConstants.NumRows && cookies[cookie.column, i]?.cookieType == cookieType; i++, amount++ {}
+        
+        return amount
     }
     
     private func hasPossbileSwaps() -> Bool {
@@ -351,4 +384,84 @@ class Level {
         cookieA.column = columnB
         cookieA.row = rowB
     }
+    
+    // MARK: - Fill holes after remove matched cookies
+    func fillHoles() -> [[Cookie]] {
+        var columns = cookiesShouldDropDown()
+        
+        fallDownAllCookies(columns)
+        
+        return columns
+    }
+    
+    private func cookiesShouldDropDown() -> [[Cookie]] {
+        var columns = [[Cookie]]()
+        
+        for column in 0 ..< LevelConstants.NumColumns {
+            if let cookieArray = cookiesAboveTheHoleForColumn(column) {
+                columns.append(cookieArray)
+            }
+        }
+        
+        return columns
+    }
+    
+    private func cookiesAboveTheHoleForColumn(column: Int) -> [Cookie]? {
+        if column < 0 || column >= LevelConstants.NumColumns {
+            return nil
+        }
+        
+        for row in 0 ..< LevelConstants.NumRows {
+            if findHoleAtColumn(column, row: row) {
+                if let cookiesArray = cookiesAboveTheRow(row, OfColumn: column) {
+                    return cookiesArray
+                }
+            }
+        }
+        
+        return nil
+    }
+    
+    private func findHoleAtColumn(column: Int, row: Int) -> Bool {
+        return tiles[column, row] != nil && cookies[column, row] == nil
+    }
+    
+    private func cookiesAboveTheRow(row: Int, OfColumn column: Int) -> [Cookie]? {
+        var cookiesArray = [Cookie]()
+        
+        for lookup in (row + 1) ..< LevelConstants.NumRows {
+            if let cookie = cookies[column, lookup] {
+                cookiesArray.append(cookie)
+            }
+        }
+        
+        if cookiesArray.count > 0 {
+            return cookiesArray
+        }
+        return nil
+    }
+    
+    private func fallDownAllCookies(columns: [[Cookie]]) {
+        for cookieArray in columns {
+            
+            let column = cookieArray.first!.column
+            let firstCookieRow = cookieArray.first!.row
+            var rowGap = 0
+            
+            for row in 0 ..< LevelConstants.NumRows {
+                if findHoleAtColumn(column, row: row) {
+                    var holeRow = row
+                    rowGap = firstCookieRow - holeRow
+                    break
+                }
+            }
+            
+            for cookie in cookieArray {
+                cookies[column, cookie.row] = nil
+                cookie.row = cookie.row - rowGap
+                cookies[column, cookie.row] = cookie
+            }
+        }
+    }
+    
 }

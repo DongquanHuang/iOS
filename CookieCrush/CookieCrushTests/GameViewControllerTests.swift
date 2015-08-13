@@ -34,6 +34,7 @@ class GameViewControllerTests: XCTestCase {
         var shuffleCalled = false
         var performSwapCalled = false
         var removeMatchesCalled = false
+        var fillHolesCalled = false
         
         override func shuffle() -> Set<Cookie> {
             var cookies = Set<Cookie>()
@@ -53,6 +54,14 @@ class GameViewControllerTests: XCTestCase {
             removeMatchesCalled = true
             
             return matches
+        }
+        
+        override func fillHoles() -> [[Cookie]] {
+            var columns = [[Cookie]]()
+            
+            fillHolesCalled = true
+            
+            return columns
         }
     }
     
@@ -74,6 +83,7 @@ class GameViewControllerTests: XCTestCase {
         var animateSwapCalled = false
         var animateInvalidSwapCalled = false
         var animateMatchedCookiesCalled = false
+        var animateFallingCookiesCalled = false
         
         override func addSpritesForCookies(cookies: Set<Cookie>) {
             addSpritesCalled = true
@@ -93,6 +103,12 @@ class GameViewControllerTests: XCTestCase {
         
         override func animateMatchedCookies(chains: Set<Chain>, completion: () -> ()) {
             animateMatchedCookiesCalled = true
+            completion()
+        }
+        
+        override func animateFallingCookies(columns: [[Cookie]], completion: () -> ()) {
+            animateFallingCookiesCalled = true
+            completion()
         }
         
     }
@@ -249,6 +265,24 @@ class GameViewControllerTests: XCTestCase {
         
         let mockScene = gameVC.scene as! MockGameScene
         XCTAssertTrue(mockScene.animateMatchedCookiesCalled == true)
+    }
+    
+    func testHandleMatchesWillCallFillHolesInLevelDataModel() {
+        gameVC.level = MockLevel(filename: "filename")
+        gameVC.scene = MockGameScene(size: CGSize(width: 100, height: 100))
+        gameVC.handleMatches()
+        
+        let mockLevel = gameVC.level as! MockLevel
+        XCTAssertTrue(mockLevel.fillHolesCalled == true)
+    }
+    
+    func testHandleMatchesWillCallAnimateFallingCookiesInGameScene() {
+        gameVC.level = MockLevel(filename: "filename")
+        gameVC.scene = MockGameScene(size: CGSize(width: 100, height: 100))
+        gameVC.handleMatches()
+        
+        let mockScene = gameVC.scene as! MockGameScene
+        XCTAssertTrue(mockScene.animateFallingCookiesCalled == true)
     }
 
 }
