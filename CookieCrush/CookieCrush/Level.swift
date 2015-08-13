@@ -387,39 +387,44 @@ class Level {
     
     // MARK: - Fill holes after remove matched cookies
     func fillHoles() -> [[Cookie]] {
-        var columns = cookiesShouldDropDown()
+        var cookieArrays = cookiesShouldDropDown()
         
-        fallDownAllCookies(columns)
+        fallDownAllCookies(cookieArrays)
         
-        return columns
+        return cookieArrays
     }
     
     private func cookiesShouldDropDown() -> [[Cookie]] {
-        var columns = [[Cookie]]()
+        var cookieArrays = [[Cookie]]()
         
         for column in 0 ..< LevelConstants.NumColumns {
             if let cookieArray = cookiesAboveTheHoleForColumn(column) {
-                columns.append(cookieArray)
+                cookieArrays.append(cookieArray)
             }
         }
         
-        return columns
+        return cookieArrays
     }
     
     private func cookiesAboveTheHoleForColumn(column: Int) -> [Cookie]? {
-        if column < 0 || column >= LevelConstants.NumColumns {
-            return nil
-        }
-        
-        for row in 0 ..< LevelConstants.NumRows {
-            if findHoleAtColumn(column, row: row) {
-                if let cookiesArray = cookiesAboveTheRow(row, OfColumn: column) {
-                    return cookiesArray
-                }
+        let (foundHole, holeRowIndex) = rowIndexForFirstHoleInColume(column)
+        if (foundHole) {
+            if let cookieArray = cookiesAboveTheRow(holeRowIndex, OfColumn: column) {
+                return cookieArray
             }
         }
         
         return nil
+    }
+    
+    private func rowIndexForFirstHoleInColume(column: Int) -> (foundHole: Bool, holeRowIndex: Int) {
+        for row in 0 ..< LevelConstants.NumRows {
+            if findHoleAtColumn(column, row: row) {
+                return (true, row)
+            }
+        }
+        
+        return (false, -1)
     }
     
     private func findHoleAtColumn(column: Int, row: Int) -> Bool {
@@ -441,26 +446,32 @@ class Level {
         return nil
     }
     
-    private func fallDownAllCookies(columns: [[Cookie]]) {
-        for cookieArray in columns {
-            
-            let column = cookieArray.first!.column
-            let firstCookieRow = cookieArray.first!.row
-            var rowGap = 0
-            
-            for row in 0 ..< LevelConstants.NumRows {
-                if findHoleAtColumn(column, row: row) {
-                    var holeRow = row
-                    rowGap = firstCookieRow - holeRow
-                    break
-                }
-            }
-            
-            for cookie in cookieArray {
-                cookies[column, cookie.row] = nil
-                cookie.row = cookie.row - rowGap
-                cookies[column, cookie.row] = cookie
-            }
+    private func fallDownAllCookies(cookieArrays: [[Cookie]]) {
+        for cookieArray in cookieArrays {
+            let gap = fallDownGapForCookies(cookieArray)
+            performFallDownForCookies(cookieArray, WithFallDownGap: gap)
+        }
+    }
+    
+    private func fallDownGapForCookies(cookieArray: [Cookie]) -> Int {
+        var gap = 0
+        
+        let column = cookieArray.first!.column
+        let firstCookieRow = cookieArray.first!.row
+        let (foundHole, holeRowIndex) = rowIndexForFirstHoleInColume(column)
+        if foundHole {
+            gap = firstCookieRow - holeRowIndex
+        }
+        
+        return gap
+    }
+    
+    private func performFallDownForCookies(cookieArray: [Cookie], WithFallDownGap gap: Int) {
+        let column = cookieArray.first!.column
+        for cookie in cookieArray {
+            cookies[column, cookie.row] = nil
+            cookie.row = cookie.row - gap
+            cookies[column, cookie.row] = cookie
         }
     }
     

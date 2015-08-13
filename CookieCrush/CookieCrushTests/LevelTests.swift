@@ -97,7 +97,7 @@ class LevelTests: XCTestCase {
     func testDetectChain() {
         level.shuffle()
         let swaps = level.possibleSwaps
-        level.performSwap(swaps.first!)
+        level.performSwap(swaps[advance(swaps.startIndex, swaps.count - 1)])
         copyCookiesFromLevel(level)
         
         XCTAssert(level.detectHorizontalMatches().count == detectHorizontalMatches().count)
@@ -107,7 +107,7 @@ class LevelTests: XCTestCase {
     func testRemoveMatchesWillReturnUnionedMatchesSet() {
         level.shuffle()
         let swaps = level.possibleSwaps
-        level.performSwap(swaps.first!)
+        level.performSwap(swaps[advance(swaps.startIndex, swaps.count - 1)])
         copyCookiesFromLevel(level)
         
         let expectedMatchesToBeRemoved = detectHorizontalMatches().union(detectVerticalMatches())
@@ -117,7 +117,7 @@ class LevelTests: XCTestCase {
     func testRemoveMatchesWillRemoveMatchedCookiesInDataModel() {
         level.shuffle()
         let swaps = level.possibleSwaps
-        level.performSwap(swaps.first!)
+        level.performSwap(swaps[advance(swaps.startIndex, swaps.count - 1)])
         
         copyCookiesFromLevel(level)
         let originalCookies = copyCookies(cookies)
@@ -139,7 +139,7 @@ class LevelTests: XCTestCase {
         var theLevel = Level(filename: "Level_0")
         theLevel.shuffle()
         let swaps = theLevel.possibleSwaps
-        theLevel.performSwap(swaps.first!)
+        theLevel.performSwap(swaps[advance(swaps.startIndex, swaps.count - 1)])
         
         theLevel.removeMatches()
         copyCookiesFromLevel(theLevel)
