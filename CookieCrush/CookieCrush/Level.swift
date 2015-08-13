@@ -175,9 +175,13 @@ class Level {
     }
     
     private func addPossibleSwap(swap: Swap) {
-        if detectChainForCookie(swap.cookieA) || detectChainForCookie(swap.cookieB) {
+        if detectChainForSwap(swap) {
             possibleSwaps.insert(swap)
         }
+    }
+    
+    private func detectChainForSwap(swap: Swap) -> Bool {
+        return detectChainForCookie(swap.cookieA) || detectChainForCookie(swap.cookieB)
     }
     
     private func detectChainForCookie(cookie: Cookie) -> Bool {
@@ -276,6 +280,10 @@ class Level {
                 while cookies[col, row]?.cookieType == matchType {
                     chain.addCookie(cookies[col, row]!)
                     col++
+                    
+                    if col >= LevelConstants.NumColumns {
+                        return chain
+                    }
                 }
             }
         }
@@ -293,6 +301,10 @@ class Level {
                 while cookies[column, r]?.cookieType == matchType {
                     chain.addCookie(cookies[column, r]!)
                     r++
+                    
+                    if r >= LevelConstants.NumRows {
+                        return chain
+                    }
                 }
             }
         }

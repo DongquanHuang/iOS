@@ -307,6 +307,10 @@ class LevelTests: XCTestCase {
                         while (cookies![column, row]?.cookieType == cookie.cookieType) {
                             chain.addCookie(cookies![column, row]!)
                             column++
+                            
+                            if column >= LevelConstants.NumColumns {
+                                break
+                            }
                         }
                         
                         horizontalMatches.insert(chain)
@@ -336,6 +340,10 @@ class LevelTests: XCTestCase {
                         while (cookies![column, row]?.cookieType == cookie.cookieType) {
                             chain.addCookie(cookies![column, row]!)
                             row++
+                            
+                            if row >= LevelConstants.NumRows {
+                                break
+                            }
                         }
                         
                         verticalMatches.insert(chain)
