@@ -40,6 +40,7 @@ class GameViewController: UIViewController {
         beginGame()
     }
     
+    // MARK: - Setup game
     private func disableMultipleTouch() {
         let skView = view as! SKView
         skView.multipleTouchEnabled = false
@@ -81,6 +82,7 @@ class GameViewController: UIViewController {
         skView.presentScene(scene)
     }
     
+    // MARK: - Game logic
     func beginGame() {
         shuffle()
     }
@@ -91,18 +93,32 @@ class GameViewController: UIViewController {
     }
     
     func handleSwipe(swap: Swap) {
-        view.userInteractionEnabled = false
+        disableUserInteraction()
         
         if level.isPossibleSwap(swap) {
             level.performSwap(swap)
-            scene.animateSwap(swap) {
-                self.view.userInteractionEnabled = true
-            }
+            scene.animateSwap(swap, completion: handleMatches)
         }
         else {
             scene.animateInvalidSwap(swap) {
-                self.view.userInteractionEnabled = true
+                self.enableUserInteraction()
             }
         }
+    }
+    
+    func handleMatches() {
+        let chains = level.removeMatches()
+        
+        scene.animateMatchedCookies(chains) {
+            self.enableUserInteraction()
+        }
+    }
+    
+    private func enableUserInteraction() {
+        view.userInteractionEnabled = true
+    }
+    
+    private func disableUserInteraction() {
+        view.userInteractionEnabled = false
     }
 }

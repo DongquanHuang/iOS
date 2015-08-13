@@ -212,6 +212,110 @@ class Level {
         possibleSwaps.removeAll(keepCapacity: false)
     }
     
+    // MARK: - Remove chains
+    func removeMatches() -> Set<Chain> {
+        let horizontalChains = detectHorizontalMatches()
+        let verticalChains = detectVerticalMatches()
+        
+        removeCookiesInChains(horizontalChains)
+        removeCookiesInChains(verticalChains)
+        
+        return horizontalChains.union(verticalChains)
+    }
+    
+    func detectHorizontalMatches() -> Set<Chain> {
+        var horizontalMatches = Set<Chain>()
+        
+        for row in 0 ..< LevelConstants.NumRows {
+            for var column = 0; column < LevelConstants.NumColumns - 2; {
+                
+                let chain = fillHorizontalChainForColumn(column, row: row)
+                
+                if chainIsValid(chain) {
+                    horizontalMatches.insert(chain)
+                    column += chain.length()
+                }
+                else {
+                    column++
+                }
+                
+            }
+        }
+        
+        return horizontalMatches
+    }
+    
+    func detectVerticalMatches() -> Set<Chain> {
+        var verticalMatches = Set<Chain>()
+        
+        for column in 0 ..< LevelConstants.NumColumns {
+            for var row = 0; row < LevelConstants.NumRows - 2; {
+                
+                let chain = fillVerticalChainForColumn(column, row: row)
+                
+                if chainIsValid(chain) {
+                    verticalMatches.insert(chain)
+                    row += chain.length()
+                }
+                else {
+                    row++
+                }
+            }
+        }
+        
+        return verticalMatches
+    }
+    
+    private func fillHorizontalChainForColumn(column: Int, row: Int) -> Chain {
+        let chain = Chain(chainType: .Horizontal)
+        
+        if let cookie = cookies[column, row] {
+            var col = column
+            if detectHorzontalChainForCookie(cookie) {
+                let matchType = cookie.cookieType
+                while cookies[col, row]?.cookieType == matchType {
+                    chain.addCookie(cookies[col, row]!)
+                    col++
+                }
+            }
+        }
+        
+        return chain
+    }
+    
+    private func fillVerticalChainForColumn(column: Int, row: Int) -> Chain {
+        let chain = Chain(chainType: .Vertical)
+        
+        if let cookie = cookies[column, row] {
+            var r = row
+            if detectVerticalChainForCookie(cookie) {
+                let matchType = cookie.cookieType
+                while cookies[column, r]?.cookieType == matchType {
+                    chain.addCookie(cookies[column, r]!)
+                    r++
+                }
+            }
+        }
+        
+        return chain
+    }
+    
+    private func chainIsValid(chain: Chain) -> Bool {
+        return chain.length() >= 3
+    }
+    
+    private func removeCookiesInChains(chains: Set<Chain>) {
+        for chain in chains {
+            removeCookiesInChain(chain)
+        }
+    }
+    
+    private func removeCookiesInChain(chain: Chain) {
+        for cookie in chain.cookies {
+            cookies[cookie.column, cookie.row] = nil
+        }
+    }
+    
     // MARK: - Swipe cookies
     func performSwap(swap: Swap) {
         swapCookie(swap.cookieA, withCookie: swap.cookieB)

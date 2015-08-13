@@ -269,7 +269,7 @@ class GameScene: SKScene {
         }
     }
     
-    // TODO: Below tow functions are not covered by unit test
+    // TODO: Below functions are not covered by unit test
     func animateSwap(swap: Swap, completion: () -> ()) {
         let spriteA = swap.cookieA.sprite!
         let spriteB = swap.cookieB.sprite!
@@ -288,7 +288,7 @@ class GameScene: SKScene {
         spriteA.runAction(moveA, completion: completion)
         spriteB.runAction(moveB)
         
-        runAction(swapSound)
+        playSoundAction(swapSound)
     }
     
     func animateInvalidSwap(swap: Swap, completion: () -> ()) {
@@ -309,7 +309,32 @@ class GameScene: SKScene {
         spriteA.runAction(SKAction.sequence([moveA, moveB]), completion: completion)
         spriteB.runAction(SKAction.sequence([moveB, moveA]))
         
-        runAction(invalidSwapSound)
+        playSoundAction(invalidSwapSound)
+    }
+    
+    func animateMatchedCookies(chains: Set<Chain>, completion: () -> ()) {
+        for chain in chains {
+            removeMatchedCookiesInChain(chain)
+        }
+        playSoundAction(matchSound)
+        runAction(SKAction.waitForDuration(0.3), completion: completion)
+    }
+    
+    private func removeMatchedCookiesInChain(chain: Chain) {
+        for cookie in chain.cookies {
+            if let sprite = cookie.sprite {
+                if sprite.actionForKey("removing") == nil {
+                    let scaleAction = SKAction.scaleTo(0.1, duration: 0.3)
+                    scaleAction.timingMode = .EaseOut
+                    sprite.runAction(SKAction.sequence([scaleAction, SKAction.removeFromParent()]),
+                        withKey:"removing")
+                }
+            }
+        }
+    }
+    
+    private func playSoundAction(soundAction: SKAction) {
+        runAction(soundAction)
     }
     
 }

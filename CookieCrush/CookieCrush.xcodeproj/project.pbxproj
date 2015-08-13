@@ -13,6 +13,9 @@
 		D043DB961B7B253A00557E1F /* Ka-Ching.wav in Resources */ = {isa = PBXBuildFile; fileRef = D043DB901B7B253A00557E1F /* Ka-Ching.wav */; };
 		D043DB971B7B253A00557E1F /* Mining by Moonlight.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D043DB911B7B253A00557E1F /* Mining by Moonlight.mp3 */; };
 		D043DB981B7B253A00557E1F /* Scrape.wav in Resources */ = {isa = PBXBuildFile; fileRef = D043DB921B7B253A00557E1F /* Scrape.wav */; };
+		D043DB9A1B7C256A00557E1F /* Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D043DB991B7C256A00557E1F /* Chain.swift */; };
+		D043DB9B1B7C256A00557E1F /* Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D043DB991B7C256A00557E1F /* Chain.swift */; };
+		D043DB9D1B7C258100557E1F /* ChainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D043DB9C1B7C258100557E1F /* ChainTests.swift */; };
 		D07AAFB71B783B6D00998A67 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07AAFB61B783B6D00998A67 /* AppDelegate.swift */; };
 		D07AAFBB1B783B6D00998A67 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07AAFBA1B783B6D00998A67 /* GameScene.swift */; };
 		D07AAFBD1B783B6D00998A67 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07AAFBC1B783B6D00998A67 /* GameViewController.swift */; };
@@ -76,6 +79,8 @@
 		D043DB901B7B253A00557E1F /* Ka-Ching.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Ka-Ching.wav"; sourceTree = "<group>"; };
 		D043DB911B7B253A00557E1F /* Mining by Moonlight.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Mining by Moonlight.mp3"; sourceTree = "<group>"; };
 		D043DB921B7B253A00557E1F /* Scrape.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Scrape.wav; sourceTree = "<group>"; };
+		D043DB991B7C256A00557E1F /* Chain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Chain.swift; sourceTree = "<group>"; };
+		D043DB9C1B7C258100557E1F /* ChainTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChainTests.swift; sourceTree = "<group>"; };
 		D07AAFB11B783B6D00998A67 /* CookieCrush.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CookieCrush.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D07AAFB51B783B6D00998A67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D07AAFB61B783B6D00998A67 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -214,6 +219,7 @@
 				D07AB00F1B79885D00998A67 /* Tile.swift */,
 				D07AAFF51B7889A400998A67 /* Level.swift */,
 				D07AB0191B79E0FD00998A67 /* Swap.swift */,
+				D043DB991B7C256A00557E1F /* Chain.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -226,6 +232,7 @@
 				D07AAFEA1B785FA200998A67 /* CookieTests.swift */,
 				D07AAFF81B7889B000998A67 /* LevelTests.swift */,
 				D07AB01C1B79E12000998A67 /* SwapTests.swift */,
+				D043DB9C1B7C258100557E1F /* ChainTests.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -380,6 +387,7 @@
 				D07AAFFB1B79815200998A67 /* ObjectConfiguration.swift in Sources */,
 				D07AAFF61B7889A400998A67 /* Level.swift in Sources */,
 				D07AAFBB1B783B6D00998A67 /* GameScene.swift in Sources */,
+				D043DB9A1B7C256A00557E1F /* Chain.swift in Sources */,
 				D07AB0101B79885D00998A67 /* Tile.swift in Sources */,
 				D07AB01A1B79E0FD00998A67 /* Swap.swift in Sources */,
 				D07AAFE71B785F6900998A67 /* Cookie.swift in Sources */,
@@ -400,8 +408,10 @@
 				D07AB0111B79885D00998A67 /* Tile.swift in Sources */,
 				D07AAFFC1B79815200998A67 /* ObjectConfiguration.swift in Sources */,
 				D07AAFF41B78865A00998A67 /* Array2DTests.swift in Sources */,
+				D043DB9B1B7C256A00557E1F /* Chain.swift in Sources */,
 				D07AAFEB1B785FA200998A67 /* CookieTests.swift in Sources */,
 				D07AAFE51B7846DE00998A67 /* GameSceneTests.swift in Sources */,
+				D043DB9D1B7C258100557E1F /* ChainTests.swift in Sources */,
 				D07AAFF21B78860B00998A67 /* Array2D.swift in Sources */,
 				D07AAFDE1B783E4F00998A67 /* GameViewController.swift in Sources */,
 				D07AAFFE1B79818900998A67 /* ObjectConfigurationTests.swift in Sources */,

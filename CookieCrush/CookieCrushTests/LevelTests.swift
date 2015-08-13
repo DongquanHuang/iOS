@@ -94,6 +94,47 @@ class LevelTests: XCTestCase {
         XCTAssertTrue(level.isPossibleSwap(invalidSwap) == false)
     }
     
+    func testDetectChain() {
+        level.shuffle()
+        let swaps = level.possibleSwaps
+        level.performSwap(swaps.first!)
+        copyCookiesFromLevel(level)
+        
+        XCTAssert(level.detectHorizontalMatches().count == detectHorizontalMatches().count)
+        XCTAssert(level.detectVerticalMatches().count == detectVerticalMatches().count)
+    }
+    
+    func testRemoveMatchesWillReturnUnionedMatchesSet() {
+        level.shuffle()
+        let swaps = level.possibleSwaps
+        level.performSwap(swaps.first!)
+        copyCookiesFromLevel(level)
+        
+        let expectedMatchesToBeRemoved = detectHorizontalMatches().union(detectVerticalMatches())
+        XCTAssert(level.removeMatches() == expectedMatchesToBeRemoved)
+    }
+    
+    func testRemoveMatchesWillRemoveMatchedCookiesInDataModel() {
+        level.shuffle()
+        let swaps = level.possibleSwaps
+        level.performSwap(swaps.first!)
+        
+        copyCookiesFromLevel(level)
+        let originalCookies = copyCookies(cookies)
+        
+        let expectedMatchesToBeRemovedChains = detectHorizontalMatches().union(detectVerticalMatches())
+        var expectedRemoveCookieNumbers = 0
+        for chain in expectedMatchesToBeRemovedChains {
+            expectedRemoveCookieNumbers += chain.length()
+        }
+        
+        level.removeMatches()
+        clearCookies()
+        copyCookiesFromLevel(level)
+        
+        XCTAssertTrue(cookieNumberInCookies(originalCookies) == cookieNumberInCookies(cookies) + expectedRemoveCookieNumbers)
+    }
+    
     // MARK: - private methods
     private func chainExistingInLevel(level: Level) -> Bool {
         copyCookiesFromLevel(level)
@@ -169,6 +210,42 @@ class LevelTests: XCTestCase {
         }
     }
     
+    private func copyCookies(cookies: Array2D<Cookie>?) -> Array2D<Cookie> {
+        var copiedCookies = Array2D<Cookie>(columns: LevelConstants.NumColumns, rows: LevelConstants.NumRows)
+        
+        for column in 0 ..< LevelConstants.NumColumns {
+            for row in 0 ..< LevelConstants.NumRows {
+                if let cookie = cookies?[column, row] {
+                    copiedCookies[column, row] = cookie
+                }
+            }
+        }
+        
+        return copiedCookies
+    }
+    
+    private func clearCookies() {
+        for column in 0 ..< LevelConstants.NumColumns {
+            for row in 0 ..< LevelConstants.NumRows {
+                cookies![column, row] = nil
+            }
+        }
+    }
+    
+    private func cookieNumberInCookies(cookies: Array2D<Cookie>?) -> Int {
+        var number = 0
+        
+        for column in 0 ..< LevelConstants.NumColumns {
+            for row in 0 ..< LevelConstants.NumRows {
+                if let cookie = cookies?[column, row] {
+                    number++
+                }
+            }
+        }
+        
+        return number
+    }
+    
     private func trySwapCookieWithRightOne(cookie: Cookie) {
         let column = cookie.column
         let row = cookie.row
@@ -216,6 +293,64 @@ class LevelTests: XCTestCase {
         cookies![columnB, rowB] = cookieA
         cookieA.column = columnB
         cookieA.row = rowB
+    }
+    
+    private func detectHorizontalMatches() -> Set<Chain> {
+        var horizontalMatches = Set<Chain>()
+        
+        for row in 0 ..< LevelConstants.NumRows {
+            for var column = 0; column < LevelConstants.NumColumns - 2; {
+                
+                if let cookie = cookies![column, row] {
+                    if detectHorzontalChainForCookie(cookie) {
+                        let chain = Chain(chainType: .Horizontal)
+                        while (cookies![column, row]?.cookieType == cookie.cookieType) {
+                            chain.addCookie(cookies![column, row]!)
+                            column++
+                        }
+                        
+                        horizontalMatches.insert(chain)
+                    }
+                    else {
+                        column++
+                    }
+                }
+                else {
+                    column++
+                }
+            }
+        }
+        
+        return horizontalMatches
+    }
+    
+    private func detectVerticalMatches() -> Set<Chain> {
+        var verticalMatches = Set<Chain>()
+        
+        for column in 0 ..< LevelConstants.NumColumns {
+            for var row = 0; row < LevelConstants.NumRows - 2; {
+                
+                if let cookie = cookies![column, row] {
+                    if detectVerticalChainForCookie(cookie) {
+                        let chain = Chain(chainType: .Vertical)
+                        while (cookies![column, row]?.cookieType == cookie.cookieType) {
+                            chain.addCookie(cookies![column, row]!)
+                            row++
+                        }
+                        
+                        verticalMatches.insert(chain)
+                    }
+                    else {
+                        row++
+                    }
+                }
+                else {
+                    row++
+                }
+            }
+        }
+        
+        return verticalMatches
     }
 
 }
