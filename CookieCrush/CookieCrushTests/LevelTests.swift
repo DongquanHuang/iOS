@@ -136,7 +136,7 @@ class LevelTests: XCTestCase {
     }
     
     func testHolesShouldBeFilledAfterRemoveMatchedCookies() {
-        var theLevel = Level(filename: "Level_1")
+        var theLevel = Level(filename: "Level_2")
         theLevel.shuffle()
         let swaps = theLevel.possibleSwaps
         theLevel.performSwap(swaps[advance(swaps.startIndex, swaps.count - 1)])
