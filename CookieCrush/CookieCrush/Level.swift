@@ -448,30 +448,19 @@ class Level {
     
     private func fallDownAllCookies(cookieArrays: [[Cookie]]) {
         for cookieArray in cookieArrays {
-            let gap = fallDownGapForCookies(cookieArray)
-            performFallDownForCookies(cookieArray, WithFallDownGap: gap)
+            performFallDownForCookies(cookieArray)
         }
     }
     
-    private func fallDownGapForCookies(cookieArray: [Cookie]) -> Int {
-        var gap = 0
-        
-        let column = cookieArray.first!.column
-        let firstCookieRow = cookieArray.first!.row
-        let (foundHole, holeRowIndex) = rowIndexForFirstHoleInColume(column)
-        if foundHole {
-            gap = firstCookieRow - holeRowIndex
-        }
-        
-        return gap
-    }
-    
-    private func performFallDownForCookies(cookieArray: [Cookie], WithFallDownGap gap: Int) {
+    private func performFallDownForCookies(cookieArray: [Cookie]) {
         let column = cookieArray.first!.column
         for cookie in cookieArray {
-            cookies[column, cookie.row] = nil
-            cookie.row = cookie.row - gap
-            cookies[column, cookie.row] = cookie
+            let (foundHole, targetRow) = rowIndexForFirstHoleInColume(column)
+            if foundHole {
+                cookies[column, cookie.row] = nil
+                cookie.row = targetRow
+                cookies[column, cookie.row] = cookie
+            }
         }
     }
     
