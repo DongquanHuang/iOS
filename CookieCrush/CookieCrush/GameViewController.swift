@@ -47,7 +47,7 @@ class GameViewController: UIViewController {
     }
     
     private func setupLevel() {
-        level = objConfiguration.level("Level_0")
+        level = objConfiguration.level("Level_1")
     }
     
     private func configureGameScene() {

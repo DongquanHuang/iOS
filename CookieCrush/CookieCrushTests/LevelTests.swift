@@ -11,7 +11,7 @@ import XCTest
 
 class LevelTests: XCTestCase {
     
-    var level = Level(filename: "Level_4")
+    var level = Level(filename: "Level_0")
     
     private var cookies: Array2D<Cookie>?
     private var swapSet = Set<Swap>()
@@ -65,14 +65,14 @@ class LevelTests: XCTestCase {
     }
     
     func testShuffleWillGenerateCookiesWithoutExistingChains() {
-        var theLevel = Level(filename: "Level_0")
+        var theLevel = Level(filename: "Level_1")
         theLevel.shuffle()
         
         XCTAssertTrue(chainExistingInLevel(theLevel) == false)
     }
     
     func testShuffleWillGenerateCookiesWithPossibleSwaps() {
-        var theLevel = Level(filename: "Level_0")
+        var theLevel = Level(filename: "Level_1")
         theLevel.shuffle()
         detectPossibleSwapsForLevel(theLevel)
         
@@ -136,7 +136,7 @@ class LevelTests: XCTestCase {
     }
     
     func testHolesShouldBeFilledAfterRemoveMatchedCookies() {
-        var theLevel = Level(filename: "Level_0")
+        var theLevel = Level(filename: "Level_1")
         theLevel.shuffle()
         let swaps = theLevel.possibleSwaps
         theLevel.performSwap(swaps[advance(swaps.startIndex, swaps.count - 1)])
@@ -158,7 +158,7 @@ class LevelTests: XCTestCase {
     }
     
     func testNewCookiesWillBeSupplied() {
-        var theLevel = Level(filename: "Level_0")
+        var theLevel = Level(filename: "Level_1")
         theLevel.shuffle()
         let swaps = theLevel.possibleSwaps
         theLevel.performSwap(swaps[advance(swaps.startIndex, swaps.count - 1)])

@@ -149,7 +149,7 @@ class GameSceneTests: XCTestCase {
     }
     
     func testCanAddTilesIntoTilesLayer() {
-        gameScene.level = Level(filename: "Level_4")
+        gameScene.level = Level(filename: "Level_0")
         gameScene.addTiles()
         XCTAssertTrue(gameScene.tilesLayer.children.count == 9)
     }
@@ -157,7 +157,7 @@ class GameSceneTests: XCTestCase {
     func testTileSpritePositionIsSetCorrectly() {
         let expectedPostion = CGPoint(x: CGFloat(3) * GameScene.GameSceneConstants.TileWidth + GameScene.GameSceneConstants.TileWidth / 2, y: CGFloat(3) * GameScene.GameSceneConstants.TileHeight + GameScene.GameSceneConstants.TileHeight / 2)
         
-        gameScene.level = Level(filename: "Level_4")
+        gameScene.level = Level(filename: "Level_0")
         gameScene.addTiles()
         
         let tile = gameScene.tilesLayer.children.first as! SKSpriteNode

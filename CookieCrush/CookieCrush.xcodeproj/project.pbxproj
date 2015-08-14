@@ -42,16 +42,16 @@
 		D07AAFFB1B79815200998A67 /* ObjectConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07AAFFA1B79815200998A67 /* ObjectConfiguration.swift */; };
 		D07AAFFC1B79815200998A67 /* ObjectConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07AAFFA1B79815200998A67 /* ObjectConfiguration.swift */; };
 		D07AAFFE1B79818900998A67 /* ObjectConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07AAFFD1B79818900998A67 /* ObjectConfigurationTests.swift */; };
-		D07AB0051B79872B00998A67 /* Level_0.json in Resources */ = {isa = PBXBuildFile; fileRef = D07AB0001B79872B00998A67 /* Level_0.json */; };
-		D07AB0061B79872B00998A67 /* Level_0.json in Resources */ = {isa = PBXBuildFile; fileRef = D07AB0001B79872B00998A67 /* Level_0.json */; };
-		D07AB0071B79872B00998A67 /* Level_1.json in Resources */ = {isa = PBXBuildFile; fileRef = D07AB0011B79872B00998A67 /* Level_1.json */; };
-		D07AB0081B79872B00998A67 /* Level_1.json in Resources */ = {isa = PBXBuildFile; fileRef = D07AB0011B79872B00998A67 /* Level_1.json */; };
-		D07AB0091B79872B00998A67 /* Level_2.json in Resources */ = {isa = PBXBuildFile; fileRef = D07AB0021B79872B00998A67 /* Level_2.json */; };
-		D07AB00A1B79872B00998A67 /* Level_2.json in Resources */ = {isa = PBXBuildFile; fileRef = D07AB0021B79872B00998A67 /* Level_2.json */; };
-		D07AB00B1B79872B00998A67 /* Level_3.json in Resources */ = {isa = PBXBuildFile; fileRef = D07AB0031B79872B00998A67 /* Level_3.json */; };
-		D07AB00C1B79872B00998A67 /* Level_3.json in Resources */ = {isa = PBXBuildFile; fileRef = D07AB0031B79872B00998A67 /* Level_3.json */; };
-		D07AB00D1B79872B00998A67 /* Level_4.json in Resources */ = {isa = PBXBuildFile; fileRef = D07AB0041B79872B00998A67 /* Level_4.json */; };
-		D07AB00E1B79872B00998A67 /* Level_4.json in Resources */ = {isa = PBXBuildFile; fileRef = D07AB0041B79872B00998A67 /* Level_4.json */; };
+		D07AB0051B79872B00998A67 /* Level_1.json in Resources */ = {isa = PBXBuildFile; fileRef = D07AB0001B79872B00998A67 /* Level_1.json */; };
+		D07AB0061B79872B00998A67 /* Level_1.json in Resources */ = {isa = PBXBuildFile; fileRef = D07AB0001B79872B00998A67 /* Level_1.json */; };
+		D07AB0071B79872B00998A67 /* Level_2.json in Resources */ = {isa = PBXBuildFile; fileRef = D07AB0011B79872B00998A67 /* Level_2.json */; };
+		D07AB0081B79872B00998A67 /* Level_2.json in Resources */ = {isa = PBXBuildFile; fileRef = D07AB0011B79872B00998A67 /* Level_2.json */; };
+		D07AB0091B79872B00998A67 /* Level_3.json in Resources */ = {isa = PBXBuildFile; fileRef = D07AB0021B79872B00998A67 /* Level_3.json */; };
+		D07AB00A1B79872B00998A67 /* Level_3.json in Resources */ = {isa = PBXBuildFile; fileRef = D07AB0021B79872B00998A67 /* Level_3.json */; };
+		D07AB00B1B79872B00998A67 /* Level_4.json in Resources */ = {isa = PBXBuildFile; fileRef = D07AB0031B79872B00998A67 /* Level_4.json */; };
+		D07AB00C1B79872B00998A67 /* Level_4.json in Resources */ = {isa = PBXBuildFile; fileRef = D07AB0031B79872B00998A67 /* Level_4.json */; };
+		D07AB00D1B79872B00998A67 /* Level_0.json in Resources */ = {isa = PBXBuildFile; fileRef = D07AB0041B79872B00998A67 /* Level_0.json */; };
+		D07AB00E1B79872B00998A67 /* Level_0.json in Resources */ = {isa = PBXBuildFile; fileRef = D07AB0041B79872B00998A67 /* Level_0.json */; };
 		D07AB0101B79885D00998A67 /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07AB00F1B79885D00998A67 /* Tile.swift */; };
 		D07AB0111B79885D00998A67 /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07AB00F1B79885D00998A67 /* Tile.swift */; };
 		D07AB0131B798A6E00998A67 /* LevelFileParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07AB0121B798A6E00998A67 /* LevelFileParser.swift */; };
@@ -102,11 +102,11 @@
 		D07AAFF81B7889B000998A67 /* LevelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelTests.swift; sourceTree = "<group>"; };
 		D07AAFFA1B79815200998A67 /* ObjectConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectConfiguration.swift; sourceTree = "<group>"; };
 		D07AAFFD1B79818900998A67 /* ObjectConfigurationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectConfigurationTests.swift; sourceTree = "<group>"; };
-		D07AB0001B79872B00998A67 /* Level_0.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Level_0.json; sourceTree = "<group>"; };
-		D07AB0011B79872B00998A67 /* Level_1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Level_1.json; sourceTree = "<group>"; };
-		D07AB0021B79872B00998A67 /* Level_2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Level_2.json; sourceTree = "<group>"; };
-		D07AB0031B79872B00998A67 /* Level_3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Level_3.json; sourceTree = "<group>"; };
-		D07AB0041B79872B00998A67 /* Level_4.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Level_4.json; sourceTree = "<group>"; };
+		D07AB0001B79872B00998A67 /* Level_1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Level_1.json; sourceTree = "<group>"; };
+		D07AB0011B79872B00998A67 /* Level_2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Level_2.json; sourceTree = "<group>"; };
+		D07AB0021B79872B00998A67 /* Level_3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Level_3.json; sourceTree = "<group>"; };
+		D07AB0031B79872B00998A67 /* Level_4.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Level_4.json; sourceTree = "<group>"; };
+		D07AB0041B79872B00998A67 /* Level_0.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Level_0.json; sourceTree = "<group>"; };
 		D07AB00F1B79885D00998A67 /* Tile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tile.swift; sourceTree = "<group>"; };
 		D07AB0121B798A6E00998A67 /* LevelFileParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelFileParser.swift; sourceTree = "<group>"; };
 		D07AB0161B798AC700998A67 /* LevelFileParserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelFileParserTests.swift; sourceTree = "<group>"; };
@@ -240,11 +240,11 @@
 		D07AAFFF1B79872B00998A67 /* Levels */ = {
 			isa = PBXGroup;
 			children = (
-				D07AB0001B79872B00998A67 /* Level_0.json */,
-				D07AB0011B79872B00998A67 /* Level_1.json */,
-				D07AB0021B79872B00998A67 /* Level_2.json */,
-				D07AB0031B79872B00998A67 /* Level_3.json */,
-				D07AB0041B79872B00998A67 /* Level_4.json */,
+				D07AB0041B79872B00998A67 /* Level_0.json */,
+				D07AB0001B79872B00998A67 /* Level_1.json */,
+				D07AB0011B79872B00998A67 /* Level_2.json */,
+				D07AB0021B79872B00998A67 /* Level_3.json */,
+				D07AB0031B79872B00998A67 /* Level_4.json */,
 			);
 			path = Levels;
 			sourceTree = "<group>";
@@ -347,18 +347,18 @@
 			files = (
 				D07AAFC51B783B6D00998A67 /* LaunchScreen.xib in Resources */,
 				D043DB941B7B253A00557E1F /* Drip.wav in Resources */,
-				D07AB00D1B79872B00998A67 /* Level_4.json in Resources */,
+				D07AB00D1B79872B00998A67 /* Level_0.json in Resources */,
 				D043DB951B7B253A00557E1F /* Error.wav in Resources */,
-				D07AB0091B79872B00998A67 /* Level_2.json in Resources */,
+				D07AB0091B79872B00998A67 /* Level_3.json in Resources */,
 				D043DB981B7B253A00557E1F /* Scrape.wav in Resources */,
-				D07AB0051B79872B00998A67 /* Level_0.json in Resources */,
+				D07AB0051B79872B00998A67 /* Level_1.json in Resources */,
 				D043DB931B7B253A00557E1F /* Chomp.wav in Resources */,
 				D043DB971B7B253A00557E1F /* Mining by Moonlight.mp3 in Resources */,
 				D07AAFC21B783B6D00998A67 /* Images.xcassets in Resources */,
 				D043DB961B7B253A00557E1F /* Ka-Ching.wav in Resources */,
 				D07AAFEE1B785FF100998A67 /* Sprites.atlas in Resources */,
-				D07AB0071B79872B00998A67 /* Level_1.json in Resources */,
-				D07AB00B1B79872B00998A67 /* Level_3.json in Resources */,
+				D07AB0071B79872B00998A67 /* Level_2.json in Resources */,
+				D07AB00B1B79872B00998A67 /* Level_4.json in Resources */,
 				D07AAFC01B783B6D00998A67 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -367,12 +367,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D07AB0081B79872B00998A67 /* Level_1.json in Resources */,
-				D07AB00A1B79872B00998A67 /* Level_2.json in Resources */,
+				D07AB0081B79872B00998A67 /* Level_2.json in Resources */,
+				D07AB00A1B79872B00998A67 /* Level_3.json in Resources */,
 				D07AAFEF1B785FF100998A67 /* Sprites.atlas in Resources */,
-				D07AB00E1B79872B00998A67 /* Level_4.json in Resources */,
-				D07AB0061B79872B00998A67 /* Level_0.json in Resources */,
-				D07AB00C1B79872B00998A67 /* Level_3.json in Resources */,
+				D07AB00E1B79872B00998A67 /* Level_0.json in Resources */,
+				D07AB0061B79872B00998A67 /* Level_1.json in Resources */,
+				D07AB00C1B79872B00998A67 /* Level_4.json in Resources */,
 				D07AAFE31B78406E00998A67 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
