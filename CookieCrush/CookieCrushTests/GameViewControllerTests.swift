@@ -35,6 +35,8 @@ class GameViewControllerTests: XCTestCase {
         var performSwapCalled = false
         var removeMatchesCalled = false
         var fillHolesCalled = false
+        var supplyNewCookiesCalled = false
+        var detectPossibleSwapsCalled = false
         
         override func shuffle() -> Set<Cookie> {
             var cookies = Set<Cookie>()
@@ -51,7 +53,14 @@ class GameViewControllerTests: XCTestCase {
         override func removeMatches() -> Set<Chain> {
             var matches = Set<Chain>()
             
-            removeMatchesCalled = true
+            if removeMatchesCalled {
+                return matches
+            }
+            else {
+                removeMatchesCalled = true
+                let chain = Chain(chainType: .Horizontal)
+                matches.insert(chain)
+            }
             
             return matches
         }
@@ -62,6 +71,18 @@ class GameViewControllerTests: XCTestCase {
             fillHolesCalled = true
             
             return columns
+        }
+        
+        override func supplyNewCookies() -> [[Cookie]] {
+            var columns = [[Cookie]]()
+            
+            supplyNewCookiesCalled = true
+            
+            return columns
+        }
+        
+        override func detectPossibleSwaps() {
+            detectPossibleSwapsCalled = true
         }
     }
     
@@ -84,6 +105,7 @@ class GameViewControllerTests: XCTestCase {
         var animateInvalidSwapCalled = false
         var animateMatchedCookiesCalled = false
         var animateFallingCookiesCalled = false
+        var animateNewCookiesCalled = false
         
         override func addSpritesForCookies(cookies: Set<Cookie>) {
             addSpritesCalled = true
@@ -108,6 +130,11 @@ class GameViewControllerTests: XCTestCase {
         
         override func animateFallingCookies(columns: [[Cookie]], completion: () -> ()) {
             animateFallingCookiesCalled = true
+            completion()
+        }
+        
+        override func animateNewCookies(columns: [[Cookie]], completion: () -> ()) {
+            animateNewCookiesCalled = true
             completion()
         }
         
@@ -283,6 +310,37 @@ class GameViewControllerTests: XCTestCase {
         
         let mockScene = gameVC.scene as! MockGameScene
         XCTAssertTrue(mockScene.animateFallingCookiesCalled == true)
+    }
+    
+    func testHandleMatchesWillCallSupplyNewCookiesInLevelDataModel() {
+        gameVC.level = MockLevel(filename: "filename")
+        gameVC.scene = MockGameScene(size: CGSize(width: 100, height: 100))
+        gameVC.handleMatches()
+        
+        let mockLevel = gameVC.level as! MockLevel
+        XCTAssertTrue(mockLevel.supplyNewCookiesCalled == true)
+    }
+    
+    func testHandleMatchesWillCallAnimateNewCookiesInGameScene() {
+        gameVC.level = MockLevel(filename: "filename")
+        gameVC.scene = MockGameScene(size: CGSize(width: 100, height: 100))
+        gameVC.handleMatches()
+        
+        let mockScene = gameVC.scene as! MockGameScene
+        XCTAssertTrue(mockScene.animateNewCookiesCalled == true)
+    }
+    
+    func testBeginNextTurnWillSetUserInteractiveToTrue() {
+        gameVC.view.userInteractionEnabled = false
+        gameVC.beginNextTurn()
+        XCTAssertTrue(gameVC.view.userInteractionEnabled == true)
+    }
+    
+    func testBeginNextTurnWillDetectPossibleSwap() {
+        gameVC.level = MockLevel(filename: "filename")
+        gameVC.beginNextTurn()
+        let mockLevel = gameVC.level as! MockLevel
+        XCTAssertTrue(mockLevel.detectPossibleSwapsCalled == true)
     }
 
 }

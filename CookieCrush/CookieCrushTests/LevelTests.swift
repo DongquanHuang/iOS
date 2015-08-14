@@ -157,6 +157,27 @@ class LevelTests: XCTestCase {
         XCTAssertTrue(equalCookieArrays(cookies!, cookies2: expectedCookiesArray) == true)
     }
     
+    func testNewCookiesWillBeSupplied() {
+        var theLevel = Level(filename: "Level_0")
+        theLevel.shuffle()
+        let swaps = theLevel.possibleSwaps
+        theLevel.performSwap(swaps[advance(swaps.startIndex, swaps.count - 1)])
+        
+        copyCookiesFromLevel(theLevel)
+        let expectedCookieNumbers = cookieNumberInCookies(cookies)
+        
+        theLevel.removeMatches()
+        theLevel.fillHoles()
+        theLevel.supplyNewCookies()
+        
+        clearCookies()
+        copyCookiesFromLevel(theLevel)
+        let currentCookieNumbers = cookieNumberInCookies(cookies)
+        
+        XCTAssertTrue(currentCookieNumbers == expectedCookieNumbers)
+        
+    }
+    
     // MARK: - private methods
     private func chainExistingInLevel(level: Level) -> Bool {
         copyCookiesFromLevel(level)

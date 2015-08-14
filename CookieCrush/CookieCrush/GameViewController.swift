@@ -109,12 +109,26 @@ class GameViewController: UIViewController {
     func handleMatches() {
         let chains = level.removeMatches()
         
+        // Not covered by unit test
+        if chains.count == 0 {
+            beginNextTurn()
+            return
+        }
+        
         scene.animateMatchedCookies(chains) {
             let columns = self.level.fillHoles()
             self.scene.animateFallingCookies(columns) {
-                self.enableUserInteraction()
+                let columns = self.level.supplyNewCookies()
+                self.scene.animateNewCookies(columns) {
+                    self.handleMatches()    // Not covered by unit test
+                }
             }
         }
+    }
+    
+    func beginNextTurn() {
+        enableUserInteraction()
+        level.detectPossibleSwaps()
     }
     
     private func enableUserInteraction() {

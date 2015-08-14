@@ -118,7 +118,7 @@ class Level {
     }
     
     // MARK: - Detect swaps
-    private func detectPossibleSwaps() {
+    func detectPossibleSwaps() {
         cleanupPossibleSwaps()
         detectPossibleSwapsForEachCookie()
     }
@@ -473,6 +473,55 @@ class Level {
             cookie.row = cookie.row - gap
             cookies[column, cookie.row] = cookie
         }
+    }
+    
+    // MARK: Supply new cookies
+    func supplyNewCookies() -> [[Cookie]] {
+        var newCookieArrays = [[Cookie]]()
+        
+        let columns = columnsWithHole()
+        for column in columns {
+            let newCookieArray = supplyNewCookiesForColumn(column)
+            newCookieArrays.append(newCookieArray)
+        }
+        
+        return newCookieArrays
+    }
+    
+    private func columnsWithHole() -> [Int] {
+        var columns = [Int]()
+        
+        for column in 0 ..< LevelConstants.NumColumns {
+            let (found, holeRowIndex) = rowIndexForFirstHoleInColume(column)
+            if found {
+                columns.append(column)
+            }
+        }
+        
+        return columns
+    }
+    
+    private func supplyNewCookiesForColumn(column: Int) -> [Cookie] {
+        var cookies = [Cookie]()
+        
+        let (found, holeRowIndex) = rowIndexForFirstHoleInColume(column)
+        if found {
+            for row in holeRowIndex ..< LevelConstants.NumRows {
+                if findHoleAtColumn(column, row: row) {
+                    let cookie = addNewCookieIntoColumn(column, row: row)
+                    cookies.append(cookie)
+                }
+            }
+        }
+        
+        return cookies
+    }
+    
+    private func addNewCookieIntoColumn(column: Int, row: Int) -> Cookie {
+        let cookieType = CookieType.random()
+        let cookie = Cookie(column: column, row: row, cookieType: cookieType)
+        cookies[column, row] = cookie
+        return cookie
     }
     
 }
