@@ -186,6 +186,30 @@ class LevelTests: XCTestCase {
         XCTAssertTrue(level.maximumMoves == 15)
     }
     
+    func testRemoveMatchesWillUpdateScore() {
+        var theLevel = Level(filename: "Level_1")
+        theLevel.shuffle()
+        let swaps = theLevel.possibleSwaps
+        theLevel.performSwap(swaps[advance(swaps.startIndex, swaps.count - 1)])
+        
+        let chains = theLevel.removeMatches()
+        var combo = 1
+        for chain in chains {
+            XCTAssertTrue(chain.score == 60 * (chain.length() - 2) * combo)
+            combo++
+        }
+    }
+    
+    func testDefaultComboMultiplierIsSetToOne() {
+        XCTAssertTrue(level.comboMultiplier == 1)
+    }
+    
+    func testResetComboMultiplierWillSetToOne() {
+        level.comboMultiplier = 2
+        level.resetComboMultiplier()
+        XCTAssertTrue(level.comboMultiplier == 1)
+    }
+    
     // MARK: - private methods
     private func chainExistingInLevel(level: Level) -> Bool {
         copyCookiesFromLevel(level)

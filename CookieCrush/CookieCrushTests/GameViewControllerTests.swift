@@ -84,6 +84,10 @@ class GameViewControllerTests: XCTestCase {
         override func detectPossibleSwaps() {
             detectPossibleSwapsCalled = true
         }
+        
+        override func calculateScores(chains: Set<Chain>) {
+            
+        }
     }
     
     class MockLevelWithPerformSwapImpossible: MockLevel {
@@ -280,6 +284,7 @@ class GameViewControllerTests: XCTestCase {
     
     func testHandleMatchesWillCallRemoveMatchesInLevelDataModel() {
         gameVC.level = MockLevel(filename: "filename")
+        gameVC.scene = MockGameScene(size: CGSize(width: 100, height: 100))
         gameVC.handleMatches()
         let mockLevel = gameVC.level as! MockLevel
         XCTAssertTrue(mockLevel.removeMatchesCalled == true)
@@ -348,6 +353,39 @@ class GameViewControllerTests: XCTestCase {
         XCTAssertTrue(gameVC.targetLabel.text == "001000")
         XCTAssertTrue(gameVC.movesLabel.text == "000015")
         XCTAssertTrue(gameVC.scoreLabel.text == "000000")
+    }
+    
+    func testHandleMatchesWillUpdateScore() {
+        let originalScoreLabelText = gameVC.scoreLabel.text
+        
+        gameVC.level = Level(filename: "Level_0")
+        gameVC.level.shuffle()
+        let swaps = gameVC.level.possibleSwaps
+        gameVC.level.performSwap(swaps[advance(swaps.startIndex, swaps.count - 1)])
+        
+        gameVC.scene = MockGameScene(size: CGSize(width: 100, height: 100))
+        
+        gameVC.handleMatches()
+        
+        XCTAssertTrue(gameVC.scoreLabel.text != originalScoreLabelText)
+    }
+    
+    func testBeginGameWillResetComboMultiplier() {
+        gameVC.level = MockLevel(filename: "filename")
+        gameVC.level.comboMultiplier = 3
+        gameVC.scene = MockGameScene(size: CGSize(width: 100, height: 100))
+    
+        gameVC.beginGame()
+        XCTAssertTrue(gameVC.level.comboMultiplier == 1)
+    }
+    
+    func testBeginNextRoundWillResetComboMultiplier() {
+        gameVC.level = MockLevel(filename: "filename")
+        gameVC.level.comboMultiplier = 3
+        gameVC.scene = MockGameScene(size: CGSize(width: 100, height: 100))
+        
+        gameVC.beginNextTurn()
+        XCTAssertTrue(gameVC.level.comboMultiplier == 1)
     }
 
 }

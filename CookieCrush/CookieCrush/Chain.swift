@@ -23,6 +23,7 @@ class Chain: Hashable, Printable {
     
     var chainType: ChainType
     var cookies = [Cookie]()
+    var score = 0
     
     init(chainType: ChainType) {
         self.chainType = chainType

@@ -314,6 +314,7 @@ class GameScene: SKScene {
     
     func animateMatchedCookies(chains: Set<Chain>, completion: () -> ()) {
         for chain in chains {
+            animateScoreForChain(chain)
             removeMatchedCookiesInChain(chain)
         }
         playSoundAction(matchSound)
@@ -373,6 +374,27 @@ class GameScene: SKScene {
         }
         
         runAction(SKAction.waitForDuration(longestDuration), completion: completion)
+    }
+    
+    func animateScoreForChain(chain: Chain) {
+        // Figure out what the midpoint of the chain is.
+        let firstSprite = chain.firstCookie().sprite!
+        let lastSprite = chain.lastCookie().sprite!
+        let centerPosition = CGPoint(
+            x: (firstSprite.position.x + lastSprite.position.x)/2,
+            y: (firstSprite.position.y + lastSprite.position.y)/2 - 8)
+        
+        // Add a label for the score that slowly floats up.
+        let scoreLabel = SKLabelNode(fontNamed: "GillSans-BoldItalic")
+        scoreLabel.fontSize = 16
+        scoreLabel.text = String(format: "%ld", chain.score)
+        scoreLabel.position = centerPosition
+        scoreLabel.zPosition = 300
+        cookiesLayer.addChild(scoreLabel)
+        
+        let moveAction = SKAction.moveBy(CGVector(dx: 0, dy: 3), duration: 0.7)
+        moveAction.timingMode = .EaseOut
+        scoreLabel.runAction(SKAction.sequence([moveAction, SKAction.removeFromParent()]))
     }
     
     private func removeMatchedCookiesInChain(chain: Chain) {

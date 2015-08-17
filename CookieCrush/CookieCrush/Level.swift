@@ -17,6 +17,7 @@ class Level {
     
     var targetScore = 0
     var maximumMoves = 0
+    var comboMultiplier = 1
     
     var possibleSwaps = Set<Swap>()
     
@@ -268,6 +269,9 @@ class Level {
         removeCookiesInChains(horizontalChains)
         removeCookiesInChains(verticalChains)
         
+        calculateScores(horizontalChains)
+        calculateScores(verticalChains)
+        
         return horizontalChains.union(verticalChains)
     }
     
@@ -370,6 +374,19 @@ class Level {
         for cookie in chain.cookies {
             cookies[cookie.column, cookie.row] = nil
         }
+    }
+    
+    // MARK: - Calculate score
+    func calculateScores(chains: Set<Chain>) {
+        // 3-chain is 60 pts, 4-chain is 120, 5-chain is 180, and so on
+        for chain in chains {
+            chain.score = 60 * (chain.length() - 2) * comboMultiplier
+            comboMultiplier++
+        }
+    }
+    
+    func resetComboMultiplier() {
+        comboMultiplier = 1
     }
     
     // MARK: - Swipe cookies

@@ -108,10 +108,21 @@ class GameViewController: UIViewController {
         scoreLabel.text = String(format: "%.6ld", score)
     }
     
+    private func updateScoreBasedOnChains(chains: Set<Chain>) {
+        for chain in chains {
+            self.score += chain.score
+        }
+    }
+    
     // MARK: - Game logic
     func beginGame() {
         initGameScoreLabels()
+        resetScoreComboMulitplier()
         shuffle()
+    }
+    
+    private func resetScoreComboMulitplier() {
+        level.resetComboMultiplier()
     }
     
     private func initGameScoreLabels() {
@@ -157,6 +168,10 @@ class GameViewController: UIViewController {
         }
         
         scene.animateMatchedCookies(chains) {
+            
+            self.updateScoreBasedOnChains(chains)
+            self.updateLabels()
+            
             let columns = self.level.fillHoles()
             self.scene.animateFallingCookies(columns) {
                 let columns = self.level.supplyNewCookies()
@@ -168,6 +183,7 @@ class GameViewController: UIViewController {
     }
     
     func beginNextTurn() {
+        resetScoreComboMulitplier()
         enableUserInteraction()
         level.detectPossibleSwaps()
     }
