@@ -15,6 +15,13 @@ class GameViewController: UIViewController {
     var scene: GameScene!
     var level: Level!
     
+    var movesLeft = 0
+    var score = 0
+    
+    @IBOutlet weak var targetLabel: UILabel!
+    @IBOutlet weak var movesLabel: UILabel!
+    @IBOutlet weak var scoreLabel: UILabel!
+    
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
@@ -82,9 +89,43 @@ class GameViewController: UIViewController {
         skView.presentScene(scene)
     }
     
+    // MARK: - Update score
+    func updateLabels() {
+        updateTargetLabel()
+        updateMovesLabel()
+        updateScoreLabel()
+    }
+    
+    private func updateTargetLabel() {
+        targetLabel.text = String(format: "%.6ld", level.targetScore)
+    }
+    
+    private func updateMovesLabel() {
+        movesLabel.text = String(format: "%.6ld", movesLeft)
+    }
+    
+    private func updateScoreLabel() {
+        scoreLabel.text = String(format: "%.6ld", score)
+    }
+    
     // MARK: - Game logic
     func beginGame() {
+        initGameScoreLabels()
         shuffle()
+    }
+    
+    private func initGameScoreLabels() {
+        initGameMovesLeft()
+        initGameScore()
+        updateLabels()
+    }
+    
+    private func initGameMovesLeft() {
+        movesLeft = level.maximumMoves
+    }
+    
+    private func initGameScore() {
+        score = 0
     }
     
     func shuffle() {

@@ -178,6 +178,14 @@ class LevelTests: XCTestCase {
         
     }
     
+    func testTargetScoreIsSetCorrectly() {
+        XCTAssertTrue(level.targetScore == 1000)
+    }
+    
+    func testMaxMoveIsSetCorrectly() {
+        XCTAssertTrue(level.maximumMoves == 15)
+    }
+    
     // MARK: - private methods
     private func chainExistingInLevel(level: Level) -> Bool {
         copyCookiesFromLevel(level)

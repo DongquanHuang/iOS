@@ -14,14 +14,22 @@ struct LevelConstants {
 }
 
 class Level {
-    private var cookies = Array2D<Cookie>(columns: LevelConstants.NumColumns, rows: LevelConstants.NumRows)
-    private var tiles = Array2D<Tile>(columns: LevelConstants.NumColumns, rows: LevelConstants.NumRows)
+    
+    var targetScore = 0
+    var maximumMoves = 0
     
     var possibleSwaps = Set<Swap>()
     
+    private var cookies = Array2D<Cookie>(columns: LevelConstants.NumColumns, rows: LevelConstants.NumRows)
+    private var tiles = Array2D<Tile>(columns: LevelConstants.NumColumns, rows: LevelConstants.NumRows)
+    
     // MARK: - Init
     init(filename: String) {
-        fillTilesFromLevelFile(filename)
+        if let dictionary = LevelFileParser.loadJSONFromBundle(filename) {
+            fillTiles(dictionary)
+            setTargetScore(dictionary)
+            setMaximunMoves(dictionary)
+        }
     }
     
     // MARK: - Get Cookie & Tile from 2D Array
@@ -56,12 +64,6 @@ class Level {
     }
     
     // MARK: - Private methods - Fill tiles based on level file
-    private func fillTilesFromLevelFile(filename: String) {
-        if let dictionary = LevelFileParser.loadJSONFromBundle(filename) {
-            fillTiles(dictionary)
-        }
-    }
-    
     private func fillTiles(dictionary: Dictionary<String, AnyObject>) {
         if let tilesArray: AnyObject = dictionary["tiles"] {
             for (row, rowArray) in enumerate(tilesArray as! [[Int]]) {
@@ -73,6 +75,15 @@ class Level {
                 }
             }
         }
+    }
+    
+    // MARK: - Private methods - Setup target score & max moves
+    private func setTargetScore(dictionary: Dictionary<String, AnyObject>) {
+        targetScore = dictionary["targetScore"] as! Int
+    }
+    
+    private func setMaximunMoves(dictionary: Dictionary<String, AnyObject>) {
+        maximumMoves = dictionary["moves"] as! Int
     }
     
     // MARK: - Private methods - Create cookie based on level file

@@ -342,5 +342,12 @@ class GameViewControllerTests: XCTestCase {
         let mockLevel = gameVC.level as! MockLevel
         XCTAssertTrue(mockLevel.detectPossibleSwapsCalled == true)
     }
+    
+    func testBeginWillLoadLevelScoreInfo() {
+        gameVC.beginGame()
+        XCTAssertTrue(gameVC.targetLabel.text == "001000")
+        XCTAssertTrue(gameVC.movesLabel.text == "000015")
+        XCTAssertTrue(gameVC.scoreLabel.text == "000000")
+    }
 
 }
