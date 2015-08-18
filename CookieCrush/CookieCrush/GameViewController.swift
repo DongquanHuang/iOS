@@ -8,6 +8,7 @@
 
 import UIKit
 import SpriteKit
+import AVFoundation
 
 struct GameLevelConstants {
     static let TotalLevels = 4
@@ -24,6 +25,13 @@ class GameViewController: UIViewController {
     var score = 0
     
     var tapGestureRecognizer: UITapGestureRecognizer!
+    
+    lazy var backgroundMusic: AVAudioPlayer = {
+        let url = NSBundle.mainBundle().URLForResource("Mining by Moonlight", withExtension: "mp3")
+        let player = AVAudioPlayer(contentsOfURL: url, error: nil)
+        player.numberOfLoops = -1
+        return player
+    }()
     
     @IBOutlet weak var targetLabel: UILabel!
     @IBOutlet weak var movesLabel: UILabel!
@@ -52,6 +60,7 @@ class GameViewController: UIViewController {
         configureGameScene()
         presentScene()
         
+        backgroundMusic.play()
         beginGame()
     }
     
@@ -166,6 +175,9 @@ class GameViewController: UIViewController {
     
     private func increaseLevel() {
         currentLevel = (currentLevel + 1) % (GameLevelConstants.TotalLevels + 1)
+        if currentLevel == 0 {
+            currentLevel = 1
+        }
     }
     
     private func checkGameResult() {
