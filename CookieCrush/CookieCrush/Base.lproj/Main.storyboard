@@ -42,13 +42,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="999999" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ptm-t8-uA4">
-                                <rect key="frame" x="512" y="64" width="71.5" height="23.5"/>
+                                <rect key="frame" x="512.5" y="64" width="71.5" height="23.5"/>
                                 <fontDescription key="fontDescription" name="GillSans-Bold" family="Gill Sans" pointSize="20"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n43-aQ-IRR">
-                                <rect key="frame" x="526" y="40" width="43.5" height="16.5"/>
+                                <rect key="frame" x="526.5" y="40" width="43.5" height="16.5"/>
                                 <fontDescription key="fontDescription" name="GillSans-Bold" family="Gill Sans" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -60,6 +60,20 @@
                                     <constraint firstAttribute="width" constant="320" id="OwT-Km-C8G"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eby-Qo-XjA">
+                                <rect key="frame" x="250" y="544" width="100" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="TN3-7z-CSW"/>
+                                    <constraint firstAttribute="height" constant="36" id="oSt-3z-My7"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="GillSans-Bold" family="Gill Sans" pointSize="20"/>
+                                <state key="normal" title="Shuffle" backgroundImage="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="shuffleButtonPressed:" destination="LVB-YS-i5n" eventType="touchUpInside" id="4Bg-UO-NrQ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -87,8 +101,10 @@
                             <constraint firstItem="n43-aQ-IRR" firstAttribute="baseline" secondItem="w5T-YO-eSQ" secondAttribute="baseline" id="lGE-4N-vJ8"/>
                             <constraint firstItem="xYx-yf-SW9" firstAttribute="top" secondItem="PCf-gQ-wO7" secondAttribute="bottom" constant="20" id="ldq-80-p03"/>
                             <constraint firstItem="n43-aQ-IRR" firstAttribute="baseline" secondItem="xYx-yf-SW9" secondAttribute="baseline" id="nE7-Q6-1AH"/>
+                            <constraint firstItem="b3d-qh-BLL" firstAttribute="top" secondItem="eby-Qo-XjA" secondAttribute="bottom" constant="20" id="pfm-b3-3sf"/>
                             <constraint firstItem="n43-aQ-IRR" firstAttribute="top" secondItem="PCf-gQ-wO7" secondAttribute="bottom" constant="20" id="rbR-bZ-djP"/>
                             <constraint firstItem="Ui3-4l-T7q" firstAttribute="top" secondItem="w5T-YO-eSQ" secondAttribute="bottom" constant="8" symbolic="YES" id="rlK-kN-3cb"/>
+                            <constraint firstAttribute="centerX" secondItem="eby-Qo-XjA" secondAttribute="centerX" id="rxa-Ht-yEG"/>
                             <constraint firstAttribute="centerX" secondItem="5aO-b2-6Pb" secondAttribute="centerX" constant="26" id="uUp-3y-Kug"/>
                         </constraints>
                         <variation key="default">
@@ -113,6 +129,7 @@
                         <outlet property="gameOverPanel" destination="CHc-pr-wqN" id="lWE-An-A16"/>
                         <outlet property="movesLabel" destination="5aO-b2-6Pb" id="kYi-c9-S9t"/>
                         <outlet property="scoreLabel" destination="ptm-t8-uA4" id="sBT-wR-w61"/>
+                        <outlet property="shuffleButton" destination="eby-Qo-XjA" id="Lxo-sN-Adz"/>
                         <outlet property="targetLabel" destination="Ui3-4l-T7q" id="8Oa-RK-qL1"/>
                     </connections>
                 </viewController>
@@ -120,4 +137,7 @@
             </objects>
         </scene>
     </scenes>
+    <resources>
+        <image name="Button" width="100" height="36"/>
+    </resources>
 </document>

@@ -580,5 +580,39 @@ class GameViewControllerTests: XCTestCase {
         gameVC.beginGame()
         XCTAssertTrue(gameVC.scene.level != nil)
     }
+    
+    func testShowGameOverWillHideShuffleButton() {
+        gameVC.showGameOver()
+        
+        XCTAssertTrue(gameVC.shuffleButton.hidden == true)
+    }
+    
+    func testBeginGameWillShowShuffleButton() {
+        gameVC.scene = MockGameScene(size: CGSize(width: 100, height: 100))
+        gameVC.shuffleButton.hidden = true
+        gameVC.beginGame()
+        
+        XCTAssertTrue(gameVC.shuffleButton.hidden == false)
+    }
+    
+    func testPressShuffleButtonWillCallShuffleInLevelDataModel() {
+        gameVC.level = MockLevel(filename: "filename")
+        gameVC.shuffleButtonPressed(UIButton())
+        let mockLevel = gameVC.level as! MockLevel
+        XCTAssertTrue(mockLevel.shuffleCalled == true)
+    }
+    
+    func testPressShuffleButtonWillDecreaseMovesLeftByOne() {
+        gameVC.movesLeft = 10
+        gameVC.shuffleButtonPressed(UIButton())
+        XCTAssertTrue(gameVC.movesLeft == 9)
+        XCTAssertTrue(gameVC.movesLabel.text == "000009")
+    }
+    
+    func testPressShuffleButtonWillCheckGameResult() {
+        gameVC.movesLeft = 1
+        gameVC.shuffleButtonPressed(UIButton())
+        XCTAssertTrue(gameVC.gameOverPanel.image == UIImage(named: "GameOver"))
+    }
 
 }

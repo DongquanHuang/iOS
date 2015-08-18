@@ -115,6 +115,8 @@ class GameScene: SKScene {
             sprite.position = pointForColumn(cookie.column, row: cookie.row)
             cookie.sprite = sprite
             cookiesLayer.addChild(sprite)
+            
+            animateAddingSprites(sprite)
         }
     }
     
@@ -435,6 +437,21 @@ class GameScene: SKScene {
     
     private func playSoundAction(soundAction: SKAction) {
         runAction(soundAction)
+    }
+    
+    private func animateAddingSprites(sprite: SKSpriteNode) {
+        sprite.alpha = 0
+        sprite.xScale = 0.5
+        sprite.yScale = 0.5
+        
+        sprite.runAction(
+            SKAction.sequence([
+                SKAction.waitForDuration(0.25, withRange: 0.5),
+                SKAction.group([
+                    SKAction.fadeInWithDuration(0.25),
+                    SKAction.scaleTo(1.0, duration: 0.25)
+                    ])
+                ]))
     }
     
 }

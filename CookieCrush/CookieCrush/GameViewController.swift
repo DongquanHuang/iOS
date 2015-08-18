@@ -29,6 +29,7 @@ class GameViewController: UIViewController {
     @IBOutlet weak var movesLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var gameOverPanel: UIImageView!
+    @IBOutlet weak var shuffleButton: UIButton!
     
     override func prefersStatusBarHidden() -> Bool {
         return true
@@ -52,6 +53,13 @@ class GameViewController: UIViewController {
         presentScene()
         
         beginGame()
+    }
+    
+    @IBAction func shuffleButtonPressed(sender: UIButton) {
+        shuffle()
+        decreaseMovesLeft()
+        checkGameResult()
+        updateLabels()
     }
     
     // MARK: - Setup game
@@ -128,7 +136,9 @@ class GameViewController: UIViewController {
         passLevelToGameScene()
         initGameScoreLabels()
         resetScoreComboMulitplier()
-        scene.animateBeginGame() {}
+        scene.animateBeginGame() {
+            self.showShuffleButton()
+        }
         shuffle()
     }
     
@@ -226,6 +236,7 @@ class GameViewController: UIViewController {
     }
     
     func showGameOver() {
+        hideShuffleButton()
         showGameOverPanel()
         disableGameSceneUserInteraction()
         scene.animateGameOver() {
@@ -273,6 +284,14 @@ class GameViewController: UIViewController {
     
     private func showGameOverPanel() {
         gameOverPanel.hidden = false
+    }
+    
+    private func hideShuffleButton() {
+        shuffleButton.hidden = true
+    }
+    
+    private func showShuffleButton() {
+        shuffleButton.hidden = false
     }
 
 }
