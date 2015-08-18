@@ -382,7 +382,21 @@ class GameSceneTests: XCTestCase {
         gameScene.touchesMoved(touches, withEvent: UIEvent())
         
         XCTAssertTrue(cookie?.sprite?.children.count == 0)
-        
+    }
+    
+    func testRemoveAllCookieSpritesWillRemoveAll() {
+        gameScene.addSpritesForCookies(cookies)
+        gameScene.removeAllCookieSprites()
+        let nodes = gameScene.cookiesLayer.children as! [SKNode]
+        XCTAssertTrue(nodes.count == 0)
+    }
+    
+    func testRemoveAllTileSpritesWillRemoveAll() {
+        gameScene.level = Level(filename: "Level_0")
+        gameScene.addTiles()
+        gameScene.removeAllTileSprites()
+        let nodes = gameScene.tilesLayer.children as! [SKNode]
+        XCTAssertTrue(nodes.count == 0)
     }
 
 }

@@ -53,10 +53,18 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CHc-pr-wqN">
+                                <rect key="frame" x="140" y="225" width="320" height="150"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="BAG-3g-Hcd"/>
+                                    <constraint firstAttribute="width" constant="320" id="OwT-Km-C8G"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="ptm-t8-uA4" firstAttribute="top" secondItem="n43-aQ-IRR" secondAttribute="bottom" constant="8" symbolic="YES" id="1Gv-lU-Hx1"/>
+                            <constraint firstAttribute="centerX" secondItem="CHc-pr-wqN" secondAttribute="centerX" id="25Q-qv-A3R"/>
                             <constraint firstItem="xYx-yf-SW9" firstAttribute="centerX" secondItem="5aO-b2-6Pb" secondAttribute="centerX" id="3Ec-wY-rnL"/>
                             <constraint firstAttribute="centerX" secondItem="5aO-b2-6Pb" secondAttribute="centerX" id="78U-Wm-Ubt"/>
                             <constraint firstItem="w5T-YO-eSQ" firstAttribute="leading" secondItem="Ui3-4l-T7q" secondAttribute="leading" id="8yG-fs-4VB"/>
@@ -67,6 +75,7 @@
                             <constraint firstAttribute="centerX" secondItem="xYx-yf-SW9" secondAttribute="centerX" constant="17" id="Jei-Xr-0Oe"/>
                             <constraint firstItem="5aO-b2-6Pb" firstAttribute="baseline" secondItem="ptm-t8-uA4" secondAttribute="baseline" id="JtA-JU-rIi"/>
                             <constraint firstItem="w5T-YO-eSQ" firstAttribute="centerX" secondItem="Ui3-4l-T7q" secondAttribute="centerX" id="Phy-sr-Ve8"/>
+                            <constraint firstAttribute="centerY" secondItem="CHc-pr-wqN" secondAttribute="centerY" id="VnD-yU-CxV"/>
                             <constraint firstItem="n43-aQ-IRR" firstAttribute="leading" secondItem="ptm-t8-uA4" secondAttribute="leading" id="WOP-Ly-woo"/>
                             <constraint firstItem="xYx-yf-SW9" firstAttribute="baseline" secondItem="w5T-YO-eSQ" secondAttribute="baseline" id="WZn-VU-bEh"/>
                             <constraint firstItem="n43-aQ-IRR" firstAttribute="centerX" secondItem="ptm-t8-uA4" secondAttribute="centerX" id="ZV7-C1-xoB"/>
@@ -91,16 +100,17 @@
                                 <exclude reference="9sy-xq-1ug"/>
                                 <exclude reference="Jei-Xr-0Oe"/>
                                 <exclude reference="WZn-VU-bEh"/>
+                                <exclude reference="biP-ET-UCO"/>
                                 <exclude reference="AVc-5P-Ctx"/>
                                 <exclude reference="WOP-Ly-woo"/>
                                 <exclude reference="dyC-QK-kKz"/>
                                 <exclude reference="lGE-4N-vJ8"/>
                                 <exclude reference="nE7-Q6-1AH"/>
-                                <exclude reference="biP-ET-UCO"/>
                             </mask>
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="gameOverPanel" destination="CHc-pr-wqN" id="lWE-An-A16"/>
                         <outlet property="movesLabel" destination="5aO-b2-6Pb" id="kYi-c9-S9t"/>
                         <outlet property="scoreLabel" destination="ptm-t8-uA4" id="sBT-wR-w61"/>
                         <outlet property="targetLabel" destination="Ui3-4l-T7q" id="8Oa-RK-qL1"/>

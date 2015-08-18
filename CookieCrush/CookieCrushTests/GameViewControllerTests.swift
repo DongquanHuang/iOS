@@ -104,19 +104,31 @@ class GameViewControllerTests: XCTestCase {
     
     class MockGameScene: GameScene {
         var addSpritesCalled = false
+        var removeAllCookieSpritesCalled = false
         var addTilesCalled = false
+        var removeAllTileSpritesCalled = false
         var animateSwapCalled = false
         var animateInvalidSwapCalled = false
         var animateMatchedCookiesCalled = false
         var animateFallingCookiesCalled = false
         var animateNewCookiesCalled = false
+        var animateGameOverCalled = false
+        var animateBeginGameCalled = false
         
         override func addSpritesForCookies(cookies: Set<Cookie>) {
             addSpritesCalled = true
         }
         
+        override func removeAllCookieSprites() {
+            removeAllCookieSpritesCalled = true
+        }
+        
         override func addTiles() {
             addTilesCalled = true
+        }
+        
+        override func removeAllTileSprites() {
+            removeAllTileSpritesCalled = true
         }
         
         override func animateSwap(swap: Swap, completion: () -> ()) {
@@ -139,6 +151,16 @@ class GameViewControllerTests: XCTestCase {
         
         override func animateNewCookies(columns: [[Cookie]], completion: () -> ()) {
             animateNewCookiesCalled = true
+            completion()
+        }
+        
+        override func animateGameOver(completion: () -> ()) {
+            animateGameOverCalled = true
+            completion()
+        }
+        
+        override func animateBeginGame(completion: () -> ()) {
+            animateBeginGameCalled = true
             completion()
         }
         
@@ -386,6 +408,177 @@ class GameViewControllerTests: XCTestCase {
         
         gameVC.beginNextTurn()
         XCTAssertTrue(gameVC.level.comboMultiplier == 1)
+    }
+    
+    func testBeginNextRoundWillDecreaseMoves() {
+        gameVC.level = Level(filename: "Level_0")
+        gameVC.beginGame()
+        let originalMoves = gameVC.movesLeft
+        let expectedMovesLabelText = String(format: "%.6ld", originalMoves - 1)
+        gameVC.beginNextTurn()
+        let currentMovesLabelText = String(format: "%.6ld", gameVC.movesLeft)
+        XCTAssertTrue(currentMovesLabelText == expectedMovesLabelText)
+    }
+    
+    func testGameOverPanelIsHiddenAfterViewDidLoad() {
+        XCTAssertTrue(gameVC.gameOverPanel.hidden == true)
+    }
+    
+    func testShowGameOverWillShowGameOverPanel() {
+        gameVC.showGameOver()
+        XCTAssertTrue(gameVC.gameOverPanel.hidden == false)
+    }
+    
+    func testShowGameOverWillDisableUserInteractiveForGameScene() {
+        gameVC.showGameOver()
+        XCTAssertTrue(gameVC.scene.userInteractionEnabled == false)
+    }
+    
+    func testShowGameOverWillSetupTapGesture() {
+        gameVC.scene = MockGameScene(size: CGSize(width: 100, height: 100))
+        
+        var originalGestureCount = gameVC.view.gestureRecognizers?.count
+        if originalGestureCount == nil {
+            originalGestureCount = 0
+        }
+        
+        gameVC.showGameOver()
+        XCTAssertTrue(gameVC.tapGestureRecognizer != nil)
+        XCTAssertTrue(gameVC.view.gestureRecognizers?.count == originalGestureCount! + 1)
+    }
+    
+    func testHideGameOverWillRemoveTapGesture() {
+        gameVC.scene = MockGameScene(size: CGSize(width: 100, height: 100))
+        gameVC.showGameOver()
+        
+        var originalGestureCount = gameVC.view.gestureRecognizers?.count
+        if originalGestureCount == nil {
+            originalGestureCount = 0
+        }
+        
+        gameVC.hideGameOver()
+        
+        var currentGestureCount = gameVC.view.gestureRecognizers?.count
+        if currentGestureCount == nil {
+            currentGestureCount = 0
+        }
+        
+        XCTAssertTrue(gameVC.tapGestureRecognizer == nil)
+        XCTAssertTrue(currentGestureCount! == originalGestureCount! - 1)
+    }
+    
+    func testHideGameOverWillEnableUserInteractiveForGameScene() {
+        gameVC.scene = MockGameScene(size: CGSize(width: 100, height: 100))
+        
+        gameVC.showGameOver()
+        gameVC.hideGameOver()
+        
+        XCTAssertTrue(gameVC.scene.userInteractionEnabled == true)
+    }
+    
+    func testHideGameOverWillHideGameOverPanel() {
+        gameVC.scene = MockGameScene(size: CGSize(width: 100, height: 100))
+        
+        gameVC.showGameOver()
+        gameVC.hideGameOver()
+        
+        XCTAssertTrue(gameVC.gameOverPanel.hidden == true)
+    }
+    
+    func testHideGameOverWillCallBeginGame() {
+        gameVC.scene = MockGameScene(size: CGSize(width: 100, height: 100))
+        
+        gameVC.beginGame()
+        gameVC.score++
+        
+        gameVC.showGameOver()
+        gameVC.hideGameOver()
+        
+        XCTAssertTrue(gameVC.score == 0)
+    }
+    
+    func testBeginNextTurnWillShowGameFailIfMovesLeftIsZero() {
+        gameVC.beginGame()
+        gameVC.movesLeft = 1
+        gameVC.beginNextTurn()
+        
+        XCTAssertTrue(gameVC.gameOverPanel.image == UIImage(named: "GameOver"))
+        XCTAssertTrue(gameVC.gameOverPanel.hidden == false)
+    }
+    
+    func testBeginNextTurnWillShowGameWinIfTargetScoreReached() {
+        gameVC.beginGame()
+        gameVC.score = gameVC.level.targetScore + 1
+        gameVC.beginNextTurn()
+        
+        XCTAssertTrue(gameVC.gameOverPanel.image == UIImage(named: "LevelComplete"))
+        XCTAssertTrue(gameVC.gameOverPanel.hidden == false)
+    }
+    
+    func testShowGameOverWillCallAnimateGameOver() {
+        gameVC.scene = MockGameScene(size: CGSize(width: 100, height: 100))
+        gameVC.showGameOver()
+        
+        let mockScene = gameVC.scene as! MockGameScene
+        XCTAssertTrue(mockScene.animateGameOverCalled == true)
+    }
+    
+    func testBeginGameWillCallAnimateBeginGame() {
+        gameVC.scene = MockGameScene(size: CGSize(width: 100, height: 100))
+        gameVC.beginGame()
+        
+        let mockScene = gameVC.scene as! MockGameScene
+        XCTAssertTrue(mockScene.animateBeginGameCalled == true)
+    }
+    
+    func testShuffleWillCallRemoveAllCookieSprites() {
+        gameVC.scene = MockGameScene(size: CGSize(width: 100, height: 100))
+        gameVC.shuffle()
+        let mockScene = gameVC.scene as! MockGameScene
+        XCTAssertTrue(mockScene.removeAllCookieSpritesCalled == true)
+    }
+    
+    func testShuffleWillCallRemoveAllTileSprites() {
+        gameVC.scene = MockGameScene(size: CGSize(width: 100, height: 100))
+        gameVC.shuffle()
+        let mockScene = gameVC.scene as! MockGameScene
+        XCTAssertTrue(mockScene.removeAllTileSpritesCalled == true)
+    }
+    
+    func testShuffleWillCallAddTileForGameScene() {
+        gameVC.scene = MockGameScene(size: CGSize(width: 100, height: 100))
+        gameVC.shuffle()
+        let mockScene = gameVC.scene as! MockGameScene
+        XCTAssertTrue(mockScene.addTilesCalled == true)
+    }
+    
+    func testCanLoadLevelFileCorrectlyAfterViewDidLoad() {
+        gameVC.currentLevel = 4
+        gameVC.viewDidLoad()
+        let expectedLevel = Level(filename: "Level_4")
+        XCTAssertTrue(gameVC.level.maximumMoves == expectedLevel.maximumMoves)
+    }
+    
+    func testBeginGameWillLoadLevelFileCorrectly() {
+        gameVC.currentLevel = 4
+        gameVC.beginGame()
+        let expectedLevel = Level(filename: "Level_4")
+        XCTAssertTrue(gameVC.level.maximumMoves == expectedLevel.maximumMoves)
+    }
+    
+    func testBeginNextTurnWillLoadNewLevelIfUserPassedTheCurrentLevel() {
+        gameVC.beginGame()
+        let currentLevel = gameVC.currentLevel
+        gameVC.score = gameVC.level.targetScore + 1
+        gameVC.beginNextTurn()
+        
+        XCTAssertTrue(gameVC.currentLevel == currentLevel + 1)
+    }
+    
+    func testBeginGameWillPassNewLevelToGameScene() {
+        gameVC.scene.level = nil
+        gameVC.beginGame()
+        XCTAssertTrue(gameVC.scene.level != nil)
     }
 
 }

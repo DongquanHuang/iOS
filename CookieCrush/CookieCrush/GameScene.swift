@@ -60,6 +60,7 @@ class GameScene: SKScene {
     }
     
     private func addGameLayer() {
+        gameLayer.hidden = true
         addChild(gameLayer)
     }
     
@@ -104,6 +105,10 @@ class GameScene: SKScene {
         }
     }
     
+    func removeAllTileSprites() {
+        tilesLayer.removeAllChildren()
+    }
+    
     func addSpritesForCookies(cookies: Set<Cookie>) {
         for cookie in cookies {
             let sprite = SKSpriteNode(imageNamed: cookie.cookieType.spriteName)
@@ -111,6 +116,10 @@ class GameScene: SKScene {
             cookie.sprite = sprite
             cookiesLayer.addChild(sprite)
         }
+    }
+    
+    func removeAllCookieSprites() {
+        cookiesLayer.removeAllChildren()
     }
     
     // MARK: - Convert points
@@ -395,6 +404,20 @@ class GameScene: SKScene {
         let moveAction = SKAction.moveBy(CGVector(dx: 0, dy: 3), duration: 0.7)
         moveAction.timingMode = .EaseOut
         scoreLabel.runAction(SKAction.sequence([moveAction, SKAction.removeFromParent()]))
+    }
+    
+    func animateGameOver(completion: () -> ()) {
+        let action = SKAction.moveBy(CGVector(dx: 0, dy: -size.height), duration: 0.3)
+        action.timingMode = .EaseIn
+        gameLayer.runAction(action, completion: completion)
+    }
+    
+    func animateBeginGame(completion: () -> ()) {
+        gameLayer.hidden = false
+        gameLayer.position = CGPoint(x: 0, y: size.height)
+        let action = SKAction.moveBy(CGVector(dx: 0, dy: -size.height), duration: 0.3)
+        action.timingMode = .EaseOut
+        gameLayer.runAction(action, completion: completion)
     }
     
     private func removeMatchedCookiesInChain(chain: Chain) {
