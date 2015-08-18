@@ -11,7 +11,8 @@ import Foundation
 class JsonFileParser {
     
     func getJsonDictionaryArrayFromFile(filePath: String!) -> [Dictionary<String, String>]? {
-        if let jsonData = NSData.dataWithContentsOfMappedFile(filePath) as? NSData {
+        var error: NSError?
+        if let jsonData = NSData(contentsOfFile: filePath, options: NSDataReadingOptions(), error: &error) {
             var error: NSError?
             if let jsonDictionaryArray = NSJSONSerialization.JSONObjectWithData(jsonData,
                 options: NSJSONReadingOptions.AllowFragments, error: &error) as? [Dictionary<String, String>] {
