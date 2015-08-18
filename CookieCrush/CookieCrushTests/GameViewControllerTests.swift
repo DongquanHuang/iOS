@@ -614,5 +614,9 @@ class GameViewControllerTests: XCTestCase {
         gameVC.shuffleButtonPressed(UIButton())
         XCTAssertTrue(gameVC.gameOverPanel.image == UIImage(named: "GameOver"))
     }
+    
+    func testBackgroundMusicIsPlayingAfterViewDidLoad() {
+        XCTAssertTrue(gameVC.backgroundMusic.playing == true)
+    }
 
 }
