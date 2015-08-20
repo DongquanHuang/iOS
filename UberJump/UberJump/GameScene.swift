@@ -24,10 +24,13 @@ class GameScene: SKScene {
         static let HeightOfSplitedBackgroundImage: CGFloat = 64.0
         
         static let InitialPlayerPositionY: CGFloat = 80.0
+        
+        static let TapToStartPositionY: CGFloat = 180.0
     }
     
     struct PhysicsConstants {
         static let GameGravity = CGVector(dx: 0.0, dy: -2.0)
+        static let InitialImpulse = CGVector(dx: 0.0, dy: 20.0)
     }
     
     // MARK: - Variables
@@ -36,6 +39,7 @@ class GameScene: SKScene {
     var foregroundNode: SKNode!
     var hudNode: SKNode!
     var player: SKNode!
+    var tapToStartNode: SKNode!
     
     // Adapt for all iPhone devices
     lazy var scaleFactor: CGFloat! = {
@@ -55,6 +59,7 @@ class GameScene: SKScene {
         setupBackground()
         setupForeground()
         addPlayerIntoForeground()
+        setupHud()
     }
     
     // MARK: - Setup gravity for the game
@@ -105,7 +110,7 @@ class GameScene: SKScene {
         playerNode.addChild(sprite)
         
         playerNode.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width / 2)
-        playerNode.physicsBody?.dynamic = true
+        playerNode.physicsBody?.dynamic = false
         playerNode.physicsBody?.allowsRotation = false
         playerNode.physicsBody?.restitution = 1.0
         playerNode.physicsBody?.friction = 0.0
@@ -115,9 +120,55 @@ class GameScene: SKScene {
         return playerNode
     }
     
+    // MARK: - Add Hud for the game
+    private func setupHud() {
+        hudNode = SKNode()
+        
+        tapToStartNode = createTapToStartNode()
+        hudNode.addChild(tapToStartNode)
+        
+        addChild(hudNode)
+    }
+    
+    private func createTapToStartNode() -> SKSpriteNode {
+        let startNode = SKSpriteNode(imageNamed: "TapToStart")
+        startNode.position = CGPoint(x: self.size.width / 2, y: GraphicsConstants.TapToStartPositionY)
+        return startNode
+    }
+    
+    // MARK: - Begin the game
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        if gameInProgress() {
+            return
+        }
+        
+        startGame()
+    }
+    
+    private func startGame() {
+        removeTapToStartNodeFromHud()
+        startActionForPlayer()
+    }
+    
+    private func removeTapToStartNodeFromHud() {
+        tapToStartNode.removeFromParent()
+    }
+    
+    private func startActionForPlayer() {
+        player.physicsBody?.dynamic = true
+        player.physicsBody?.applyImpulse(PhysicsConstants.InitialImpulse)
+    }
+    
     // MARK: - Helper mehtods
     private func midOfScreenWidth() -> CGFloat {
         return self.size.width / 2
+    }
+    
+    private func gameInProgress() -> Bool {
+        if player.physicsBody?.dynamic == true {
+            return true
+        }
+        return false
     }
     
 }

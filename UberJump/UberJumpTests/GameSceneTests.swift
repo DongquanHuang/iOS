@@ -66,8 +66,8 @@ class GameSceneTests: XCTestCase {
     }
     
     // MARK: - Test foreground & Player
-    func testForegroundNodeIsAddedAsLastChildAfterInitMethod() {
-        let fgNode = gameScene.children.last as! SKNode
+    func testForegroundNodeIsAddedAsSecondLastChildAfterInitMethod() {
+        let fgNode = gameScene.children[gameScene.children.count - 2] as! SKNode
         XCTAssertTrue(fgNode == gameScene.foregroundNode)
     }
     
@@ -85,6 +85,19 @@ class GameSceneTests: XCTestCase {
         XCTAssertNotNil(sprite)
     }
     
+    // MARK: - Test HUD layer
+    func testHUDNodeIsAddedAsLastChildAfterInitMethod() {
+        let hudNode = gameScene.children.last as! SKNode
+        XCTAssertTrue(hudNode == gameScene.hudNode)
+    }
+    
+    func testHudNodeHasTapToStartNodeAsItsFirstChildAndSetAllPropertiesCorrectly() {
+        let tapToStart = gameScene.hudNode.children.first as! SKSpriteNode
+        XCTAssertTrue(tapToStart == gameScene.tapToStartNode)
+        XCTAssertTrue(tapToStart.position.x == gameScene.frame.size.width / 2)
+        XCTAssertTrue(tapToStart.position.y == 180.0)
+    }
+    
     // MARK: - Test gravity
     func testGravityIsSetupAfterInitMethod() {
         XCTAssertTrue(gameScene.physicsWorld.gravity == CGVector(dx: 0.0, dy: -2.0))
@@ -94,8 +107,8 @@ class GameSceneTests: XCTestCase {
         XCTAssertNotNil(gameScene.player.physicsBody)
     }
     
-    func testPlayerIsDynamicBody() {
-        XCTAssertTrue(gameScene.player.physicsBody?.dynamic == true)
+    func testPlayerDynamicPropertyIsSetToFalseBeforeGameBegin() {
+        XCTAssertTrue(gameScene.player.physicsBody?.dynamic == false)
     }
     
     func testPlayerAllowRotationIsSetToFalse() {
@@ -116,6 +129,28 @@ class GameSceneTests: XCTestCase {
     
     func testPlayerLinearDampingIsSetToZero() {
         XCTAssertTrue(gameScene.player.physicsBody?.linearDamping == 0.0)
+    }
+    
+    // MARK: - Test touch to start game
+    func testWillNotStartGameIfGameAlreadyStarted() {
+        gameScene.player.physicsBody?.dynamic = true    // Simulate game already started
+        gameScene.touchesBegan(Set<NSObject>(), withEvent: UIEvent())
+        XCTAssertNotNil(gameScene.tapToStartNode)
+    }
+    
+    func testStartGameWillSetPlayerToDynamicBody() {
+        gameScene.touchesBegan(Set<NSObject>(), withEvent: UIEvent())
+        XCTAssertTrue(gameScene.player.physicsBody?.dynamic == true)
+    }
+    
+    func testStartGameWillRemoveTapToStartNode() {
+        gameScene.touchesBegan(Set<NSObject>(), withEvent: UIEvent())
+        XCTAssertTrue(gameScene.tapToStartNode.parent == nil)
+    }
+    
+    func testStartGameWillApplyImpluseToPlayer() {
+        gameScene.touchesBegan(Set<NSObject>(), withEvent: UIEvent())
+        XCTAssertTrue(gameScene.player.physicsBody?.velocity.dy >= 282.0)
     }
 
 }
