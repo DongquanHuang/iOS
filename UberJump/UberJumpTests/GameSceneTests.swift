@@ -27,5 +27,40 @@ class GameSceneTests: XCTestCase {
     func testBackgroundColorIsSetToWhite() {
         XCTAssertTrue(gameScene.backgroundColor.description == "UIDeviceRGBColorSpace 1 1 1 1")
     }
+    
+    func testScaleFactorIsSetProperly() {
+        XCTAssertTrue(gameScene.scaleFactor == gameScene.size.width / 320.0)
+    }
+    
+    func testBackgroundNodeShouldHave20ChildrenNodes() {
+        XCTAssertTrue(gameScene.backgroundNode.children.count == 20)
+    }
+    
+    func testChildNodeOfBackgroundShouldHaveProperScaleFactor() {
+        for node in gameScene.backgroundNode.children as! [SKSpriteNode] {
+            XCTAssertTrue(node.xScale == gameScene.scaleFactor)
+            XCTAssertTrue(node.yScale == gameScene.scaleFactor)
+        }
+    }
+    
+    func testChildNodeOfBackgroundShouldSetAnchorPointCorrectly() {
+        for node in gameScene.backgroundNode.children as! [SKSpriteNode] {
+            XCTAssertTrue(node.anchorPoint == CGPoint(x: 0.5, y: 0.0))
+        }
+    }
+    
+    func testEachChildNodeOfBackgroundShouldHavePositionSetProperly() {
+        for i in 0 ..< gameScene.backgroundNode.children.count {
+            if let node = gameScene.backgroundNode.children[i] as? SKSpriteNode {
+                XCTAssertTrue(node.position.x == node.frame.size.width / 2)
+                XCTAssertTrue(node.position.y == 64.0 * gameScene.scaleFactor * CGFloat(i))
+            }
+        }
+    }
+    
+    func testGameSceneHasBackgroundNodeAddedAferInitMethod() {
+        let bgNode = gameScene.children[0] as! SKNode
+        XCTAssertTrue(bgNode == gameScene.backgroundNode)
+    }
 
 }

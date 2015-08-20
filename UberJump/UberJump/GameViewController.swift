@@ -10,25 +10,13 @@ import UIKit
 import SpriteKit
 
 class GameViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        let skView = self.view as! SKView
-        
-        skView.showsFPS = true
-        skView.showsNodeCount = true
-        
-        let scene = GameScene(size: skView.bounds.size)
-        scene.scaleMode = .AspectFit
-        
-        skView.presentScene(scene)
-    }
-
+    
+    var scene: GameScene?
+    
     override func shouldAutorotate() -> Bool {
         return true
     }
-
+    
     override func supportedInterfaceOrientations() -> Int {
         if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
             return Int(UIInterfaceOrientationMask.AllButUpsideDown.rawValue)
@@ -36,13 +24,31 @@ class GameViewController: UIViewController {
             return Int(UIInterfaceOrientationMask.All.rawValue)
         }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Release any cached data, images, etc that aren't in use.
     }
-
+    
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        prepareGameScene()
+        presentGameScene()
+    }
+
+    private func prepareGameScene() {
+        scene = GameScene(size: self.view.bounds.size)
+        scene?.scaleMode = .AspectFit
+    }
+    
+    private func presentGameScene() {
+        let skView = self.view as! SKView
+        skView.presentScene(scene)
+    }
+    
 }
