@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // MARK: - Constants
     struct AdaptConstants {
@@ -33,6 +33,10 @@ class GameScene: SKScene {
         static let InitialImpulse = CGVector(dx: 0.0, dy: 20.0)
     }
     
+    struct NodeNameConstants {
+        static let StarNodeName = "NODE_STAR"
+    }
+    
     // MARK: - Variables
     var backgroundNode: SKNode!
     var midgroundNode: SKNode!
@@ -55,6 +59,7 @@ class GameScene: SKScene {
         super.init(size: size)
         
         setupGravity()
+        setupContactDelegate()
         
         setupBackground()
         setupForeground()
@@ -65,6 +70,11 @@ class GameScene: SKScene {
     // MARK: - Setup gravity for the game
     private func setupGravity() {
         physicsWorld.gravity = PhysicsConstants.GameGravity
+    }
+    
+    // MARK: - Setup contact delegate
+    private func setupContactDelegate() {
+        physicsWorld.contactDelegate = self
     }
     
     // MARK: - Add background for the game
@@ -105,19 +115,39 @@ class GameScene: SKScene {
     private func createPlayer() -> SKNode {
         let playerNode = SKNode()
         
+        setupInitialPositionForPlayer(playerNode)
+        let sprite = addSpriteForPlayer(playerNode)
+        setupPhysicsForPlayer(playerNode, WithSprite: sprite)
+        
+        return playerNode
+    }
+    
+    private func setupInitialPositionForPlayer(playerNode: SKNode) {
         playerNode.position = CGPoint(x: midOfScreenWidth(), y: GraphicsConstants.InitialPlayerPositionY)
+    }
+    
+    private func addSpriteForPlayer(playerNode: SKNode) -> SKSpriteNode {
         let sprite = SKSpriteNode(imageNamed: "Player")
         playerNode.addChild(sprite)
         
+        return sprite
+    }
+    
+    private func setupPhysicsForPlayer(playerNode: SKNode, WithSprite sprite: SKSpriteNode) {
         playerNode.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width / 2)
+        
         playerNode.physicsBody?.dynamic = false
         playerNode.physicsBody?.allowsRotation = false
+        
         playerNode.physicsBody?.restitution = 1.0
         playerNode.physicsBody?.friction = 0.0
         playerNode.physicsBody?.angularDamping = 0.0
         playerNode.physicsBody?.linearDamping = 0.0
         
-        return playerNode
+        playerNode.physicsBody?.usesPreciseCollisionDetection = true
+        playerNode.physicsBody?.categoryBitMask = CollisionCategoryBitmask.Player
+        playerNode.physicsBody?.collisionBitMask = 0
+        playerNode.physicsBody?.contactTestBitMask = CollisionCategoryBitmask.Star | CollisionCategoryBitmask.Platform
     }
     
     // MARK: - Add Hud for the game
@@ -159,6 +189,57 @@ class GameScene: SKScene {
         player.physicsBody?.applyImpulse(PhysicsConstants.InitialImpulse)
     }
     
+    // MARK: - Add star for the game
+    func createStarAtPosition(position: CGPoint) -> StarNode {
+        let star = StarNode()
+        
+        setupPosition(position, ForStarNode: star)
+        setupNameForStarNode(star)
+        
+        let sprite = addSpriteForStarNode(star)
+        
+        setupPhysicsForStarNode(star, WithSprite: sprite)
+        
+        return star
+    }
+    
+    private func setupPosition(position: CGPoint, ForStarNode star: SKNode) {
+        star.position = adaptForPosition(position)
+    }
+    
+    private func setupNameForStarNode(star: StarNode) {
+        star.name = NodeNameConstants.StarNodeName
+    }
+    
+    private func addSpriteForStarNode(star: StarNode) -> SKSpriteNode {
+        let sprite = SKSpriteNode(imageNamed: "Star")
+        star.addChild(sprite)
+        return sprite
+    }
+    
+    private func setupPhysicsForStarNode(star: StarNode, WithSprite sprite: SKSpriteNode) {
+        star.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width / 2)
+        star.physicsBody?.dynamic = false
+        
+        star.physicsBody?.categoryBitMask = CollisionCategoryBitmask.Star
+        star.physicsBody?.collisionBitMask = 0
+    }
+    
+    // MARK: - Contact delegate method
+    // Note: Not covered by unit test, since we cannot mock SKPhysicsContact object
+    func didBeginContact(contact: SKPhysicsContact) {
+        var shouldUpdateHud = false
+        
+        let whichNode = (contact.bodyA.node != player) ? contact.bodyA.node : contact.bodyB.node
+        let other = whichNode as! GameObjectNode
+        
+        shouldUpdateHud = other.collisionWithPlayer(player)
+        
+        if shouldUpdateHud {
+            
+        }
+    }
+    
     // MARK: - Helper mehtods
     private func midOfScreenWidth() -> CGFloat {
         return self.size.width / 2
@@ -169,6 +250,10 @@ class GameScene: SKScene {
             return true
         }
         return false
+    }
+    
+    private func adaptForPosition(position: CGPoint) -> CGPoint {
+        return CGPoint(x: position.x * scaleFactor, y: position.y)
     }
     
 }

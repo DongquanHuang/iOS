@@ -12,6 +12,16 @@ import SpriteKit
 
 class GameSceneTests: XCTestCase {
     
+    class MockGameObjectNode: GameObjectNode {
+        var collisionHandlerCalled = false
+        
+        override func collisionWithPlayer(player: SKNode) -> Bool {
+            collisionHandlerCalled = true
+            
+            return false
+        }
+    }
+    
     var gameScene = GameScene(size: CGSize(width: 100, height: 100))
 
     override func setUp() {
@@ -85,24 +95,6 @@ class GameSceneTests: XCTestCase {
         XCTAssertNotNil(sprite)
     }
     
-    // MARK: - Test HUD layer
-    func testHUDNodeIsAddedAsLastChildAfterInitMethod() {
-        let hudNode = gameScene.children.last as! SKNode
-        XCTAssertTrue(hudNode == gameScene.hudNode)
-    }
-    
-    func testHudNodeHasTapToStartNodeAsItsFirstChildAndSetAllPropertiesCorrectly() {
-        let tapToStart = gameScene.hudNode.children.first as! SKSpriteNode
-        XCTAssertTrue(tapToStart == gameScene.tapToStartNode)
-        XCTAssertTrue(tapToStart.position.x == gameScene.frame.size.width / 2)
-        XCTAssertTrue(tapToStart.position.y == 180.0)
-    }
-    
-    // MARK: - Test gravity
-    func testGravityIsSetupAfterInitMethod() {
-        XCTAssertTrue(gameScene.physicsWorld.gravity == CGVector(dx: 0.0, dy: -2.0))
-    }
-    
     func testPlayerHasPhysicsBody() {
         XCTAssertNotNil(gameScene.player.physicsBody)
     }
@@ -131,6 +123,40 @@ class GameSceneTests: XCTestCase {
         XCTAssertTrue(gameScene.player.physicsBody?.linearDamping == 0.0)
     }
     
+    func testPlayerUsesPreciseCollisionDetection() {
+        XCTAssertTrue(gameScene.player.physicsBody?.usesPreciseCollisionDetection == true)
+    }
+    
+    func testPlayerCollisionCategoryBitMaskIsSetCorrectly() {
+        XCTAssertTrue(gameScene.player.physicsBody?.categoryBitMask == CollisionCategoryBitmask.Player)
+    }
+    
+    func testWillHandlePlayerCollisionByMyselfInsteadOfSpriteKit() {
+        XCTAssertTrue(gameScene.player.physicsBody?.collisionBitMask == 0)
+    }
+    
+    func testSpriteKitWillReportCollisionEventIfPlayerContactWithStarOrPlatform() {
+        XCTAssertTrue(gameScene.player.physicsBody?.contactTestBitMask == CollisionCategoryBitmask.Star | CollisionCategoryBitmask.Platform)
+    }
+    
+    // MARK: - Test HUD layer
+    func testHUDNodeIsAddedAsLastChildAfterInitMethod() {
+        let hudNode = gameScene.children.last as! SKNode
+        XCTAssertTrue(hudNode == gameScene.hudNode)
+    }
+    
+    func testHudNodeHasTapToStartNodeAsItsFirstChildAndSetAllPropertiesCorrectly() {
+        let tapToStart = gameScene.hudNode.children.first as! SKSpriteNode
+        XCTAssertTrue(tapToStart == gameScene.tapToStartNode)
+        XCTAssertTrue(tapToStart.position.x == gameScene.frame.size.width / 2)
+        XCTAssertTrue(tapToStart.position.y == 180.0)
+    }
+    
+    // MARK: - Test gravity
+    func testGravityIsSetupAfterInitMethod() {
+        XCTAssertTrue(gameScene.physicsWorld.gravity == CGVector(dx: 0.0, dy: -2.0))
+    }
+    
     // MARK: - Test touch to start game
     func testWillNotStartGameIfGameAlreadyStarted() {
         gameScene.player.physicsBody?.dynamic = true    // Simulate game already started
@@ -151,6 +177,47 @@ class GameSceneTests: XCTestCase {
     func testStartGameWillApplyImpluseToPlayer() {
         gameScene.touchesBegan(Set<NSObject>(), withEvent: UIEvent())
         XCTAssertTrue(gameScene.player.physicsBody?.velocity.dy >= 282.0)
+    }
+    
+    // MARK: - Test add star
+    func testCreateStarWillGiveBackTheStarNode() {
+        XCTAssertTrue(gameScene.createStarAtPosition(CGPoint(x: 0, y: 0)).isKindOfClass(StarNode) == true)
+    }
+    
+    func testCreateStarWillSetupThePositionCorrectly() {
+        let star = gameScene.createStarAtPosition(CGPoint(x: 50, y: 50))
+        XCTAssertTrue(star.position.x == 50 * gameScene.scaleFactor)
+        XCTAssertTrue(star.position.y == 50)
+    }
+    
+    func testNodeNameIsSetCorrectly() {
+        let star = gameScene.createStarAtPosition(CGPoint(x: 50, y: 50))
+        XCTAssertTrue(star.name == "NODE_STAR")
+    }
+    
+    func testStarNodeHasASprite() {
+        let star = gameScene.createStarAtPosition(CGPoint(x: 50, y: 50))
+        XCTAssertTrue(star.children.first?.isKindOfClass(SKSpriteNode) == true)
+    }
+    
+    func testStarNodeIsStaticBody() {
+        let star = gameScene.createStarAtPosition(CGPoint(x: 50, y: 50))
+        XCTAssertTrue(star.physicsBody?.dynamic == false)
+    }
+    
+    func testStarNodeWillHaveCollisionCategoryBitMaskSetCorrectly() {
+        let star = gameScene.createStarAtPosition(CGPoint(x: 50, y: 50))
+        XCTAssertTrue(star.physicsBody?.categoryBitMask == CollisionCategoryBitmask.Star)
+    }
+    
+    func testWeCanHandleStarCollisionByOurselvesInsteadOfBySpriteKit() {
+        let star = gameScene.createStarAtPosition(CGPoint(x: 50, y: 50))
+        XCTAssertTrue(star.physicsBody?.collisionBitMask == 0)
+    }
+    
+    // MARK: - Test contact delegate
+    func testGameSceneIsTheContactDelegate() {
+        XCTAssertTrue(gameScene.physicsWorld.contactDelegate.isKindOfClass(GameScene) == true)
     }
 
 }
