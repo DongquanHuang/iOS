@@ -22,6 +22,12 @@ class GameScene: SKScene {
         
         // The image height of splited background images
         static let HeightOfSplitedBackgroundImage: CGFloat = 64.0
+        
+        static let InitialPlayerPositionY: CGFloat = 80.0
+    }
+    
+    struct PhysicsConstants {
+        static let GameGravity = CGVector(dx: 0.0, dy: -2.0)
     }
     
     // MARK: - Variables
@@ -29,7 +35,9 @@ class GameScene: SKScene {
     var midgroundNode: SKNode!
     var foregroundNode: SKNode!
     var hudNode: SKNode!
+    var player: SKNode!
     
+    // Adapt for all iPhone devices
     lazy var scaleFactor: CGFloat! = {
         return self.size.width / AdaptConstants.NormalPhoneWidth
     }()
@@ -42,9 +50,19 @@ class GameScene: SKScene {
     override init(size: CGSize) {
         super.init(size: size)
         
+        setupGravity()
+        
         setupBackground()
+        setupForeground()
+        addPlayerIntoForeground()
     }
     
+    // MARK: - Setup gravity for the game
+    private func setupGravity() {
+        physicsWorld.gravity = PhysicsConstants.GameGravity
+    }
+    
+    // MARK: - Add background for the game
     private func setupBackground() {
         backgroundColor = SKColor.whiteColor()
         backgroundNode = createBackgourndNode()
@@ -59,12 +77,47 @@ class GameScene: SKScene {
             
             node.setScale(scaleFactor)
             node.anchorPoint = CGPoint(x: 0.5, y: 0.0)
-            node.position = CGPoint(x: self.size.width / 2, y: GraphicsConstants.HeightOfSplitedBackgroundImage * CGFloat(i - 1) * scaleFactor)
+            node.position = CGPoint(x: midOfScreenWidth(), y: GraphicsConstants.HeightOfSplitedBackgroundImage * CGFloat(i - 1) * scaleFactor)
             
             bgNode.addChild(node)
         }
         
         return bgNode
+    }
+    
+    // MARK: - Add foreground for the game
+    private func setupForeground() {
+        foregroundNode = SKNode()
+        addChild(foregroundNode)
+    }
+    
+    // MARK: - Add player for the game
+    private func addPlayerIntoForeground() {
+        player = createPlayer()
+        foregroundNode.addChild(player)
+    }
+    
+    private func createPlayer() -> SKNode {
+        let playerNode = SKNode()
+        
+        playerNode.position = CGPoint(x: midOfScreenWidth(), y: GraphicsConstants.InitialPlayerPositionY)
+        let sprite = SKSpriteNode(imageNamed: "Player")
+        playerNode.addChild(sprite)
+        
+        playerNode.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width / 2)
+        playerNode.physicsBody?.dynamic = true
+        playerNode.physicsBody?.allowsRotation = false
+        playerNode.physicsBody?.restitution = 1.0
+        playerNode.physicsBody?.friction = 0.0
+        playerNode.physicsBody?.angularDamping = 0.0
+        playerNode.physicsBody?.linearDamping = 0.0
+        
+        return playerNode
+    }
+    
+    // MARK: - Helper mehtods
+    private func midOfScreenWidth() -> CGFloat {
+        return self.size.width / 2
     }
     
 }

@@ -23,13 +23,15 @@ class GameSceneTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-
-    func testBackgroundColorIsSetToWhite() {
-        XCTAssertTrue(gameScene.backgroundColor.description == "UIDeviceRGBColorSpace 1 1 1 1")
-    }
     
+    // MARK: - Test device compatibility
     func testScaleFactorIsSetProperly() {
         XCTAssertTrue(gameScene.scaleFactor == gameScene.size.width / 320.0)
+    }
+
+    // MARK: - Test background added properly
+    func testBackgroundColorIsSetToWhite() {
+        XCTAssertTrue(gameScene.backgroundColor.description == "UIDeviceRGBColorSpace 1 1 1 1")
     }
     
     func testBackgroundNodeShouldHave20ChildrenNodes() {
@@ -61,6 +63,59 @@ class GameSceneTests: XCTestCase {
     func testGameSceneHasBackgroundNodeAddedAferInitMethod() {
         let bgNode = gameScene.children[0] as! SKNode
         XCTAssertTrue(bgNode == gameScene.backgroundNode)
+    }
+    
+    // MARK: - Test foreground & Player
+    func testForegroundNodeIsAddedAsLastChildAfterInitMethod() {
+        let fgNode = gameScene.children.last as! SKNode
+        XCTAssertTrue(fgNode == gameScene.foregroundNode)
+    }
+    
+    func testPlayerIsAddedAsFirstChildOfForegroundAfterInitMethod() {
+        XCTAssertTrue(gameScene.player == gameScene.foregroundNode.children.first as! SKNode)
+    }
+    
+    func testPlayerNodePositionIsSetCorrectly() {
+        XCTAssertTrue(gameScene.player.position.x == gameScene.frame.size.width / 2)
+        XCTAssertTrue(gameScene.player.position.y == 80.0)
+    }
+    
+    func testPlayerNodeHasSpriteSetCorrectly() {
+        let sprite = gameScene.player.children.first as! SKSpriteNode
+        XCTAssertNotNil(sprite)
+    }
+    
+    // MARK: - Test gravity
+    func testGravityIsSetupAfterInitMethod() {
+        XCTAssertTrue(gameScene.physicsWorld.gravity == CGVector(dx: 0.0, dy: -2.0))
+    }
+    
+    func testPlayerHasPhysicsBody() {
+        XCTAssertNotNil(gameScene.player.physicsBody)
+    }
+    
+    func testPlayerIsDynamicBody() {
+        XCTAssertTrue(gameScene.player.physicsBody?.dynamic == true)
+    }
+    
+    func testPlayerAllowRotationIsSetToFalse() {
+        XCTAssertTrue(gameScene.player.physicsBody?.allowsRotation == false)
+    }
+    
+    func testPlayerRestitutionIsSetToOne() {
+        XCTAssertTrue(gameScene.player.physicsBody?.restitution == 1.0)
+    }
+    
+    func testPlayerFrictionIsSetToZero() {
+        XCTAssertTrue(gameScene.player.physicsBody?.friction == 0.0)
+    }
+    
+    func testPlayerAngularDampingIsSetToZero() {
+        XCTAssertTrue(gameScene.player.physicsBody?.angularDamping == 0.0)
+    }
+    
+    func testPlayerLinearDampingIsSetToZero() {
+        XCTAssertTrue(gameScene.player.physicsBody?.linearDamping == 0.0)
     }
 
 }
