@@ -57,25 +57,13 @@ class GameLevelLoader: NSObject {
         let platformPatterns = platforms["Patterns"] as! NSDictionary
         let platformPositions = platforms["Positions"] as! [NSDictionary]
         
-        for platformPosition in platformPositions {
-            let patternX = platformPosition["x"]?.floatValue
-            let patternY = platformPosition["y"]?.floatValue
-            let pattern = platformPosition["pattern"] as! NSString
+        let properties = gameObjectPositionAndTypeFromPositions(platformPositions, AndPatterns: platformPatterns)
+        for property in properties {
+            let platformNode = PlatformNode()
+            platformNode.position = property.0
+            platformNode.platformType = PlatformType(rawValue: property.1)
             
-            let platformPattern = platformPatterns[pattern] as! [NSDictionary]
-            for platformPoint in platformPattern {
-                let x = platformPoint["x"]?.floatValue
-                let y = platformPoint["y"]?.floatValue
-                let type = PlatformType(rawValue: platformPoint["type"]!.integerValue)
-                let positionX = CGFloat(x! + patternX!)
-                let positionY = CGFloat(y! + patternY!)
-                
-                let platformNode = PlatformNode()
-                platformNode.position = CGPoint(x: positionX, y: positionY)
-                platformNode.platformType = type!
-                
-                gameLevel.platforms.append(platformNode)
-            }
+            gameLevel.platforms.append(platformNode)
         }
     }
     
@@ -84,26 +72,40 @@ class GameLevelLoader: NSObject {
         let starPatterns = stars["Patterns"] as! NSDictionary
         let starPositions = stars["Positions"] as! [NSDictionary]
         
-        for starPosition in starPositions {
-            let patternX = starPosition["x"]?.floatValue
-            let patternY = starPosition["y"]?.floatValue
-            let pattern = starPosition["pattern"] as! NSString
+        let properties = gameObjectPositionAndTypeFromPositions(starPositions, AndPatterns: starPatterns)
+        for property in properties {
+            let starNode = StarNode()
+            starNode.position = property.0
+            starNode.starType = StarType(rawValue: property.1)
             
-            let starPattern = starPatterns[pattern] as! [NSDictionary]
-            for starPoint in starPattern {
-                let x = starPoint["x"]?.floatValue
-                let y = starPoint["y"]?.floatValue
-                let type = StarType(rawValue: starPoint["type"]!.integerValue)
+            gameLevel.stars.append(starNode)
+        }
+    }
+    
+    private func gameObjectPositionAndTypeFromPositions(positions: [NSDictionary], AndPatterns patterns: NSDictionary) -> [(CGPoint, Int)] {
+        var result = [(CGPoint, Int)]()
+        
+        for position in positions {
+            let x = position["x"]?.floatValue
+            let y = position["y"]?.floatValue
+            
+            let pattern = position["pattern"] as! NSString
+            let gameObjectPatterns = patterns[pattern] as! [NSDictionary]
+            
+            for gameObjectPattern in gameObjectPatterns {
+                let patternX = gameObjectPattern["x"]?.floatValue
+                let patternY = gameObjectPattern["y"]?.floatValue
                 let positionX = CGFloat(x! + patternX!)
                 let positionY = CGFloat(y! + patternY!)
                 
-                let starNode = StarNode()
-                starNode.position = CGPoint(x: positionX, y: positionY)
-                starNode.starType = type!
+                let type = gameObjectPattern["type"]?.integerValue
                 
-                gameLevel.stars.append(starNode)
+                let objectProperty = (CGPoint(x: positionX, y: positionY), type!)
+                result.append(objectProperty)
             }
         }
+        
+        return result
     }
 
 }
