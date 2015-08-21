@@ -376,6 +376,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // MARK: - Update method for parallaxalization
     override func update(currentTime: NSTimeInterval) {
+        moveLayers()
+    }
+    
+    private func moveLayers() {
         if player.position.y > GraphicsConstants.ParallaxalizationThreshold {
             backgroundNode.position = CGPoint(x: 0.0, y: -((player.position.y - GraphicsConstants.ParallaxalizationThreshold) * GraphicsConstants.BackgroundParallaxalizationSpeed))
             midgroundNode.position = CGPoint(x: 0.0, y: -((player.position.y - GraphicsConstants.ParallaxalizationThreshold) * GraphicsConstants.MidgroundParallaxalizationSpeed))
