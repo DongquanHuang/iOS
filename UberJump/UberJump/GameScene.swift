@@ -104,6 +104,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private func setupForeground() {
         foregroundNode = SKNode()
         addChild(foregroundNode)
+        
+        // TODO: test purpose only, remove later
+        let star = createStarAtPosition(CGPoint(x: 160, y: 220), OfType: .Special)
+        foregroundNode.addChild(star)
+        //
     }
     
     // MARK: - Add player for the game
@@ -190,13 +195,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     // MARK: - Add star for the game
-    func createStarAtPosition(position: CGPoint) -> StarNode {
+    func createStarAtPosition(position: CGPoint, OfType type: StarType) -> StarNode {
         let star = StarNode()
         
         setupPosition(position, ForStarNode: star)
         setupNameForStarNode(star)
+        setupType(type, ForStarNode: star)
         
-        let sprite = addSpriteForStarNode(star)
+        let sprite = addSpriteForStarNode(star, OfType: type)
         
         setupPhysicsForStarNode(star, WithSprite: sprite)
         
@@ -211,8 +217,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         star.name = NodeNameConstants.StarNodeName
     }
     
-    private func addSpriteForStarNode(star: StarNode) -> SKSpriteNode {
-        let sprite = SKSpriteNode(imageNamed: "Star")
+    private func setupType(type: StarType, ForStarNode star: StarNode) {
+        star.starType = type
+    }
+    
+    private func addSpriteForStarNode(star: StarNode, OfType type: StarType) -> SKSpriteNode {
+        var sprite: SKSpriteNode
+        
+        if type == .Special {
+            sprite = SKSpriteNode(imageNamed: "StarSpecial")
+        }
+        else {
+            sprite = SKSpriteNode(imageNamed: "Star")
+        }
+        
         star.addChild(sprite)
         return sprite
     }

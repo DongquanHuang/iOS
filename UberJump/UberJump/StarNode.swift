@@ -9,11 +9,18 @@
 import UIKit
 import SpriteKit
 
+enum StarType: Int {
+    case Normal = 0
+    case Special
+}
+
 class StarNode: GameObjectNode {
     
     struct PhysicsConstants {
         static let BoostVectorY: CGFloat = 400.0
     }
+    
+    var starType: StarType!
    
     override func collisionWithPlayer(player: SKNode) -> Bool {
         boostPlayer(player)

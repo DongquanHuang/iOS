@@ -23,6 +23,9 @@ class GameSceneTests: XCTestCase {
     }
     
     var gameScene = GameScene(size: CGSize(width: 100, height: 100))
+    lazy var star: StarNode = {
+        return self.gameScene.createStarAtPosition(CGPoint(x: 50, y: 50), OfType: .Normal)
+    }()
 
     override func setUp() {
         super.setUp()
@@ -81,8 +84,8 @@ class GameSceneTests: XCTestCase {
         XCTAssertTrue(fgNode == gameScene.foregroundNode)
     }
     
-    func testPlayerIsAddedAsFirstChildOfForegroundAfterInitMethod() {
-        XCTAssertTrue(gameScene.player == gameScene.foregroundNode.children.first as! SKNode)
+    func testPlayerIsAddedAsLastChildOfForegroundAfterInitMethod() {
+        XCTAssertTrue(gameScene.player == gameScene.foregroundNode.children.last as! SKNode)
     }
     
     func testPlayerNodePositionIsSetCorrectly() {
@@ -181,37 +184,43 @@ class GameSceneTests: XCTestCase {
     
     // MARK: - Test add star
     func testCreateStarWillGiveBackTheStarNode() {
-        XCTAssertTrue(gameScene.createStarAtPosition(CGPoint(x: 0, y: 0)).isKindOfClass(StarNode) == true)
+        XCTAssertTrue(star.isKindOfClass(StarNode) == true)
+        XCTAssertTrue(star.starType == StarType.Normal)
+    }
+    
+    func testWeHaveDifferentTypesOfStarSprites() {
+        let normalSprite = star.children.first as! SKSpriteNode
+        let specialStar = gameScene.createStarAtPosition(CGPoint(x: 50, y: 50), OfType: StarType.Special)
+        let specialSprite = specialStar.children.first as! SKSpriteNode
+        let normalStar = gameScene.createStarAtPosition(CGPoint(x: 50, y: 50), OfType: StarType.Normal)
+        let normalSprite2 = normalStar.children.first as! SKSpriteNode
+
+        XCTAssertTrue(normalSprite.texture!.description != specialSprite.texture!.description)
+        XCTAssertTrue(normalSprite.texture!.description == normalSprite2.texture!.description)
     }
     
     func testCreateStarWillSetupThePositionCorrectly() {
-        let star = gameScene.createStarAtPosition(CGPoint(x: 50, y: 50))
         XCTAssertTrue(star.position.x == 50 * gameScene.scaleFactor)
         XCTAssertTrue(star.position.y == 50)
     }
     
     func testNodeNameIsSetCorrectly() {
-        let star = gameScene.createStarAtPosition(CGPoint(x: 50, y: 50))
         XCTAssertTrue(star.name == "NODE_STAR")
     }
     
     func testStarNodeHasASprite() {
-        let star = gameScene.createStarAtPosition(CGPoint(x: 50, y: 50))
         XCTAssertTrue(star.children.first?.isKindOfClass(SKSpriteNode) == true)
     }
     
     func testStarNodeIsStaticBody() {
-        let star = gameScene.createStarAtPosition(CGPoint(x: 50, y: 50))
         XCTAssertTrue(star.physicsBody?.dynamic == false)
     }
     
     func testStarNodeWillHaveCollisionCategoryBitMaskSetCorrectly() {
-        let star = gameScene.createStarAtPosition(CGPoint(x: 50, y: 50))
         XCTAssertTrue(star.physicsBody?.categoryBitMask == CollisionCategoryBitmask.Star)
     }
     
     func testWeCanHandleStarCollisionByOurselvesInsteadOfBySpriteKit() {
-        let star = gameScene.createStarAtPosition(CGPoint(x: 50, y: 50))
         XCTAssertTrue(star.physicsBody?.collisionBitMask == 0)
     }
     
