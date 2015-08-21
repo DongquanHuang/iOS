@@ -67,6 +67,8 @@
 		D0ACD5481B85B59700DBB87E /* StarNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ACD5471B85B59700DBB87E /* StarNode.swift */; };
 		D0ACD5491B85B59700DBB87E /* StarNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ACD5471B85B59700DBB87E /* StarNode.swift */; };
 		D0ACD54B1B85B5B200DBB87E /* StarNodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ACD54A1B85B5B200DBB87E /* StarNodeTests.swift */; };
+		D0ACD54D1B86BD9100DBB87E /* StarPing.wav in Resources */ = {isa = PBXBuildFile; fileRef = D0ACD54C1B86BD9100DBB87E /* StarPing.wav */; };
+		D0ACD54E1B86BD9100DBB87E /* StarPing.wav in Resources */ = {isa = PBXBuildFile; fileRef = D0ACD54C1B86BD9100DBB87E /* StarPing.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -139,6 +141,7 @@
 		D0ACD5451B85B19B00DBB87E /* GameObjectNodeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameObjectNodeTests.swift; sourceTree = "<group>"; };
 		D0ACD5471B85B59700DBB87E /* StarNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarNode.swift; sourceTree = "<group>"; };
 		D0ACD54A1B85B5B200DBB87E /* StarNodeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarNodeTests.swift; sourceTree = "<group>"; };
+		D0ACD54C1B86BD9100DBB87E /* StarPing.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = StarPing.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,6 +200,7 @@
 				D0ACD4C71B856FD400DBB87E /* Main.storyboard */,
 				D0ACD4CC1B856FD400DBB87E /* LaunchScreen.xib */,
 				D0ACD4BE1B856FD400DBB87E /* Info.plist */,
+				D0ACD54F1B86BD9400DBB87E /* UberJumpMusic */,
 				D0ACD4E31B85708200DBB87E /* UberJumpGraphics */,
 			);
 			name = "Supporting Files";
@@ -278,6 +282,14 @@
 				D0ACD50F1B85708200DBB87E /* Background@2x.png */,
 			);
 			path = Backgrounds;
+			sourceTree = "<group>";
+		};
+		D0ACD54F1B86BD9400DBB87E /* UberJumpMusic */ = {
+			isa = PBXGroup;
+			children = (
+				D0ACD54C1B86BD9100DBB87E /* StarPing.wav */,
+			);
+			name = UberJumpMusic;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -379,6 +391,7 @@
 				D0ACD5211B85708200DBB87E /* Background08@2x.png in Resources */,
 				D0ACD5231B85708200DBB87E /* Background09@2x.png in Resources */,
 				D0ACD5131B85708200DBB87E /* Background01@2x.png in Resources */,
+				D0ACD54D1B86BD9100DBB87E /* StarPing.wav in Resources */,
 				D0ACD51D1B85708200DBB87E /* Background06@2x.png in Resources */,
 				D0ACD5241B85708200DBB87E /* Background10.png in Resources */,
 				D0ACD5301B85708200DBB87E /* Background16.png in Resources */,
@@ -413,6 +426,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0ACD54E1B86BD9100DBB87E /* StarPing.wav in Resources */,
 				D0ACD5411B8576FC00DBB87E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -21,10 +21,12 @@ class StarNode: GameObjectNode {
     }
     
     var starType: StarType!
+    let starSound = SKAction.playSoundFileNamed("StarPing.wav", waitForCompletion: false)
    
     override func collisionWithPlayer(player: SKNode) -> Bool {
         boostPlayer(player)
-        self.removeFromParent()
+        // Below code not covered by unit test
+        runAction(starSound, completion: { self.removeFromParent() })
         
         return true
     }
