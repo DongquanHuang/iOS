@@ -46,6 +46,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var player: SKNode!
     var tapToStartNode: SKNode!
     
+    var currentLevel = LevelConstants.StartLevel
+    var levelLoader = GameLevelLoader()
+    var gameLevel: GameLevel?
+    
     // Adapt for all iPhone devices
     lazy var scaleFactor: CGFloat! = {
         return self.size.width / AdaptConstants.NormalPhoneWidth
@@ -59,6 +63,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override init(size: CGSize) {
         super.init(size: size)
         
+        loadGameLevel()
+        
         setupGravity()
         setupContactDelegate()
         
@@ -66,6 +72,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupForeground()
         addPlayerIntoForeground()
         setupHud()
+    }
+    
+    // MARK: - Load game level
+    private func loadGameLevel() {
+        gameLevel = levelLoader.loadLevel(currentLevel)
+    }
+    
+    func goToNextLevel() {
+        currentLevel++
     }
     
     // MARK: - Setup gravity for the game
@@ -106,12 +121,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         foregroundNode = SKNode()
         addChild(foregroundNode)
         
-        // TODO: test purpose only, remove later
-        let platform = createPlatformAtPosition(CGPoint(x: 160, y: 360), OfType: .Normal)
-        foregroundNode.addChild(platform)
-        let star = createStarAtPosition(CGPoint(x: 160, y: 220), OfType: .Special)
-        foregroundNode.addChild(star)
-        //
+        addPlatformsIntoForeground()
+        addStarsIntoForeground()
     }
     
     // MARK: - Add player for the game
@@ -198,6 +209,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     // MARK: - Add star for the game
+    func addStarsIntoForeground() {
+        for starNode in gameLevel!.stars {
+            let star = createStarAtPosition(starNode.position, OfType: starNode.starType)
+            foregroundNode.addChild(star)
+        }
+    }
+    
     func createStarAtPosition(position: CGPoint, OfType type: StarType) -> StarNode {
         let star = StarNode()
         
@@ -242,6 +260,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     // MARK: - Add platform for the game
+    func addPlatformsIntoForeground() {
+        for platformNode in gameLevel!.platforms {
+            let platform = createPlatformAtPosition(platformNode.position, OfType: platformNode.platformType)
+            foregroundNode.addChild(platform)
+        }
+    }
+    
     func createPlatformAtPosition(position: CGPoint, OfType type: PlatformType) -> PlatformNode {
         let platform = PlatformNode()
         

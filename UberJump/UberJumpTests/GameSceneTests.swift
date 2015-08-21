@@ -81,12 +81,17 @@ class GameSceneTests: XCTestCase {
         XCTAssertTrue(bgNode == gameScene.backgroundNode)
     }
     
-    // MARK: - Test foreground & Player
+    // MARK: - Test foreground node
     func testForegroundNodeIsAddedAsSecondLastChildAfterInitMethod() {
         let fgNode = gameScene.children[gameScene.children.count - 2] as! SKNode
         XCTAssertTrue(fgNode == gameScene.foregroundNode)
     }
     
+    func testForegroundHasGameObjectsNodeAddedAfterInitMethod() {
+        XCTAssertTrue(gameScene.foregroundNode.children.count == gameScene.gameLevel!.stars.count + gameScene.gameLevel!.platforms.count + 1)   // +1: foreground will add player node
+    }
+    
+    // MARK: - Test player node
     func testPlayerIsAddedAsLastChildOfForegroundAfterInitMethod() {
         XCTAssertTrue(gameScene.player == gameScene.foregroundNode.children.last as! SKNode)
     }
@@ -269,6 +274,20 @@ class GameSceneTests: XCTestCase {
     // MARK: - Test contact delegate
     func testGameSceneIsTheContactDelegate() {
         XCTAssertTrue(gameScene.physicsWorld.contactDelegate.isKindOfClass(GameScene) == true)
+    }
+    
+    // MARK: - Test load game level
+    func testStartLevelIsSetCorrectly() {
+        XCTAssertTrue(gameScene.currentLevel == LevelConstants.StartLevel)
+    }
+    
+    func testGoToNextLevelWillIncreaseLevelNumber() {
+        gameScene.goToNextLevel()
+        XCTAssertTrue(gameScene.currentLevel == LevelConstants.StartLevel + 1)
+    }
+    
+    func testGameSceneWillLoadGameLevelAfterInit() {
+        XCTAssertNotNil(gameScene.gameLevel)
     }
 
 }
