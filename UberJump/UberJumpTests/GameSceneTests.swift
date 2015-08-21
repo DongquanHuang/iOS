@@ -299,5 +299,33 @@ class GameSceneTests: XCTestCase {
     func testGameSceneWillLoadGameLevelAfterInit() {
         XCTAssertNotNil(gameScene.gameLevel)
     }
+    
+    // MARK: - Test parallaxalization
+    func testNoParallaxalizationIfPlayerIsNotJumpHighEnough() {
+        let originBgNodePositionY = gameScene.backgroundNode.position.y
+        gameScene.update(0)
+        XCTAssertTrue(gameScene.backgroundNode.position.y == originBgNodePositionY)
+    }
+    
+    func testBackgroundWillMoveWhenPlayerJumps() {
+        let originBgNodePositionY = gameScene.backgroundNode.position.y
+        gameScene.player.position.y = 300
+        gameScene.update(0)
+        XCTAssertTrue(gameScene.backgroundNode.position.y < originBgNodePositionY)
+    }
+    
+    func testMidgroundWillMoveWhenPlayerJumps() {
+        let originMidNodePositionY = gameScene.midgroundNode.position.y
+        gameScene.player.position.y = 300
+        gameScene.update(0)
+        XCTAssertTrue(gameScene.midgroundNode.position.y < originMidNodePositionY)
+    }
+    
+    func testForegroundWillMoveWhenPlayerJumps() {
+        let originFgNodePositionY = gameScene.foregroundNode.position.y
+        gameScene.player.position.y = 300
+        gameScene.update(0)
+        XCTAssertTrue(gameScene.foregroundNode.position.y < originFgNodePositionY)
+    }
 
 }

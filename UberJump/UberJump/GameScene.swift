@@ -19,15 +19,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     struct GraphicsConstants {
         // The whole background image is devided into 20 parts
         static let NumberOfBackgroundImages = 20
-        
         // The image height of splited background images
         static let HeightOfSplitedBackgroundImage: CGFloat = 64.0
         
         static let InitialPlayerPositionY: CGFloat = 80.0
-        
         static let TapToStartPositionY: CGFloat = 180.0
         
         static let NumberOfMidgroundSprites = 10
+        static let GapBetweenMidgroundSprites: CGFloat = 500.0
+        
+        static let ParallaxalizationThreshold: CGFloat = 200.0
+        static let BackgroundParallaxalizationSpeed: CGFloat = 1.0 / 10.0
+        static let MidgroundParallaxalizationSpeed: CGFloat = 1.0 / 4.0
+        static let ForegroundParallaxalizationSpeed: CGFloat = 1.0
     }
     
     struct PhysicsConstants {
@@ -146,7 +150,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             let branchNode = SKSpriteNode(imageNamed: spriteName)
             branchNode.anchorPoint = anchor
-            branchNode.position = CGPoint(x: xPosition, y: CGFloat(500.0) * CGFloat(i))
+            branchNode.position = CGPoint(x: xPosition, y: GraphicsConstants.GapBetweenMidgroundSprites * CGFloat(i))
             midgroundNode.addChild(branchNode)
         }
     }
@@ -367,6 +371,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if shouldUpdateHud {
             
+        }
+    }
+    
+    // MARK: - Update method for parallaxalization
+    override func update(currentTime: NSTimeInterval) {
+        if player.position.y > GraphicsConstants.ParallaxalizationThreshold {
+            backgroundNode.position = CGPoint(x: 0.0, y: -((player.position.y - GraphicsConstants.ParallaxalizationThreshold) * GraphicsConstants.BackgroundParallaxalizationSpeed))
+            midgroundNode.position = CGPoint(x: 0.0, y: -((player.position.y - GraphicsConstants.ParallaxalizationThreshold) * GraphicsConstants.MidgroundParallaxalizationSpeed))
+            foregroundNode.position = CGPoint(x: 0.0, y: -((player.position.y - GraphicsConstants.ParallaxalizationThreshold) * GraphicsConstants.ForegroundParallaxalizationSpeed))
         }
     }
     
