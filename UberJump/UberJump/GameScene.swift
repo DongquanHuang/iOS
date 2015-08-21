@@ -26,6 +26,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         static let InitialPlayerPositionY: CGFloat = 80.0
         
         static let TapToStartPositionY: CGFloat = 180.0
+        
+        static let NumberOfMidgroundSprites = 10
     }
     
     struct PhysicsConstants {
@@ -69,6 +71,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupContactDelegate()
         
         setupBackground()
+        setupMidground()
         setupForeground()
         addPlayerIntoForeground()
         setupHud()
@@ -114,6 +117,38 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         return bgNode
+    }
+    
+    // MARK: - Add midground for the game
+    private func setupMidground() {
+        midgroundNode = SKNode()
+        addChild(midgroundNode)
+        
+        addMidgroundSprites()
+    }
+    
+    private func addMidgroundSprites() {
+        var spriteName: String
+        var anchor: CGPoint!
+        var xPosition: CGFloat!
+        
+        for i in 0 ..< GraphicsConstants.NumberOfMidgroundSprites {
+            let r = arc4random() % 2
+            if r > 0 {
+                spriteName = "BranchRight"
+                anchor = CGPoint(x: 1.0, y: 0.5)
+                xPosition = self.size.width
+            } else {
+                spriteName = "BranchLeft"
+                anchor = CGPoint(x: 0.0, y: 0.5)
+                xPosition = 0.0
+            }
+            
+            let branchNode = SKSpriteNode(imageNamed: spriteName)
+            branchNode.anchorPoint = anchor
+            branchNode.position = CGPoint(x: xPosition, y: CGFloat(500.0) * CGFloat(i))
+            midgroundNode.addChild(branchNode)
+        }
     }
     
     // MARK: - Add foreground for the game

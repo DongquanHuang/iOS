@@ -81,6 +81,16 @@ class GameSceneTests: XCTestCase {
         XCTAssertTrue(bgNode == gameScene.backgroundNode)
     }
     
+    // MARK: - Test midground node
+    func testMidgroundNodeIsAddedAsSecondChildIntoGameSceneAfterInitMethod() {
+        let midNode = gameScene.children[1] as! SKNode
+        XCTAssertTrue(midNode == gameScene.midgroundNode)
+    }
+    
+    func testMidgroundNodeHasCorrectNumberOfSprites() {
+        XCTAssertTrue(gameScene.midgroundNode.children.count == GameScene.GraphicsConstants.NumberOfMidgroundSprites)
+    }
+    
     // MARK: - Test foreground node
     func testForegroundNodeIsAddedAsSecondLastChildAfterInitMethod() {
         let fgNode = gameScene.children[gameScene.children.count - 2] as! SKNode
