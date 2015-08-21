@@ -69,6 +69,9 @@
 		D0ACD54B1B85B5B200DBB87E /* StarNodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ACD54A1B85B5B200DBB87E /* StarNodeTests.swift */; };
 		D0ACD54D1B86BD9100DBB87E /* StarPing.wav in Resources */ = {isa = PBXBuildFile; fileRef = D0ACD54C1B86BD9100DBB87E /* StarPing.wav */; };
 		D0ACD54E1B86BD9100DBB87E /* StarPing.wav in Resources */ = {isa = PBXBuildFile; fileRef = D0ACD54C1B86BD9100DBB87E /* StarPing.wav */; };
+		D0ACD5511B86C47100DBB87E /* PlatformNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ACD5501B86C47100DBB87E /* PlatformNode.swift */; };
+		D0ACD5521B86C47100DBB87E /* PlatformNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ACD5501B86C47100DBB87E /* PlatformNode.swift */; };
+		D0ACD5541B86C58E00DBB87E /* PlatformNodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ACD5531B86C58E00DBB87E /* PlatformNodeTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -142,6 +145,8 @@
 		D0ACD5471B85B59700DBB87E /* StarNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarNode.swift; sourceTree = "<group>"; };
 		D0ACD54A1B85B5B200DBB87E /* StarNodeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarNodeTests.swift; sourceTree = "<group>"; };
 		D0ACD54C1B86BD9100DBB87E /* StarPing.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = StarPing.wav; sourceTree = "<group>"; };
+		D0ACD5501B86C47100DBB87E /* PlatformNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlatformNode.swift; sourceTree = "<group>"; };
+		D0ACD5531B86C58E00DBB87E /* PlatformNodeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlatformNodeTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,6 +192,7 @@
 				D0ACD4C51B856FD400DBB87E /* GameViewController.swift */,
 				D0ACD5421B85B0F100DBB87E /* GameObjectNode.swift */,
 				D0ACD5471B85B59700DBB87E /* StarNode.swift */,
+				D0ACD5501B86C47100DBB87E /* PlatformNode.swift */,
 				D0ACD4BD1B856FD400DBB87E /* Supporting Files */,
 			);
 			path = UberJump;
@@ -214,6 +220,7 @@
 				D0ACD53F1B85759400DBB87E /* GameViewControllerTests.swift */,
 				D0ACD5451B85B19B00DBB87E /* GameObjectNodeTests.swift */,
 				D0ACD54A1B85B5B200DBB87E /* StarNodeTests.swift */,
+				D0ACD5531B86C58E00DBB87E /* PlatformNodeTests.swift */,
 			);
 			path = UberJumpTests;
 			sourceTree = "<group>";
@@ -442,6 +449,7 @@
 				D0ACD5481B85B59700DBB87E /* StarNode.swift in Sources */,
 				D0ACD4C61B856FD400DBB87E /* GameViewController.swift in Sources */,
 				D0ACD5431B85B0F100DBB87E /* GameObjectNode.swift in Sources */,
+				D0ACD5511B86C47100DBB87E /* PlatformNode.swift in Sources */,
 				D0ACD4C01B856FD400DBB87E /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -450,10 +458,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0ACD5541B86C58E00DBB87E /* PlatformNodeTests.swift in Sources */,
 				D0ACD5491B85B59700DBB87E /* StarNode.swift in Sources */,
 				D0ACD54B1B85B5B200DBB87E /* StarNodeTests.swift in Sources */,
 				D0ACD5441B85B0F100DBB87E /* GameObjectNode.swift in Sources */,
 				D0ACD5401B85759400DBB87E /* GameViewControllerTests.swift in Sources */,
+				D0ACD5521B86C47100DBB87E /* PlatformNode.swift in Sources */,
 				D0ACD53B1B85719700DBB87E /* GameScene.swift in Sources */,
 				D0ACD53C1B85719A00DBB87E /* GameViewController.swift in Sources */,
 				D0ACD5461B85B19B00DBB87E /* GameObjectNodeTests.swift in Sources */,

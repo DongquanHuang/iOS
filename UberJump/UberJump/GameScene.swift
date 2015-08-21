@@ -35,6 +35,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     struct NodeNameConstants {
         static let StarNodeName = "NODE_STAR"
+        static let PlatformNodeName = "NODE_PLATFORM"
     }
     
     // MARK: - Variables
@@ -106,6 +107,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(foregroundNode)
         
         // TODO: test purpose only, remove later
+        let platform = createPlatformAtPosition(CGPoint(x: 160, y: 360), OfType: .Normal)
+        foregroundNode.addChild(platform)
         let star = createStarAtPosition(CGPoint(x: 160, y: 220), OfType: .Special)
         foregroundNode.addChild(star)
         //
@@ -198,7 +201,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func createStarAtPosition(position: CGPoint, OfType type: StarType) -> StarNode {
         let star = StarNode()
         
-        setupPosition(position, ForStarNode: star)
+        setupPosition(position, ForGameObjectNode: star)
         setupNameForStarNode(star)
         setupType(type, ForStarNode: star)
         
@@ -207,10 +210,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupPhysicsForStarNode(star, WithSprite: sprite)
         
         return star
-    }
-    
-    private func setupPosition(position: CGPoint, ForStarNode star: SKNode) {
-        star.position = adaptForPosition(position)
     }
     
     private func setupNameForStarNode(star: StarNode) {
@@ -237,12 +236,65 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private func setupPhysicsForStarNode(star: StarNode, WithSprite sprite: SKSpriteNode) {
         star.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width / 2)
-        star.physicsBody?.dynamic = false
-        
         star.physicsBody?.categoryBitMask = CollisionCategoryBitmask.Star
-        star.physicsBody?.collisionBitMask = 0
+        
+        setupCommonPhysicsForGameObjectNode(star)
     }
     
+    // MARK: - Add platform for the game
+    func createPlatformAtPosition(position: CGPoint, OfType type: PlatformType) -> PlatformNode {
+        let platform = PlatformNode()
+        
+        setupPosition(position, ForGameObjectNode: platform)
+        setupNameForPlatformNode(platform)
+        setupType(type, ForPlatformNode: platform)
+        
+        let sprite = addSpriteForPlatformNode(platform, OfType: type)
+        
+        setupPhysicsForPlatformNode(platform, WithSprite: sprite)
+        
+        return platform
+    }
+    
+    private func setupNameForPlatformNode(platform: PlatformNode) {
+        platform.name = NodeNameConstants.PlatformNodeName
+    }
+    
+    private func setupType(type: PlatformType, ForPlatformNode platform: PlatformNode) {
+        platform.platformType = type
+    }
+    
+    private func addSpriteForPlatformNode(platform: PlatformNode, OfType type: PlatformType) -> SKSpriteNode {
+        var sprite: SKSpriteNode
+        
+        if type == .Break {
+            sprite = SKSpriteNode(imageNamed: "PlatformBreak")
+        }
+        else {
+            sprite = SKSpriteNode(imageNamed: "Platform")
+        }
+        
+        platform.addChild(sprite)
+        return sprite
+    }
+    
+    private func setupPhysicsForPlatformNode(platform: PlatformNode, WithSprite sprite: SKSpriteNode) {
+        platform.physicsBody = SKPhysicsBody(rectangleOfSize: sprite.size)
+        platform.physicsBody?.categoryBitMask = CollisionCategoryBitmask.Platform
+
+        setupCommonPhysicsForGameObjectNode(platform)
+    }
+    
+    // MARK: - Common code for Star & Platform
+    private func setupPosition(position: CGPoint, ForGameObjectNode node: SKNode) {
+        node.position = adaptForPosition(position)
+    }
+    
+    private func setupCommonPhysicsForGameObjectNode(node: GameObjectNode) {
+        node.physicsBody?.dynamic = false
+        node.physicsBody?.collisionBitMask = 0
+    }
+
     // MARK: - Contact delegate method
     // Note: Not covered by unit test, since we cannot mock SKPhysicsContact object
     func didBeginContact(contact: SKPhysicsContact) {

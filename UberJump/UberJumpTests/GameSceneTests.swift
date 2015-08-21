@@ -26,6 +26,9 @@ class GameSceneTests: XCTestCase {
     lazy var star: StarNode = {
         return self.gameScene.createStarAtPosition(CGPoint(x: 50, y: 50), OfType: .Normal)
     }()
+    lazy var platform: PlatformNode = {
+        return self.gameScene.createPlatformAtPosition(CGPoint(x: 60, y: 60), OfType: .Normal)
+    }()
 
     override func setUp() {
         super.setUp()
@@ -204,7 +207,7 @@ class GameSceneTests: XCTestCase {
         XCTAssertTrue(star.position.y == 50)
     }
     
-    func testNodeNameIsSetCorrectly() {
+    func testStarNodeNameIsSetCorrectly() {
         XCTAssertTrue(star.name == "NODE_STAR")
     }
     
@@ -222,6 +225,45 @@ class GameSceneTests: XCTestCase {
     
     func testWeCanHandleStarCollisionByOurselvesInsteadOfBySpriteKit() {
         XCTAssertTrue(star.physicsBody?.collisionBitMask == 0)
+    }
+    
+    // MARK: - Test add platform
+    func testCreatePlatformWillGiveBackThePlatformNode() {
+        XCTAssertTrue(platform.isKindOfClass(PlatformNode) == true)
+        XCTAssertTrue(platform.platformType == PlatformType.Normal)
+    }
+    
+    func testWeHaveDifferentTypesOfPlatformSprites() {
+        let normalSprite = platform.children.first as! SKSpriteNode
+        let breakablePlatform = gameScene.createPlatformAtPosition(CGPoint(x: 50, y: 50), OfType: PlatformType.Break)
+        let breakableSprite = breakablePlatform.children.first as! SKSpriteNode
+        
+        XCTAssertTrue(normalSprite.texture!.description != breakableSprite.texture!.description)
+    }
+    
+    func testCreatePlatformWillSetupThePositionCorrectly() {
+        XCTAssertTrue(platform.position.x == 60 * gameScene.scaleFactor)
+        XCTAssertTrue(platform.position.y == 60)
+    }
+    
+    func testPlatformNodeNameIsSetCorrectly() {
+        XCTAssertTrue(platform.name == "NODE_PLATFORM")
+    }
+    
+    func testPlatformNodeHasASprite() {
+        XCTAssertTrue(platform.children.first?.isKindOfClass(SKSpriteNode) == true)
+    }
+    
+    func testPlatformNodeIsStaticBody() {
+        XCTAssertTrue(platform.physicsBody?.dynamic == false)
+    }
+    
+    func testPlatformNodeWillHaveCollisionCategoryBitMaskSetCorrectly() {
+        XCTAssertTrue(platform.physicsBody?.categoryBitMask == CollisionCategoryBitmask.Platform)
+    }
+    
+    func testWeCanHandlePlatformCollisionByOurselvesInsteadOfBySpriteKit() {
+        XCTAssertTrue(platform.physicsBody?.collisionBitMask == 0)
     }
     
     // MARK: - Test contact delegate
