@@ -79,6 +79,9 @@
 		D0ACD55D1B86E3CC00DBB87E /* GameLevelLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ACD55C1B86E3CC00DBB87E /* GameLevelLoader.swift */; };
 		D0ACD55E1B86E3CC00DBB87E /* GameLevelLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ACD55C1B86E3CC00DBB87E /* GameLevelLoader.swift */; };
 		D0ACD5601B86E44F00DBB87E /* GameLevelLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ACD55F1B86E44F00DBB87E /* GameLevelLoaderTests.swift */; };
+		D0EC77961B885DD80050EB44 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EC77951B885DD80050EB44 /* MotionManager.swift */; };
+		D0EC77971B885DD80050EB44 /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EC77951B885DD80050EB44 /* MotionManager.swift */; };
+		D0EC77991B885E240050EB44 /* MotionManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EC77981B885E240050EB44 /* MotionManagerTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -158,6 +161,8 @@
 		D0ACD5591B86E31C00DBB87E /* GameLevel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLevel.swift; sourceTree = "<group>"; };
 		D0ACD55C1B86E3CC00DBB87E /* GameLevelLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLevelLoader.swift; sourceTree = "<group>"; };
 		D0ACD55F1B86E44F00DBB87E /* GameLevelLoaderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLevelLoaderTests.swift; sourceTree = "<group>"; };
+		D0EC77951B885DD80050EB44 /* MotionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
+		D0EC77981B885E240050EB44 /* MotionManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionManagerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,11 +206,7 @@
 			children = (
 				D0ACD4C31B856FD400DBB87E /* GameScene.swift */,
 				D0ACD4C51B856FD400DBB87E /* GameViewController.swift */,
-				D0ACD5591B86E31C00DBB87E /* GameLevel.swift */,
-				D0ACD55C1B86E3CC00DBB87E /* GameLevelLoader.swift */,
-				D0ACD5421B85B0F100DBB87E /* GameObjectNode.swift */,
-				D0ACD5471B85B59700DBB87E /* StarNode.swift */,
-				D0ACD5501B86C47100DBB87E /* PlatformNode.swift */,
+				D0EC77931B885D8C0050EB44 /* Model */,
 				D0ACD4BD1B856FD400DBB87E /* Supporting Files */,
 			);
 			path = UberJump;
@@ -232,10 +233,7 @@
 				D0ACD4D71B856FD500DBB87E /* Supporting Files */,
 				D0ACD53D1B8571B100DBB87E /* GameSceneTests.swift */,
 				D0ACD53F1B85759400DBB87E /* GameViewControllerTests.swift */,
-				D0ACD55F1B86E44F00DBB87E /* GameLevelLoaderTests.swift */,
-				D0ACD5451B85B19B00DBB87E /* GameObjectNodeTests.swift */,
-				D0ACD54A1B85B5B200DBB87E /* StarNodeTests.swift */,
-				D0ACD5531B86C58E00DBB87E /* PlatformNodeTests.swift */,
+				D0EC77941B885D9B0050EB44 /* Model */,
 			);
 			path = UberJumpTests;
 			sourceTree = "<group>";
@@ -320,6 +318,31 @@
 				D0ACD5551B86DF7600DBB87E /* Level_01.plist */,
 			);
 			name = UberJumpLevels;
+			sourceTree = "<group>";
+		};
+		D0EC77931B885D8C0050EB44 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D0ACD5591B86E31C00DBB87E /* GameLevel.swift */,
+				D0ACD55C1B86E3CC00DBB87E /* GameLevelLoader.swift */,
+				D0ACD5421B85B0F100DBB87E /* GameObjectNode.swift */,
+				D0ACD5471B85B59700DBB87E /* StarNode.swift */,
+				D0ACD5501B86C47100DBB87E /* PlatformNode.swift */,
+				D0EC77951B885DD80050EB44 /* MotionManager.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		D0EC77941B885D9B0050EB44 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D0ACD55F1B86E44F00DBB87E /* GameLevelLoaderTests.swift */,
+				D0ACD5451B85B19B00DBB87E /* GameObjectNodeTests.swift */,
+				D0ACD54A1B85B5B200DBB87E /* StarNodeTests.swift */,
+				D0ACD5531B86C58E00DBB87E /* PlatformNodeTests.swift */,
+				D0EC77981B885E240050EB44 /* MotionManagerTests.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -474,6 +497,7 @@
 				D0ACD55D1B86E3CC00DBB87E /* GameLevelLoader.swift in Sources */,
 				D0ACD5481B85B59700DBB87E /* StarNode.swift in Sources */,
 				D0ACD55A1B86E31C00DBB87E /* GameLevel.swift in Sources */,
+				D0EC77961B885DD80050EB44 /* MotionManager.swift in Sources */,
 				D0ACD4C61B856FD400DBB87E /* GameViewController.swift in Sources */,
 				D0ACD5431B85B0F100DBB87E /* GameObjectNode.swift in Sources */,
 				D0ACD5511B86C47100DBB87E /* PlatformNode.swift in Sources */,
@@ -486,6 +510,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0ACD5541B86C58E00DBB87E /* PlatformNodeTests.swift in Sources */,
+				D0EC77971B885DD80050EB44 /* MotionManager.swift in Sources */,
 				D0ACD5491B85B59700DBB87E /* StarNode.swift in Sources */,
 				D0ACD54B1B85B5B200DBB87E /* StarNodeTests.swift in Sources */,
 				D0ACD5441B85B0F100DBB87E /* GameObjectNode.swift in Sources */,
@@ -494,6 +519,7 @@
 				D0ACD5521B86C47100DBB87E /* PlatformNode.swift in Sources */,
 				D0ACD53B1B85719700DBB87E /* GameScene.swift in Sources */,
 				D0ACD53C1B85719A00DBB87E /* GameViewController.swift in Sources */,
+				D0EC77991B885E240050EB44 /* MotionManagerTests.swift in Sources */,
 				D0ACD5461B85B19B00DBB87E /* GameObjectNodeTests.swift in Sources */,
 				D0ACD5601B86E44F00DBB87E /* GameLevelLoaderTests.swift in Sources */,
 				D0ACD53E1B8571B100DBB87E /* GameSceneTests.swift in Sources */,
@@ -685,6 +711,7 @@
 				D0ACD4DF1B856FD500DBB87E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D0ACD4E01B856FD500DBB87E /* Build configuration list for PBXNativeTarget "UberJumpTests" */ = {
 			isa = XCConfigurationList;
@@ -693,6 +720,7 @@
 				D0ACD4E21B856FD500DBB87E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

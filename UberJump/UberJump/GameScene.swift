@@ -32,11 +32,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         static let BackgroundParallaxalizationSpeed: CGFloat = 1.0 / 10.0
         static let MidgroundParallaxalizationSpeed: CGFloat = 1.0 / 4.0
         static let ForegroundParallaxalizationSpeed: CGFloat = 1.0
+        
+        static let ScreenBoundsThreshold: CGFloat = 20.0
     }
     
     struct PhysicsConstants {
         static let GameGravity = CGVector(dx: 0.0, dy: -2.0)
         static let InitialImpulse = CGVector(dx: 0.0, dy: 20.0)
+        static let AccelerationFactor: CGFloat = 400.0
     }
     
     struct NodeNameConstants {
@@ -55,6 +58,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var currentLevel = LevelConstants.StartLevel
     var levelLoader = GameLevelLoader()
     var gameLevel: GameLevel?
+    
+    var motionManager = MotionManager()
     
     // Adapt for all iPhone devices
     lazy var scaleFactor: CGFloat! = {
@@ -79,6 +84,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupForeground()
         addPlayerIntoForeground()
         setupHud()
+        
+        startCoreMotionManager()
     }
     
     // MARK: - Load game level
@@ -224,29 +231,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return startNode
     }
     
-    // MARK: - Begin the game
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        if gameInProgress() {
-            return
-        }
-        
-        startGame()
-    }
-    
-    private func startGame() {
-        removeTapToStartNodeFromHud()
-        startActionForPlayer()
-    }
-    
-    private func removeTapToStartNodeFromHud() {
-        tapToStartNode.removeFromParent()
-    }
-    
-    private func startActionForPlayer() {
-        player.physicsBody?.dynamic = true
-        player.physicsBody?.applyImpulse(PhysicsConstants.InitialImpulse)
-    }
-    
     // MARK: - Add star for the game
     func addStarsIntoForeground() {
         for starNode in gameLevel!.stars {
@@ -358,6 +342,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         node.physicsBody?.dynamic = false
         node.physicsBody?.collisionBitMask = 0
     }
+    
+    // MARK: - Begin the game
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        if gameInProgress() {
+            return
+        }
+        
+        startGame()
+    }
+    
+    private func startGame() {
+        removeTapToStartNodeFromHud()
+        startActionForPlayer()
+    }
+    
+    private func removeTapToStartNodeFromHud() {
+        tapToStartNode.removeFromParent()
+    }
+    
+    private func startActionForPlayer() {
+        player.physicsBody?.dynamic = true
+        player.physicsBody?.applyImpulse(PhysicsConstants.InitialImpulse)
+    }
 
     // MARK: - Contact delegate method
     // Note: Not covered by unit test, since we cannot mock SKPhysicsContact object
@@ -384,6 +391,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             backgroundNode.position = CGPoint(x: 0.0, y: -((player.position.y - GraphicsConstants.ParallaxalizationThreshold) * GraphicsConstants.BackgroundParallaxalizationSpeed))
             midgroundNode.position = CGPoint(x: 0.0, y: -((player.position.y - GraphicsConstants.ParallaxalizationThreshold) * GraphicsConstants.MidgroundParallaxalizationSpeed))
             foregroundNode.position = CGPoint(x: 0.0, y: -((player.position.y - GraphicsConstants.ParallaxalizationThreshold) * GraphicsConstants.ForegroundParallaxalizationSpeed))
+        }
+    }
+    
+    // MARK: - Core Motion
+    private func startCoreMotionManager() {
+        motionManager.start()
+    }
+    
+    override func didSimulatePhysics() {
+        updatePlayerVelocity()
+        makePlayerAlwaysInsideScreen()
+    }
+    
+    private func updatePlayerVelocity() {
+        player.physicsBody?.velocity = CGVector(dx: motionManager.xAcceleration * PhysicsConstants.AccelerationFactor, dy: player.physicsBody!.velocity.dy)
+    }
+    
+    private func makePlayerAlwaysInsideScreen() {
+        if player.position.x < -(GraphicsConstants.ScreenBoundsThreshold) {
+            player.position = CGPoint(x: self.size.width + GraphicsConstants.ScreenBoundsThreshold, y: player.position.y)
+        }
+        else if (player.position.x > self.size.width + GraphicsConstants.ScreenBoundsThreshold) {
+            player.position = CGPoint(x: -(GraphicsConstants.ScreenBoundsThreshold), y: player.position.y)
         }
     }
     

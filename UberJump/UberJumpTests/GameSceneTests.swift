@@ -12,16 +12,6 @@ import SpriteKit
 
 class GameSceneTests: XCTestCase {
     
-    class MockGameObjectNode: GameObjectNode {
-        var collisionHandlerCalled = false
-        
-        override func collisionWithPlayer(player: SKNode) -> Bool {
-            collisionHandlerCalled = true
-            
-            return false
-        }
-    }
-    
     var gameScene = GameScene(size: CGSize(width: 100, height: 100))
     lazy var star: StarNode = {
         return self.gameScene.createStarAtPosition(CGPoint(x: 50, y: 50), OfType: .Normal)
@@ -326,6 +316,31 @@ class GameSceneTests: XCTestCase {
         gameScene.player.position.y = 300
         gameScene.update(0)
         XCTAssertTrue(gameScene.foregroundNode.position.y < originFgNodePositionY)
+    }
+    
+    // MARK: - Test Core Motion
+    func testWillStartCoreMotionManagerAfterInitMethod() {
+        XCTAssertTrue(gameScene.motionManager.motionManager.accelerometerUpdateInterval == MotionManager.CoreMotionConstants.UpdateInterval)
+    }
+    
+    func testMotionMgrIsNotNil() {
+        XCTAssertNotNil(gameScene.motionManager)
+    }
+    
+    func testDidSimulatePhysicsWillUpdatePlayersVelocity() {
+        gameScene.didSimulatePhysics()
+        
+        XCTAssertTrue(gameScene.player.physicsBody?.velocity == CGVector(dx: gameScene.motionManager.xAcceleration * 400.0, dy: gameScene.player.physicsBody!.velocity.dy))
+    }
+    
+    func testDidSimulatePhysicsWillMakeSurePlayerIsInsideScreenBounds() {
+        gameScene.player.position.x = -30.0
+        gameScene.didSimulatePhysics()
+        XCTAssertTrue(gameScene.player.position.x == gameScene.size.width + 20.0)
+        
+        gameScene.player.position.x = gameScene.size.width + 30.0
+        gameScene.didSimulatePhysics()
+        XCTAssertTrue(gameScene.player.position.x == -20.0)
     }
 
 }
