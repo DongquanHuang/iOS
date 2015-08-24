@@ -398,5 +398,12 @@ class GameSceneTests: XCTestCase {
         let nodes = gameScene.tilesLayer.children as! [SKNode]
         XCTAssertTrue(nodes.count == 0)
     }
+    
+    func testAddChildWillUseScaleFactor() {
+        let node = SKNode()
+        gameScene.addChild(node)
+        XCTAssertTrue(node.xScale == gameScene.scaleFactor)
+        XCTAssertTrue(node.yScale == gameScene.scaleFactor)
+    }
 
 }

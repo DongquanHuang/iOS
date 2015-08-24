@@ -16,6 +16,14 @@ class GameScene: SKScene {
         static let TileHeight: CGFloat = 36.0
     }
     
+    struct AdaptConstants {
+        // 320.0: screen width for iPhone devices before iPhone6
+        static let NormalPhoneWidth: CGFloat = 320.0
+    }
+    lazy var scaleFactor: CGFloat! = {
+        return self.size.width / AdaptConstants.NormalPhoneWidth
+    }()
+    
     // MARK: - Variables
     var level: Level!
     
@@ -48,6 +56,11 @@ class GameScene: SKScene {
         addBackgroundNode()
         addGameLayer()
         addOtherLayersIntoGameLayer()
+    }
+    
+    override func addChild(node: SKNode) {
+        node.setScale(scaleFactor)
+        super.addChild(node)
     }
     
     private func setAnchorPointToMiddle() {
