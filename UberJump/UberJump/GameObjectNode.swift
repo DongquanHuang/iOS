@@ -17,6 +17,8 @@ struct CollisionCategoryBitmask {
 
 class GameObjectNode: SKNode {
     
+    var gameScoreSystem = GameScoreSystem()
+    
     func collisionWithPlayer(player: SKNode) -> Bool {
         return false
     }

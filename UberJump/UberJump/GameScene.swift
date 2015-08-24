@@ -65,6 +65,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var gameLevel: GameLevel?
     var gameState = GameState.sharedInstance
     
+    var maxPlayerY: Int = Int(GraphicsConstants.InitialPlayerPositionY)
+    
     var motionManager = MotionManager()
     
     // Adapt for all iPhone devices
@@ -81,6 +83,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         super.init(size: size)
         
         readGameState()
+        resetPlayerMaxY()
         loadGameLevel()
         
         setupGravity()
@@ -98,6 +101,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: - Read game state
     private func readGameState() {
         gameState.readState()
+    }
+    
+    // MARK: - Reset max Y the player reached
+    private func resetPlayerMaxY() {
+        maxPlayerY = Int(GraphicsConstants.InitialPlayerPositionY)
     }
     
     // MARK: - Load game level
@@ -252,9 +260,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     private func addScoreLabelIntoHud() {
-        lblScore = SKLabelNode(fontNamed: GraphicsConstants.LabelFontName)
-        lblScore.fontSize = GraphicsConstants.LabelFontSize
-        lblScore.fontColor = SKColor.whiteColor()
+        lblScore = commonLabel()
         
         lblScore.position = CGPoint(x: self.size.width - 20, y: self.size.height - 40)
         lblScore.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Right
@@ -265,9 +271,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     private func addStarLabelIntoHud() {
-        lblStars = SKLabelNode(fontNamed: GraphicsConstants.LabelFontName)
-        lblStars.fontSize = GraphicsConstants.LabelFontSize
-        lblStars.fontColor = SKColor.whiteColor()
+        lblStars = commonLabel()
         
         lblStars.position = CGPoint(x: 50, y: self.size.height - 40)
         lblStars.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
@@ -275,6 +279,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         lblStars.text = String(format: "X %d", gameState.stars)
         
         hudNode.addChild(lblStars)
+    }
+    
+    private func commonLabel() -> SKLabelNode {
+        let label = SKLabelNode(fontNamed: GraphicsConstants.LabelFontName)
+        label.fontSize = GraphicsConstants.LabelFontSize
+        label.fontColor = SKColor.whiteColor()
+        
+        return label
     }
     
     private func addStarIconIntoHud() {
@@ -429,12 +441,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         shouldUpdateHud = other.collisionWithPlayer(player)
         
         if shouldUpdateHud {
-            
+            updateHud()
         }
+    }
+    
+    private func updateHud() {
+        lblStars.text = String(format: "X %d", gameState.stars)
+        lblScore.text = String(format: "%d", gameState.score)
     }
     
     // MARK: - Update method for parallaxalization
     override func update(currentTime: NSTimeInterval) {
+        awardScore()
         moveLayers()
     }
     
@@ -443,6 +461,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             backgroundNode.position = CGPoint(x: 0.0, y: -((player.position.y - GraphicsConstants.ParallaxalizationThreshold) * GraphicsConstants.BackgroundParallaxalizationSpeed))
             midgroundNode.position = CGPoint(x: 0.0, y: -((player.position.y - GraphicsConstants.ParallaxalizationThreshold) * GraphicsConstants.MidgroundParallaxalizationSpeed))
             foregroundNode.position = CGPoint(x: 0.0, y: -((player.position.y - GraphicsConstants.ParallaxalizationThreshold) * GraphicsConstants.ForegroundParallaxalizationSpeed))
+        }
+    }
+    
+    private func awardScore() {
+        if Int(player.position.y) > maxPlayerY {
+            gameState.score += Int(player.position.y) - maxPlayerY
+            maxPlayerY = Int(player.position.y)
+            lblScore.text = String(format: "%d", gameState.score)
         }
     }
     

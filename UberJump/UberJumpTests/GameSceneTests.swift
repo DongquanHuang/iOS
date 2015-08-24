@@ -19,10 +19,17 @@ class GameSceneTests: XCTestCase {
     lazy var platform: PlatformNode = {
         return self.gameScene.createPlatformAtPosition(CGPoint(x: 60, y: 60), OfType: .Normal)
     }()
+    
+    var mockGameState = MockGameState()
+    
+    class MockGameState: GameState {
+        
+    }
 
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        gameScene.gameState = mockGameState
     }
     
     override func tearDown() {
@@ -395,6 +402,19 @@ class GameSceneTests: XCTestCase {
         gameScene.player.position.x = gameScene.size.width + 30.0
         gameScene.didSimulatePhysics()
         XCTAssertTrue(gameScene.player.position.x == -20.0)
+    }
+    
+    // MARK: - Test score system
+    func testInitialMaxPlayerYIsSetCorrectly() {
+        XCTAssertTrue(gameScene.maxPlayerY == Int(GameScene.GraphicsConstants.InitialPlayerPositionY))
+    }
+    
+    func testPlayerGetsScoreWhenJumpsHigher() {
+        let originalScore = mockGameState.score
+        gameScene.player.position.y = CGFloat(gameScene.maxPlayerY) + 100.1
+        gameScene.update(0)
+        XCTAssertTrue(mockGameState.score == originalScore + 100)
+        XCTAssertTrue(gameScene.lblScore.text == String(format: "%d", mockGameState.score))
     }
 
 }

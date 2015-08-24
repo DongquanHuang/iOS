@@ -10,6 +10,9 @@
 		D01E04331B8AB2EC0035061F /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01E04321B8AB2EC0035061F /* GameState.swift */; };
 		D01E04341B8AB2EC0035061F /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01E04321B8AB2EC0035061F /* GameState.swift */; };
 		D01E04361B8AB2FE0035061F /* GameStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01E04351B8AB2FE0035061F /* GameStateTests.swift */; };
+		D01E04381B8AD70E0035061F /* GameScoreSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01E04371B8AD70E0035061F /* GameScoreSystem.swift */; };
+		D01E04391B8AD70E0035061F /* GameScoreSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01E04371B8AD70E0035061F /* GameScoreSystem.swift */; };
+		D01E043B1B8AD7B40035061F /* GameScoreSystemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01E043A1B8AD7B40035061F /* GameScoreSystemTests.swift */; };
 		D0ACD4C01B856FD400DBB87E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ACD4BF1B856FD400DBB87E /* AppDelegate.swift */; };
 		D0ACD4C41B856FD400DBB87E /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ACD4C31B856FD400DBB87E /* GameScene.swift */; };
 		D0ACD4C61B856FD400DBB87E /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ACD4C51B856FD400DBB87E /* GameViewController.swift */; };
@@ -100,6 +103,8 @@
 /* Begin PBXFileReference section */
 		D01E04321B8AB2EC0035061F /* GameState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
 		D01E04351B8AB2FE0035061F /* GameStateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameStateTests.swift; sourceTree = "<group>"; };
+		D01E04371B8AD70E0035061F /* GameScoreSystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScoreSystem.swift; sourceTree = "<group>"; };
+		D01E043A1B8AD7B40035061F /* GameScoreSystemTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScoreSystemTests.swift; sourceTree = "<group>"; };
 		D0ACD4BA1B856FD400DBB87E /* UberJump.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UberJump.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0ACD4BE1B856FD400DBB87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0ACD4BF1B856FD400DBB87E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -335,6 +340,7 @@
 				D0ACD5501B86C47100DBB87E /* PlatformNode.swift */,
 				D0EC77951B885DD80050EB44 /* MotionManager.swift */,
 				D01E04321B8AB2EC0035061F /* GameState.swift */,
+				D01E04371B8AD70E0035061F /* GameScoreSystem.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -348,6 +354,7 @@
 				D0ACD5531B86C58E00DBB87E /* PlatformNodeTests.swift */,
 				D0EC77981B885E240050EB44 /* MotionManagerTests.swift */,
 				D01E04351B8AB2FE0035061F /* GameStateTests.swift */,
+				D01E043A1B8AD7B40035061F /* GameScoreSystemTests.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -508,6 +515,7 @@
 				D0EC77961B885DD80050EB44 /* MotionManager.swift in Sources */,
 				D0ACD4C61B856FD400DBB87E /* GameViewController.swift in Sources */,
 				D0ACD5431B85B0F100DBB87E /* GameObjectNode.swift in Sources */,
+				D01E04381B8AD70E0035061F /* GameScoreSystem.swift in Sources */,
 				D01E04331B8AB2EC0035061F /* GameState.swift in Sources */,
 				D0ACD5511B86C47100DBB87E /* PlatformNode.swift in Sources */,
 				D0ACD4C01B856FD400DBB87E /* AppDelegate.swift in Sources */,
@@ -521,9 +529,11 @@
 				D0ACD5541B86C58E00DBB87E /* PlatformNodeTests.swift in Sources */,
 				D0EC77971B885DD80050EB44 /* MotionManager.swift in Sources */,
 				D0ACD5491B85B59700DBB87E /* StarNode.swift in Sources */,
+				D01E04391B8AD70E0035061F /* GameScoreSystem.swift in Sources */,
 				D0ACD54B1B85B5B200DBB87E /* StarNodeTests.swift in Sources */,
 				D0ACD5441B85B0F100DBB87E /* GameObjectNode.swift in Sources */,
 				D01E04341B8AB2EC0035061F /* GameState.swift in Sources */,
+				D01E043B1B8AD7B40035061F /* GameScoreSystemTests.swift in Sources */,
 				D0ACD5401B85759400DBB87E /* GameViewControllerTests.swift in Sources */,
 				D0ACD55E1B86E3CC00DBB87E /* GameLevelLoader.swift in Sources */,
 				D0ACD5521B86C47100DBB87E /* PlatformNode.swift in Sources */,

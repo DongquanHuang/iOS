@@ -15,10 +15,20 @@ class StarNodeTests: XCTestCase {
     var parentNode = SKNode()
     var star = StarNode()
     var player = SKNode()
+    var gameScoreSystem = GameScoreSystem()
+    var mockGameState = MockGameState()
+    
+    class MockGameState: GameState {
+        
+    }
 
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        gameScoreSystem.gameState = mockGameState
+        star.gameScoreSystem = gameScoreSystem
+        star.starType = .Normal
+        
         player.physicsBody = SKPhysicsBody(circleOfRadius: 10.0)
         player.physicsBody?.dynamic = true
         star.position = CGPoint(x: 100, y: 100)
@@ -42,6 +52,34 @@ class StarNodeTests: XCTestCase {
     func testCollideWithStarNodeWillBoostPlayer() {
         star.collisionWithPlayer(player)
         XCTAssertTrue(player.physicsBody?.velocity == CGVector(dx: player.physicsBody!.velocity.dx, dy: 400.0))
+    }
+    
+    func testCollideWithNormalStarNodeWillGet20Score() {
+        let originalScore = mockGameState.score
+        star.starType = .Normal
+        star.collisionWithPlayer(player)
+        XCTAssertTrue(mockGameState.score == 20 + originalScore)
+    }
+    
+    func testCollideWithSpecialStarNodeWillGet100Score() {
+        let originalScore = mockGameState.score
+        star.starType = .Special
+        star.collisionWithPlayer(player)
+        XCTAssertTrue(mockGameState.score == 100 + originalScore)
+    }
+    
+    func testCollideWithNormalStarWillGetOneStar() {
+        let orginalStars = mockGameState.stars
+        star.starType = .Normal
+        star.collisionWithPlayer(player)
+        XCTAssertTrue(mockGameState.stars == 1 + orginalStars)
+    }
+    
+    func testCollideWithSpecialStarWillGetFiveStar() {
+        let orginalStars = mockGameState.stars
+        star.starType = .Special
+        star.collisionWithPlayer(player)
+        XCTAssertTrue(mockGameState.stars == 5 + orginalStars)
     }
 
 }
