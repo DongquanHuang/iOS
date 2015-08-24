@@ -37,6 +37,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         static let LabelFontName = "ChalkboardSE-Bold"
         static let LabelFontSize: CGFloat = 30
+        
+        static let FallThreshold: CGFloat = 800.0
     }
     
     struct PhysicsConstants {
@@ -67,6 +69,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var maxPlayerY: Int = Int(GraphicsConstants.InitialPlayerPositionY)
     
+    var gameOver = false
+    
     var motionManager = MotionManager()
     
     // Adapt for all iPhone devices
@@ -83,7 +87,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         super.init(size: size)
         
         readGameState()
-        resetPlayerMaxY()
+        resetGameState()
         loadGameLevel()
         
         setupGravity()
@@ -103,9 +107,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         gameState.readState()
     }
     
-    // MARK: - Reset max Y the player reached
-    private func resetPlayerMaxY() {
+    // MARK: - Reset game state
+    private func resetGameState() {
         maxPlayerY = Int(GraphicsConstants.InitialPlayerPositionY)
+        
+        // Not covered by unit test
+        gameState.score = 0
+        gameOver = false
     }
     
     // MARK: - Load game level
@@ -450,10 +458,56 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         lblScore.text = String(format: "%d", gameState.score)
     }
     
-    // MARK: - Update method for parallaxalization
+    // MARK: - Update method
     override func update(currentTime: NSTimeInterval) {
+        if gameOver {
+            return
+        }
+        
+        checkIfGameOver()
         awardScore()
+        removePassedGameObjects()
         moveLayers()
+    }
+    
+    private func checkIfGameOver() {
+        if playerReachedLevelTarget() {
+            endGame()
+        }
+        
+        if playerFalls() {
+            endGame()
+        }
+    }
+    
+    private func playerReachedLevelTarget() -> Bool {
+        return player.position.y > CGFloat(gameLevel!.endLevelY)
+    }
+    
+    private func playerFalls() -> Bool {
+        return player.position.y < CGFloat(maxPlayerY) - GraphicsConstants.FallThreshold
+    }
+    
+    private func awardScore() {
+        if Int(player.position.y) > maxPlayerY {
+            gameState.score += Int(player.position.y) - maxPlayerY
+            maxPlayerY = Int(player.position.y)
+            lblScore.text = String(format: "%d", gameState.score)
+        }
+    }
+    
+    private func removePassedGameObjects() {
+        foregroundNode.enumerateChildNodesWithName(NodeNameConstants.PlatformNodeName, usingBlock: {
+            (node, stop) in
+            let platform = node as! PlatformNode
+            platform.removeNodeIfFarAwayFromPlayer(self.player.position.y)
+        })
+        
+        foregroundNode.enumerateChildNodesWithName(NodeNameConstants.StarNodeName, usingBlock: {
+            (node, stop) in
+            let star = node as! StarNode
+            star.removeNodeIfFarAwayFromPlayer(self.player.position.y)
+        })
     }
     
     private func moveLayers() {
@@ -464,12 +518,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    private func awardScore() {
-        if Int(player.position.y) > maxPlayerY {
-            gameState.score += Int(player.position.y) - maxPlayerY
-            maxPlayerY = Int(player.position.y)
-            lblScore.text = String(format: "%d", gameState.score)
-        }
+    // MARK: - End game
+    func endGame() {
+        gameOver = true
+        
+        gameState.saveState()
+        
+        // Not covered by unit test
+        presentEndGameScene()
+    }
+    
+    private func presentEndGameScene() {
+        let reveal = SKTransition.fadeWithDuration(0.5)
+        let endGameScene = EndGameScene(size: self.size)
+        self.view?.presentScene(endGameScene, transition: reveal)
     }
     
     // MARK: - Core Motion

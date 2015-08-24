@@ -23,7 +23,11 @@ class GameSceneTests: XCTestCase {
     var mockGameState = MockGameState()
     
     class MockGameState: GameState {
+        var stateSaved = false
         
+        override func saveState() {
+            stateSaved = true
+        }
     }
 
     override func setUp() {
@@ -415,6 +419,49 @@ class GameSceneTests: XCTestCase {
         gameScene.update(0)
         XCTAssertTrue(mockGameState.score == originalScore + 100)
         XCTAssertTrue(gameScene.lblScore.text == String(format: "%d", mockGameState.score))
+    }
+    
+    // MARK: - Test remove passed by game objects
+    func testPassedGameObjectsShouldBeRemoved() {
+        let originalObjects = gameScene.foregroundNode.children.count
+        gameScene.player.position.y = 500.0
+        gameScene.update(0)
+        XCTAssertTrue(gameScene.foregroundNode.children.count < originalObjects)
+    }
+    
+    // MARK: - Test game over
+    func testGameOverIsFalseAtVeryBeginning() {
+        XCTAssertTrue(gameScene.gameOver == false)
+    }
+    
+    func testEndGameWillSetGameOverToTrue() {
+        gameScene.endGame()
+        XCTAssertTrue(gameScene.gameOver == true)
+    }
+    
+    func testEndGameWillSaveGameState() {
+        gameScene.endGame()
+        XCTAssertTrue(mockGameState.stateSaved == true)
+    }
+    
+    func testReachTargetWillEndGame() {
+        gameScene.player.position.y = CGFloat(gameScene.gameLevel!.endLevelY) + 1
+        gameScene.update(0)
+        XCTAssertTrue(gameScene.gameOver == true)
+    }
+    
+    func testFallTooFarAwayWillEndGame() {
+        gameScene.player.position.y = CGFloat(gameScene.maxPlayerY) - 900
+        gameScene.update(0)
+        XCTAssertTrue(gameScene.gameOver == true)
+    }
+    
+    func testUpdateWillDoNothingIfGameIsEnded() {
+        gameScene.gameOver = true
+        let originalScore = mockGameState.score
+        gameScene.player.position.y = CGFloat(gameScene.maxPlayerY) + 100.1
+        gameScene.update(0)
+        XCTAssertTrue(mockGameState.score == originalScore)
     }
 
 }
