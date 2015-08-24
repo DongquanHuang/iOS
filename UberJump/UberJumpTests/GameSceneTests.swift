@@ -163,6 +163,60 @@ class GameSceneTests: XCTestCase {
         XCTAssertTrue(tapToStart.position.y == 180.0)
     }
     
+    func testScoreLabelIsAddedIntoHudLayerAsSecondChild() {
+        let scoreLbl = gameScene.hudNode.children[1] as! SKLabelNode
+        XCTAssertTrue(scoreLbl == gameScene.lblScore)
+    }
+    
+    func testScoreLabelFontIsSetCorrectly() {
+        XCTAssertTrue(gameScene.lblScore.fontName == "ChalkboardSE-Bold")
+        XCTAssertTrue(gameScene.lblScore.fontSize == 30)
+        XCTAssertTrue(gameScene.lblScore.fontColor.description == "UIDeviceRGBColorSpace 1 1 1 1")
+    }
+    
+    func testScoreLabelPositionIsSetCorrectly() {
+        XCTAssertTrue(gameScene.lblScore.position == CGPoint(x: gameScene.size.width - 20, y: gameScene.size.height - 40))
+    }
+    
+    func testScoreLabelHorizontalAlignmentModeIsSetCorrectly() {
+        XCTAssertTrue(gameScene.lblScore.horizontalAlignmentMode == SKLabelHorizontalAlignmentMode.Right)
+    }
+    
+    func testInitialScoreIsZero() {
+        XCTAssertTrue(gameScene.lblScore.text == "0")
+    }
+    
+    func testStarLabelIsAddedIntoHudLayerAsThirdChild() {
+        let starLbl = gameScene.hudNode.children[2] as! SKLabelNode
+        XCTAssertTrue(starLbl == gameScene.lblStars)
+    }
+    
+    func testStarLabelFontIsSetCorrectly() {
+        XCTAssertTrue(gameScene.lblStars.fontName == "ChalkboardSE-Bold")
+        XCTAssertTrue(gameScene.lblStars.fontSize == 30)
+        XCTAssertTrue(gameScene.lblStars.fontColor.description == "UIDeviceRGBColorSpace 1 1 1 1")
+    }
+    
+    func testStarLabelPositionIsSetCorrectly() {
+        XCTAssertTrue(gameScene.lblStars.position == CGPoint(x: 50, y: gameScene.size.height-40))
+    }
+    
+    func testStarLabelHorizontalAlignmentModeIsSetCorrectly() {
+        XCTAssertTrue(gameScene.lblStars.horizontalAlignmentMode == SKLabelHorizontalAlignmentMode.Left)
+    }
+    
+    func testInitialStarNumberIsMatchingWithGameStateStarNumber() {
+        let gameState = GameState.sharedInstance
+        gameState.readState()
+        let starNumber = String(format: "X %d", gameState.stars)
+        XCTAssertTrue(gameScene.lblStars.text == starNumber)
+    }
+    
+    func testStarIconIsAddedAsFourthChildAndItsPositionIsSetCorrectly() {
+        let starIcon = gameScene.hudNode.children[3] as! SKSpriteNode
+        XCTAssertTrue(starIcon.position == CGPoint(x: 25, y: gameScene.size.height-30))
+    }
+    
     // MARK: - Test gravity
     func testGravityIsSetupAfterInitMethod() {
         XCTAssertTrue(gameScene.physicsWorld.gravity == CGVector(dx: 0.0, dy: -2.0))

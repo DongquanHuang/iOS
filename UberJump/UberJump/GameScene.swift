@@ -34,6 +34,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         static let ForegroundParallaxalizationSpeed: CGFloat = 1.0
         
         static let ScreenBoundsThreshold: CGFloat = 20.0
+        
+        static let LabelFontName = "ChalkboardSE-Bold"
+        static let LabelFontSize: CGFloat = 30
     }
     
     struct PhysicsConstants {
@@ -54,10 +57,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var hudNode: SKNode!
     var player: SKNode!
     var tapToStartNode: SKNode!
+    var lblScore: SKLabelNode!
+    var lblStars: SKLabelNode!
     
     var currentLevel = LevelConstants.StartLevel
     var levelLoader = GameLevelLoader()
     var gameLevel: GameLevel?
+    var gameState = GameState.sharedInstance
     
     var motionManager = MotionManager()
     
@@ -74,6 +80,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override init(size: CGSize) {
         super.init(size: size)
         
+        readGameState()
         loadGameLevel()
         
         setupGravity()
@@ -86,6 +93,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupHud()
         
         startCoreMotionManager()
+    }
+    
+    // MARK: - Read game state
+    private func readGameState() {
+        gameState.readState()
     }
     
     // MARK: - Load game level
@@ -219,16 +231,56 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private func setupHud() {
         hudNode = SKNode()
         
-        tapToStartNode = createTapToStartNode()
-        hudNode.addChild(tapToStartNode)
+        addTapToStartIntoHud()
+        
+        addScoreLabelIntoHud()
+        addStarLabelIntoHud()
+        addStarIconIntoHud()
         
         addChild(hudNode)
+    }
+    
+    private func addTapToStartIntoHud() {
+        tapToStartNode = createTapToStartNode()
+        hudNode.addChild(tapToStartNode)
     }
     
     private func createTapToStartNode() -> SKSpriteNode {
         let startNode = SKSpriteNode(imageNamed: "TapToStart")
         startNode.position = CGPoint(x: self.size.width / 2, y: GraphicsConstants.TapToStartPositionY)
         return startNode
+    }
+    
+    private func addScoreLabelIntoHud() {
+        lblScore = SKLabelNode(fontNamed: GraphicsConstants.LabelFontName)
+        lblScore.fontSize = GraphicsConstants.LabelFontSize
+        lblScore.fontColor = SKColor.whiteColor()
+        
+        lblScore.position = CGPoint(x: self.size.width - 20, y: self.size.height - 40)
+        lblScore.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Right
+        
+        lblScore.text = "0"
+        
+        hudNode.addChild(lblScore)
+    }
+    
+    private func addStarLabelIntoHud() {
+        lblStars = SKLabelNode(fontNamed: GraphicsConstants.LabelFontName)
+        lblStars.fontSize = GraphicsConstants.LabelFontSize
+        lblStars.fontColor = SKColor.whiteColor()
+        
+        lblStars.position = CGPoint(x: 50, y: self.size.height - 40)
+        lblStars.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
+        
+        lblStars.text = String(format: "X %d", gameState.stars)
+        
+        hudNode.addChild(lblStars)
+    }
+    
+    private func addStarIconIntoHud() {
+        let starIcon = SKSpriteNode(imageNamed: "Star")
+        starIcon.position = CGPoint(x: 25, y: self.size.height - 30)
+        hudNode.addChild(starIcon)
     }
     
     // MARK: - Add star for the game
