@@ -11,7 +11,7 @@ import SpriteKit
 import AVFoundation
 
 struct GameLevelConstants {
-    static let TotalLevels = 4
+    static let TotalLevels = 10
 }
 
 class GameViewController: UIViewController {
