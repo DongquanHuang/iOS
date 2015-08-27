@@ -372,7 +372,7 @@ class GameViewControllerTests: XCTestCase {
     
     func testBeginWillLoadLevelScoreInfo() {
         gameVC.beginGame()
-        XCTAssertTrue(gameVC.targetLabel.text == "001000")
+        XCTAssertTrue(gameVC.targetLabel.text == "002000")
         XCTAssertTrue(gameVC.movesLabel.text == "000015")
         XCTAssertTrue(gameVC.scoreLabel.text == "000000")
     }
