@@ -22,12 +22,13 @@ class MotionManager: NSObject {
         motionManager.accelerometerUpdateInterval = CoreMotionConstants.UpdateInterval
         
         // Could not be tested by UT since simulator does not have CoreMotion capability
-        motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.currentQueue(), withHandler: handleAccelerometerData)
+        motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.currentQueue()!, withHandler: handleAccelerometerData)
     }
     
-    func handleAccelerometerData(data: CMAccelerometerData!, WithError error: NSError!) {
-        let acceleration = data.acceleration
-        self.xAcceleration = (CGFloat(acceleration.x) * 0.75) + (self.xAcceleration * 0.25)
+    func handleAccelerometerData(data: CMAccelerometerData?, WithError error: NSError?) {
+        if let acceleration = data?.acceleration {
+            self.xAcceleration = (CGFloat(acceleration.x) * 0.75) + (self.xAcceleration * 0.25)
+        }
     }
 
 }

@@ -34,7 +34,7 @@ class EndGameScene: SKScene {
     }
     
     // Not covered by unit test
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         let reveal = SKTransition.fadeWithDuration(0.5)
         let gameScene = GameScene(size: self.size)
         self.view!.presentScene(gameScene, transition: reveal)

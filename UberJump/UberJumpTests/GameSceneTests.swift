@@ -78,13 +78,13 @@ class GameSceneTests: XCTestCase {
     }
     
     func testGameSceneHasBackgroundNodeAddedAferInitMethod() {
-        let bgNode = gameScene.children[0] as! SKNode
+        let bgNode = gameScene.children[0] 
         XCTAssertTrue(bgNode == gameScene.backgroundNode)
     }
     
     // MARK: - Test midground node
     func testMidgroundNodeIsAddedAsSecondChildIntoGameSceneAfterInitMethod() {
-        let midNode = gameScene.children[1] as! SKNode
+        let midNode = gameScene.children[1] 
         XCTAssertTrue(midNode == gameScene.midgroundNode)
     }
     
@@ -94,7 +94,7 @@ class GameSceneTests: XCTestCase {
     
     // MARK: - Test foreground node
     func testForegroundNodeIsAddedAsSecondLastChildAfterInitMethod() {
-        let fgNode = gameScene.children[gameScene.children.count - 2] as! SKNode
+        let fgNode = gameScene.children[gameScene.children.count - 2] 
         XCTAssertTrue(fgNode == gameScene.foregroundNode)
     }
     
@@ -104,7 +104,7 @@ class GameSceneTests: XCTestCase {
     
     // MARK: - Test player node
     func testPlayerIsAddedAsLastChildOfForegroundAfterInitMethod() {
-        XCTAssertTrue(gameScene.player == gameScene.foregroundNode.children.last as! SKNode)
+        XCTAssertTrue(gameScene.player == gameScene.foregroundNode.children.last)
     }
     
     func testPlayerNodePositionIsSetCorrectly() {
@@ -163,7 +163,7 @@ class GameSceneTests: XCTestCase {
     
     // MARK: - Test HUD layer
     func testHUDNodeIsAddedAsLastChildAfterInitMethod() {
-        let hudNode = gameScene.children.last as! SKNode
+        let hudNode = gameScene.children.last
         XCTAssertTrue(hudNode == gameScene.hudNode)
     }
     
@@ -182,7 +182,7 @@ class GameSceneTests: XCTestCase {
     func testScoreLabelFontIsSetCorrectly() {
         XCTAssertTrue(gameScene.lblScore.fontName == "ChalkboardSE-Bold")
         XCTAssertTrue(gameScene.lblScore.fontSize == 30)
-        XCTAssertTrue(gameScene.lblScore.fontColor.description == "UIDeviceRGBColorSpace 1 1 1 1")
+        XCTAssertTrue(gameScene.lblScore.fontColor!.description == "UIDeviceRGBColorSpace 1 1 1 1")
     }
     
     func testScoreLabelPositionIsSetCorrectly() {
@@ -205,7 +205,7 @@ class GameSceneTests: XCTestCase {
     func testStarLabelFontIsSetCorrectly() {
         XCTAssertTrue(gameScene.lblStars.fontName == "ChalkboardSE-Bold")
         XCTAssertTrue(gameScene.lblStars.fontSize == 30)
-        XCTAssertTrue(gameScene.lblStars.fontColor.description == "UIDeviceRGBColorSpace 1 1 1 1")
+        XCTAssertTrue(gameScene.lblStars.fontColor!.description == "UIDeviceRGBColorSpace 1 1 1 1")
     }
     
     func testStarLabelPositionIsSetCorrectly() {
@@ -236,22 +236,22 @@ class GameSceneTests: XCTestCase {
     // MARK: - Test touch to start game
     func testWillNotStartGameIfGameAlreadyStarted() {
         gameScene.player.physicsBody?.dynamic = true    // Simulate game already started
-        gameScene.touchesBegan(Set<NSObject>(), withEvent: UIEvent())
+        gameScene.touchesBegan(Set<UITouch>(), withEvent: UIEvent())
         XCTAssertNotNil(gameScene.tapToStartNode)
     }
     
     func testStartGameWillSetPlayerToDynamicBody() {
-        gameScene.touchesBegan(Set<NSObject>(), withEvent: UIEvent())
+        gameScene.touchesBegan(Set<UITouch>(), withEvent: UIEvent())
         XCTAssertTrue(gameScene.player.physicsBody?.dynamic == true)
     }
     
     func testStartGameWillRemoveTapToStartNode() {
-        gameScene.touchesBegan(Set<NSObject>(), withEvent: UIEvent())
+        gameScene.touchesBegan(Set<UITouch>(), withEvent: UIEvent())
         XCTAssertTrue(gameScene.tapToStartNode.parent == nil)
     }
     
     func testStartGameWillApplyImpluseToPlayer() {
-        gameScene.touchesBegan(Set<NSObject>(), withEvent: UIEvent())
+        gameScene.touchesBegan(Set<UITouch>(), withEvent: UIEvent())
         XCTAssertTrue(gameScene.player.physicsBody?.velocity.dy >= 282.0)
     }
     
@@ -338,7 +338,7 @@ class GameSceneTests: XCTestCase {
     
     // MARK: - Test contact delegate
     func testGameSceneIsTheContactDelegate() {
-        XCTAssertTrue(gameScene.physicsWorld.contactDelegate.isKindOfClass(GameScene) == true)
+        XCTAssertTrue(gameScene.physicsWorld.contactDelegate!.isKindOfClass(GameScene) == true)
     }
     
     // MARK: - Test load game level

@@ -44,7 +44,7 @@ class EndGameSceneTests: XCTestCase {
         
         XCTAssertTrue(lblStars.fontName == "ChalkboardSE-Bold")
         XCTAssertTrue(lblStars.fontSize == 30)
-        XCTAssertTrue(lblStars.fontColor.description == "UIDeviceRGBColorSpace 1 1 1 1")
+        XCTAssertTrue(lblStars.fontColor!.description == "UIDeviceRGBColorSpace 1 1 1 1")
         XCTAssertTrue(lblStars.position == CGPoint(x: 50, y: endScene.size.height - 40))
         XCTAssertTrue(lblStars.text == String(format: "X %d", mockGameState.stars))
     }
@@ -55,7 +55,7 @@ class EndGameSceneTests: XCTestCase {
         
         XCTAssertTrue(lblScore.fontName == "ChalkboardSE-Bold")
         XCTAssertTrue(lblScore.fontSize == 60)
-        XCTAssertTrue(lblScore.fontColor.description == "UIDeviceRGBColorSpace 1 1 1 1")
+        XCTAssertTrue(lblScore.fontColor!.description == "UIDeviceRGBColorSpace 1 1 1 1")
         XCTAssertTrue(lblScore.position == CGPoint(x: endScene.size.width / 2, y: 300))
         XCTAssertTrue(lblScore.text == String(format: "%d", mockGameState.score))
     }
@@ -66,7 +66,7 @@ class EndGameSceneTests: XCTestCase {
         
         XCTAssertTrue(lblHighScore.fontName == "ChalkboardSE-Bold")
         XCTAssertTrue(lblHighScore.fontSize == 30)
-        XCTAssertTrue(lblHighScore.fontColor.description == "UIDeviceRGBColorSpace 1 1 1 1")
+        XCTAssertTrue(lblHighScore.fontColor!.description == "UIDeviceRGBColorSpace 1 1 1 1")
         XCTAssertTrue(lblHighScore.position == CGPoint(x: endScene.size.width / 2, y: 150))
         XCTAssertTrue(lblHighScore.text == String(format: "High Score: %d", mockGameState.highScore))
     }
@@ -77,7 +77,7 @@ class EndGameSceneTests: XCTestCase {
         
         XCTAssertTrue(lblTryAgain.fontName == "ChalkboardSE-Bold")
         XCTAssertTrue(lblTryAgain.fontSize == 30)
-        XCTAssertTrue(lblTryAgain.fontColor.description == "UIDeviceRGBColorSpace 1 1 1 1")
+        XCTAssertTrue(lblTryAgain.fontColor!.description == "UIDeviceRGBColorSpace 1 1 1 1")
         XCTAssertTrue(lblTryAgain.position == CGPoint(x: endScene.size.width / 2, y: 50))
         XCTAssertTrue(lblTryAgain.text == "Tap To Try Again")
     }

@@ -17,7 +17,7 @@ class GameLevelLoader: NSObject {
     
     func loadLevel(level: Int) -> GameLevel? {
         if let levelPlist = getPlistFilePathForLevel(level) {
-            var gameLevel = GameLevel()
+            let gameLevel = GameLevel()
             
             if let levelData = NSDictionary(contentsOfFile: levelPlist) {
                 fillDataForGameLevel(gameLevel, FromLevelData: levelData)
