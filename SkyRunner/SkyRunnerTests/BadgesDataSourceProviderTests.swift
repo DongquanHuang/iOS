@@ -69,13 +69,13 @@ class BadgesDataSourceProviderTests: XCTestCase {
         dataProvider = BadgesDataSourceProvider()
         dataProvider?.badgeEarnStatusMgr = mockBadgeEarnStatusMgr
         
-        var storyBoard = UIStoryboard(name: "Main", bundle: NSBundle(forClass: self.dynamicType))
-        var badgesTVC = storyBoard.instantiateViewControllerWithIdentifier("BadgesTableViewController") as? BadgesTableViewController
+        let storyBoard = UIStoryboard(name: "Main", bundle: NSBundle(forClass: self.dynamicType))
+        let badgesTVC = storyBoard.instantiateViewControllerWithIdentifier("BadgesTableViewController") as? BadgesTableViewController
         
         managedObjectModel = NSManagedObjectModel.mergedModelFromBundles([NSBundle.mainBundle()])
         storeCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
-        store = storeCoordinator.addPersistentStoreWithType(NSInMemoryStoreType,
-            configuration: nil, URL: nil, options: nil, error: nil)
+        store = try? storeCoordinator.addPersistentStoreWithType(NSInMemoryStoreType,
+            configuration: nil, URL: nil, options: nil)
         managedObjectContext = NSManagedObjectContext()
         managedObjectContext.persistentStoreCoordinator = storeCoordinator
         

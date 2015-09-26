@@ -74,7 +74,7 @@ class BadgeEarnStatusMgr: NSObject, BadgeEarnStatusDataProvider {
         
         if let badgeList = badges.badges {
             for badge in badgeList {
-                var badgeEarnStatus = BadgeEarnStatus(badge: badge)
+                let badgeEarnStatus = BadgeEarnStatus(badge: badge)
                 badgeEarnStatusList?.append(badgeEarnStatus)
             }
         }
@@ -143,8 +143,8 @@ class BadgeEarnStatusMgr: NSObject, BadgeEarnStatusDataProvider {
     }
     
     private func fillBestRunToBadgeEarnStatus(badgeEarnStatus: BadgeEarnStatus) {
-        var earnedRuns = allRunsForBadge(badgeEarnStatus.badge)
-        var bestRun = bestRunInRuns(earnedRuns)
+        let earnedRuns = allRunsForBadge(badgeEarnStatus.badge)
+        let bestRun = bestRunInRuns(earnedRuns)
         badgeEarnStatus.bestRun = bestRun
     }
     
@@ -186,7 +186,7 @@ class BadgeEarnStatusMgr: NSObject, BadgeEarnStatusDataProvider {
         var maxSpeed = 0.0
         
         for eachRun in runs {
-            var runSpeed = eachRun.distance / eachRun.duration
+            let runSpeed = eachRun.distance / eachRun.duration
             if runSpeed > maxSpeed {
                 maxSpeed = runSpeed
                 run = eachRun

@@ -49,7 +49,7 @@ class BadgeTests: XCTestCase {
     
     func testBadgeDistanceSetToZeroIfDistanceStringCannotConvertToNumber() {
         let invalidBadgeJsonString = ["distance":"invalid distance"]
-        var theBadge = Badge(badgeJsonString: invalidBadgeJsonString)
+        let theBadge = Badge(badgeJsonString: invalidBadgeJsonString)
         XCTAssertTrue(theBadge.distance == 0.0)
     }
 

@@ -36,7 +36,7 @@ class BadgesTableViewController: UITableViewController {
     }
 }
 
-extension BadgesTableViewController: UITableViewDataSource {
+extension BadgesTableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataSourceProvider.tableView(tableView, numberOfRowsInSection: section)
     }
@@ -46,7 +46,7 @@ extension BadgesTableViewController: UITableViewDataSource {
     }
 }
 
-extension BadgesTableViewController: UITableViewDelegate {
+extension BadgesTableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         badgeEarnStatus = dataSourceProvider.badgeEarnStatusForIndex(indexPath.row)
         performSegueWithIdentifier("Show Badge Detail", sender: nil) 

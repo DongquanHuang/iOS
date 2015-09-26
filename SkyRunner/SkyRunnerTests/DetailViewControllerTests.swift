@@ -36,7 +36,7 @@ class DetailViewControllerTests: XCTestCase {
     class MockDetailViewController: DetailViewController {
         var segueIdentifier: NSString?
         
-        override func performSegueWithIdentifier(identifier: String?, sender: AnyObject?) {
+        override func performSegueWithIdentifier(identifier: String, sender: AnyObject?) {
             segueIdentifier = identifier
         }
     }
@@ -59,8 +59,8 @@ class DetailViewControllerTests: XCTestCase {
         
         managedObjectModel = NSManagedObjectModel.mergedModelFromBundles([NSBundle.mainBundle()])
         storeCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
-        store = storeCoordinator.addPersistentStoreWithType(NSInMemoryStoreType,
-            configuration: nil, URL: nil, options: nil, error: nil)
+        store = try? storeCoordinator.addPersistentStoreWithType(NSInMemoryStoreType,
+            configuration: nil, URL: nil, options: nil)
         
         managedObjectContext = NSManagedObjectContext()
         managedObjectContext.persistentStoreCoordinator = storeCoordinator
@@ -106,7 +106,7 @@ class DetailViewControllerTests: XCTestCase {
     
     func testDateLabelShowsCorrectValue() {
         let expectedDateString = "Jan 2, 1970, 11:46:40 AM"  //NSDate(timeIntervalSince1970: 100000)
-        println("Time Label: \(detailVC?.dateLabel.text)")
+        print("Time Label: \(detailVC?.dateLabel.text)")
         XCTAssertTrue(detailVC?.dateLabel.text == "Date: " + expectedDateString)
     }
     
@@ -161,7 +161,7 @@ class DetailViewControllerTests: XCTestCase {
     }
     
     func testMapViewWillAddOverlaysForRunWhichHasMoreThanOneLocations() {
-        XCTAssertTrue(detailVC?.mapView.overlays?.count == skyRun!.locations.count - 1)
+        XCTAssertTrue(detailVC?.mapView.overlays.count == skyRun!.locations.count - 1)
     }
     
     func testMapViewWillNotAddOverlaysForRunWhichHasNoLocation() {
@@ -206,17 +206,18 @@ class DetailViewControllerTests: XCTestCase {
         coords.append(location1.coordinate)
         coords.append(location2.coordinate)
         let polyline = MKPolyline(coordinates: &coords, count: coords.count)
-        let renderer = detailVC?.mapView(detailVC?.mapView, rendererForOverlay: polyline) as? MKOverlayPathRenderer
+        let renderer = detailVC?.mapView((detailVC?.mapView)!, rendererForOverlay: polyline) as? MKOverlayPathRenderer
         
         XCTAssertTrue(renderer == nil)
     }
     
-    func testMapDelegateWillProvideNilRendererForNonPolyline() {
+    func testMapDelegateWillProvideDefaultRendererForNonPolyline() {
         let area = Area()
         area.overlayBoundingMapRect = MKMapRect(origin: MKMapPoint(x: 0, y: 0), size: MKMapSize(width: 10, height: 10))
         area.midCoordinate = CLLocationCoordinate2D(latitude: 0, longitude: 0)
-        let renderer = detailVC?.mapView(detailVC?.mapView, rendererForOverlay: MyMapOverlay(area: area))
-        XCTAssertTrue(renderer == nil)
+        let renderer = detailVC?.mapView((detailVC?.mapView)!, rendererForOverlay: MyMapOverlay(area: area))
+        XCTAssertTrue(renderer?.isKindOfClass(MKPolylineRenderer) == false)
+        XCTAssertTrue(renderer?.isKindOfClass(MKOverlayRenderer) == true)
     }
     
     func testMapDelegateWillProvideRendererColor() {
@@ -251,7 +252,7 @@ class DetailViewControllerTests: XCTestCase {
         
         // Must use SkyRunner.Run, otherwise during run time the type is SkyRunnerTests.Run
         // This will cause cast failure
-        let runs = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as! [SkyRunner.Run]
+        let runs = (try! managedObjectContext!.executeFetchRequest(fetchRequest)) as! [SkyRunner.Run]
         
         XCTAssert(runs.count == 1)
         
@@ -349,7 +350,7 @@ class DetailViewControllerTests: XCTestCase {
         let polyline = ColorfulPolyline(coordinates: &coords, count: coords.count)
         polyline.color = UIColor.brownColor()
         
-        let renderer = detailVC?.mapView(detailVC?.mapView, rendererForOverlay: polyline) as? MKOverlayPathRenderer
+        let renderer = detailVC?.mapView((detailVC?.mapView)!, rendererForOverlay: polyline) as? MKOverlayPathRenderer
         return renderer
     }
 

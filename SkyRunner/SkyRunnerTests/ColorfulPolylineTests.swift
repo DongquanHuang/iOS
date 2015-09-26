@@ -56,7 +56,7 @@ class ColorfulPolylineTests: XCTestCase {
     }
     
     func testGeneratorCanProducePolylinesBasedOnLocations() {
-        var polylines = colorfulPolylineGenerator.produceColorfulPolylinesForLocations(locations)
+        let polylines = colorfulPolylineGenerator.produceColorfulPolylinesForLocations(locations)
         
         XCTAssertTrue(polylines.count == locations.count - 1)
     }

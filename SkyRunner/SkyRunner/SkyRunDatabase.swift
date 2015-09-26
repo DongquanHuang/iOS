@@ -37,7 +37,7 @@ class SkyRunDatabase: NSObject, SkyRunDatabaseInterface {
             // Get nil from below code
             //let runArray = managedObjects as? [Run]
             
-            if let runList = context.executeFetchRequest(fetchRequest, error: nil) as? [Run] {
+            if let runList = (try? context.executeFetchRequest(fetchRequest)) as? [Run] {
                 for run in runList {
                     runs.append(run)
                 }
@@ -64,7 +64,7 @@ class SkyRunDatabase: NSObject, SkyRunDatabaseInterface {
             // This is related to above predicate for fetch request
             // Dont know why yet, perhaps Swift bug
             
-            if let runList = context.executeFetchRequest(fetchRequest, error: nil) as? [Run] {
+            if let runList = (try? context.executeFetchRequest(fetchRequest)) as? [Run] {
                 for run in runList {
                     earnedRuns.append(run)
                 }

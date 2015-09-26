@@ -22,37 +22,37 @@ protocol LocationManagerDelegate {
 class LocationManager: NSObject {
     
     var locations = [CLLocation]()
-    var locationManager: CLLocationManager?
+    var clLocationManager: CLLocationManager?
     var delegate: LocationManagerDelegate?
     
     func stopLocationUpdate() {
-        locationManager?.stopUpdatingLocation()
-        locationManager?.delegate = nil
-        locationManager = nil
+        clLocationManager?.stopUpdatingLocation()
+        clLocationManager?.delegate = nil
+        clLocationManager = nil
     }
     
     func startLocationUpdate() {
-        locationManager = CLLocationManager()
-        if locationManager != nil {
-            locationManager!.delegate = self
-            locationManager!.desiredAccuracy = kCLLocationAccuracyBest
-            locationManager!.activityType = .Fitness
+        clLocationManager = CLLocationManager()
+        if clLocationManager != nil {
+            clLocationManager!.delegate = self
+            clLocationManager!.desiredAccuracy = kCLLocationAccuracyBest
+            clLocationManager!.activityType = .Fitness
             
             // Movement threshold for new events
-            locationManager!.distanceFilter = Constants.CL_DistanceFilter
+            clLocationManager!.distanceFilter = Constants.CL_DistanceFilter
             
-            locationManager!.requestAlwaysAuthorization()
-            locationManager!.startUpdatingLocation()
+            clLocationManager!.requestAlwaysAuthorization()
+            clLocationManager!.startUpdatingLocation()
         }
     }
     
 }
 
 extension LocationManager: CLLocationManagerDelegate {
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         for location in locations {
-            if (locationIsValid(location as! CLLocation)) {
-                saveLocation(location as! CLLocation)
+            if (locationIsValid(location )) {
+                saveLocation(location )
                 informDelegateNewLocationUpdated()
             }
         }

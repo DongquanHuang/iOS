@@ -46,7 +46,7 @@ class BadgeDataManagerTests: XCTestCase {
     
     func testBadgesArrayIsNilForInvalidFileAfterOneValidFetch() {
         let filePath = NSBundle.mainBundle().pathForResource("badges", ofType: "json")
-        let badges = badgeDataManager?.getBadgesFromFile(filePath)
+        _ = badgeDataManager?.getBadgesFromFile(filePath)
         
         let invalidFetchResult = badgeDataManager?.getBadgesFromFile("invalid file")
         XCTAssertTrue(invalidFetchResult == nil)

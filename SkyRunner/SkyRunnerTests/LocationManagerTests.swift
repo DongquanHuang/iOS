@@ -52,26 +52,26 @@ class LocationManagerTests: XCTestCase {
     
     func testLocationManagerWillOnlySaveLocationIfItIsARecentUpdate() {
         locations?.append(location)
-        locationMgr?.locationManager(nil, didUpdateLocations: locations)
+        locationMgr?.locationManager(CLLocationManager(), didUpdateLocations: locations!)
         XCTAssertTrue(locationMgr?.locations.count == 1)
     }
     
     func testLocationManagerWillNotSaveLocationIfTheUpdateIsNotAccuratyEnough() {
         locations?.append(inaccurateLocation)
-        locationMgr?.locationManager(nil, didUpdateLocations: locations)
+        locationMgr?.locationManager(CLLocationManager(), didUpdateLocations: locations!)
         XCTAssertTrue(locationMgr?.locations.count == 0)
     }
     
     func testLocationManagerWillNotSaveLocationIfItIsOutOfDate() {
         locations?.append(outOfDateLocation)
-        locationMgr?.locationManager(nil, didUpdateLocations: locations)
+        locationMgr?.locationManager(CLLocationManager(), didUpdateLocations: locations!)
         XCTAssertTrue(locationMgr?.locations.count == 0)
     }
     
     func testDelegateMethodGetsCalledIfGetsValidLocationUpdate() {
         locations?.append(location)
-        locationMgr?.locationManager(nil, didUpdateLocations: locations)
+        locationMgr?.locationManager(CLLocationManager(), didUpdateLocations: locations!)
         XCTAssertTrue(locationMgrDelegate?.delegateMethodGetsCalled == true)
     }
-
+    
 }

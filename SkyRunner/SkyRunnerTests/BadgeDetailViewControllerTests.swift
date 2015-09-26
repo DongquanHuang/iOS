@@ -42,17 +42,17 @@ class BadgeDetailViewControllerTests: XCTestCase {
         
         managedObjectModel = NSManagedObjectModel.mergedModelFromBundles(nil)
         storeCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
-        store = storeCoordinator.addPersistentStoreWithType(NSInMemoryStoreType,
-            configuration: nil, URL: nil, options: nil, error: nil)
+        store = try? storeCoordinator.addPersistentStoreWithType(NSInMemoryStoreType,
+            configuration: nil, URL: nil, options: nil)
         managedObjectContext = NSManagedObjectContext()
         managedObjectContext.persistentStoreCoordinator = storeCoordinator
         
-        var storyBoard = UIStoryboard(name: "Main", bundle: NSBundle(forClass: self.dynamicType))
+        let storyBoard = UIStoryboard(name: "Main", bundle: NSBundle(forClass: self.dynamicType))
         badgeDetailVC = storyBoard.instantiateViewControllerWithIdentifier("BadgeDetailViewController") as? BadgeDetailViewController
         badgeDetailVC?.view
         
         let badgeJsonString = ["name":"Earth", "imageName":"earth", "distance":"2.01", "information": "badgeInformation"]
-        var badge = Badge(badgeJsonString: badgeJsonString)
+        let badge = Badge(badgeJsonString: badgeJsonString)
         badgeEarnStatus = BadgeEarnStatus(badge: badge)
         
         earnRun = Run(context: managedObjectContext)

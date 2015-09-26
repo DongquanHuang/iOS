@@ -21,7 +21,7 @@ class HomeViewControllerTests: XCTestCase {
     class MockHomeViewController: HomeViewController {
         var segueIdentifier: NSString?
         
-        override func performSegueWithIdentifier(identifier: String?, sender: AnyObject?) {
+        override func performSegueWithIdentifier(identifier: String, sender: AnyObject?) {
             segueIdentifier = identifier
         }
     }
@@ -34,7 +34,7 @@ class HomeViewControllerTests: XCTestCase {
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
-        var storyBoard = UIStoryboard(name: "Main", bundle: NSBundle(forClass: self.dynamicType))
+        let storyBoard = UIStoryboard(name: "Main", bundle: NSBundle(forClass: self.dynamicType))
         homeViewController = storyBoard.instantiateViewControllerWithIdentifier("HomeViewController") as? HomeViewController
         homeViewController?.view    // Force link IBOutlets
         newRunVC = storyBoard.instantiateViewControllerWithIdentifier("NewRunViewController") as? NewRunViewController
@@ -45,8 +45,8 @@ class HomeViewControllerTests: XCTestCase {
         // Prepare Core Data context
         managedObjectModel = NSManagedObjectModel.mergedModelFromBundles(nil)
         storeCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
-        store = storeCoordinator.addPersistentStoreWithType(NSInMemoryStoreType,
-            configuration: nil, URL: nil, options: nil, error: nil)
+        store = try? storeCoordinator.addPersistentStoreWithType(NSInMemoryStoreType,
+            configuration: nil, URL: nil, options: nil)
         
         managedObjectContext = NSManagedObjectContext()
         managedObjectContext.persistentStoreCoordinator = storeCoordinator
@@ -62,12 +62,12 @@ class HomeViewControllerTests: XCTestCase {
     }
     
     func testCanSetManagedObjectContextProperty() {
-        var managedObjectModel = NSManagedObjectModel.mergedModelFromBundles(nil)
-        var storeCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel!)
-        var store = storeCoordinator.addPersistentStoreWithType(NSInMemoryStoreType,
-            configuration: nil, URL: nil, options: nil, error: nil)
+        let managedObjectModel = NSManagedObjectModel.mergedModelFromBundles(nil)
+        let storeCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel!)
+        _ = try? storeCoordinator.addPersistentStoreWithType(NSInMemoryStoreType,
+            configuration: nil, URL: nil, options: nil)
         
-        var managedObjectContext = NSManagedObjectContext()
+        let managedObjectContext = NSManagedObjectContext()
         managedObjectContext.persistentStoreCoordinator = storeCoordinator
         
         homeViewController?.managedObjectContext = managedObjectContext

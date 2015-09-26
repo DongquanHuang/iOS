@@ -32,8 +32,8 @@ class SkyRunDatabaseTests: XCTestCase {
         
         managedObjectModel = NSManagedObjectModel.mergedModelFromBundles(nil)
         storeCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
-        store = storeCoordinator.addPersistentStoreWithType(NSInMemoryStoreType,
-            configuration: nil, URL: nil, options: nil, error: nil)
+        store = try? storeCoordinator.addPersistentStoreWithType(NSInMemoryStoreType,
+            configuration: nil, URL: nil, options: nil)
         managedObjectContext = NSManagedObjectContext()
         managedObjectContext.persistentStoreCoordinator = storeCoordinator
         
@@ -65,7 +65,10 @@ class SkyRunDatabaseTests: XCTestCase {
         run3?.duration = 685.0
         run3?.distance = 1931.04
         
-        managedObjectContext.save(nil)
+        do {
+            try managedObjectContext.save()
+        } catch _ {
+        }
     }
 
     // This unit test always fails, see comment in SkyRunDatabase::allRuns()

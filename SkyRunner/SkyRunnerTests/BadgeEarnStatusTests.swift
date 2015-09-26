@@ -76,8 +76,8 @@ class BadgeEarnStatusTests: XCTestCase {
     private func prepareCoreDataContext() {
         managedObjectModel = NSManagedObjectModel.mergedModelFromBundles(nil)
         storeCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
-        store = storeCoordinator.addPersistentStoreWithType(NSInMemoryStoreType,
-            configuration: nil, URL: nil, options: nil, error: nil)
+        store = try? storeCoordinator.addPersistentStoreWithType(NSInMemoryStoreType,
+            configuration: nil, URL: nil, options: nil)
         managedObjectContext = NSManagedObjectContext()
         managedObjectContext.persistentStoreCoordinator = storeCoordinator
     }
@@ -102,7 +102,10 @@ class BadgeEarnStatusTests: XCTestCase {
         mockDB.run3?.duration = 685.0
         mockDB.run3?.distance = 1931.04
         
-        managedObjectContext.save(nil)
+        do {
+            try managedObjectContext.save()
+        } catch _ {
+        }
     }
     
     private func setDBInterfaceForBadgeEarnStatusMgr() {

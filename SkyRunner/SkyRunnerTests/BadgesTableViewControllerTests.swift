@@ -46,7 +46,7 @@ class BadgesTableViewControllerTests: XCTestCase {
     class MockBadgesTVC: BadgesTableViewController {
         var segueIdentifier: NSString?
         
-        override func performSegueWithIdentifier(identifier: String?, sender: AnyObject?) {
+        override func performSegueWithIdentifier(identifier: String, sender: AnyObject?) {
             segueIdentifier = identifier
         }
     }
@@ -62,8 +62,8 @@ class BadgesTableViewControllerTests: XCTestCase {
         
         managedObjectModel = NSManagedObjectModel.mergedModelFromBundles([NSBundle.mainBundle()])
         storeCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
-        store = storeCoordinator.addPersistentStoreWithType(NSInMemoryStoreType,
-            configuration: nil, URL: nil, options: nil, error: nil)
+        store = try? storeCoordinator.addPersistentStoreWithType(NSInMemoryStoreType,
+            configuration: nil, URL: nil, options: nil)
         managedObjectContext = NSManagedObjectContext()
         managedObjectContext.persistentStoreCoordinator = storeCoordinator
         
@@ -97,12 +97,12 @@ class BadgesTableViewControllerTests: XCTestCase {
     }
     
     func testGetRowNumbersDelegateToDataSourceProvider() {
-        let rows = badgesTVC?.tableView(UITableView(), numberOfRowsInSection:0)
+        _ = badgesTVC?.tableView(UITableView(), numberOfRowsInSection:0)
         XCTAssertTrue(mockDataSourceProvider?.numberOfRowsInSectionFuncGetsCalled == true)
     }
     
     func testGetCellDelegateToDataSourceProvider() {
-        let cell = badgesTVC?.tableView(UITableView(), cellForRowAtIndexPath:NSIndexPath())
+        _ = badgesTVC?.tableView(UITableView(), cellForRowAtIndexPath:NSIndexPath())
         XCTAssertTrue(mockDataSourceProvider?.cellForRowAtIndexPathFuncGetsCalled == true)
     }
     

@@ -29,7 +29,7 @@ class NewRunViewControllerTests: XCTestCase {
     class MockNewRunViewController: NewRunViewController {
         var segueIdentifier: NSString?
         
-        override func performSegueWithIdentifier(identifier: String?, sender: AnyObject?) {
+        override func performSegueWithIdentifier(identifier: String, sender: AnyObject?) {
             segueIdentifier = identifier
         }
     }
@@ -82,8 +82,8 @@ class NewRunViewControllerTests: XCTestCase {
         // Prepare Core Data context
         managedObjectModel = NSManagedObjectModel.mergedModelFromBundles(nil)
         storeCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
-        store = storeCoordinator.addPersistentStoreWithType(NSInMemoryStoreType,
-            configuration: nil, URL: nil, options: nil, error: nil)
+        store = try? storeCoordinator.addPersistentStoreWithType(NSInMemoryStoreType,
+            configuration: nil, URL: nil, options: nil)
         
         managedObjectContext = NSManagedObjectContext()
         managedObjectContext.persistentStoreCoordinator = storeCoordinator
@@ -255,11 +255,11 @@ class NewRunViewControllerTests: XCTestCase {
     }
     
     func testDistanceWillNotUpdateAfterOnlyOneLocationUpdate() {
-        var location1 = CLLocation(coordinate: CLLocationCoordinate2D(latitude: 10.0, longitude: 20.0), altitude: 30.0, horizontalAccuracy: 5.0, verticalAccuracy: 5.0, course: 5.0, speed: 2.0, timestamp: NSDate())
+        let location1 = CLLocation(coordinate: CLLocationCoordinate2D(latitude: 10.0, longitude: 20.0), altitude: 30.0, horizontalAccuracy: 5.0, verticalAccuracy: 5.0, course: 5.0, speed: 2.0, timestamp: NSDate())
         
         let originalDistance = newRunVC?.skyRun.distance
         newRunVC?.startRun(newRunVC!.startButton)
-        newRunVC?.locationManager?.locationManager(nil, didUpdateLocations: [location1])
+        newRunVC?.locationManager?.locationManager(CLLocationManager(), didUpdateLocations: [location1])
         let currentDistance = newRunVC?.skyRun.distance
         
         XCTAssertTrue(currentDistance == originalDistance)
@@ -267,13 +267,13 @@ class NewRunViewControllerTests: XCTestCase {
     
     private func serveOneLocation() {
         newRunVC?.startRun(newRunVC!.startButton)
-        newRunVC?.locationManager?.locationManager(nil, didUpdateLocations: [location1])
+        newRunVC?.locationManager?.locationManager(CLLocationManager(), didUpdateLocations: [location1])
     }
     
     private func serveTwoLocations() {
         newRunVC?.startRun(newRunVC!.startButton)
-        newRunVC?.locationManager?.locationManager(nil, didUpdateLocations: [location1])
-        newRunVC?.locationManager?.locationManager(nil, didUpdateLocations: [location2])
+        newRunVC?.locationManager?.locationManager(CLLocationManager(), didUpdateLocations: [location1])
+        newRunVC?.locationManager?.locationManager(CLLocationManager(), didUpdateLocations: [location2])
     }
     
     private func distanceBetweenTwoLocations() -> Double {
@@ -357,7 +357,7 @@ class NewRunViewControllerTests: XCTestCase {
         coords.append(location2.coordinate)
         let polyline = MKPolyline(coordinates: &coords, count: coords.count)
         
-        let renderer = newRunVC?.mapView(newRunVC?.mapView, rendererForOverlay: polyline) as? MKOverlayPathRenderer
+        let renderer = newRunVC?.mapView((newRunVC?.mapView)!, rendererForOverlay: polyline) as? MKOverlayPathRenderer
         return renderer
     }
     
@@ -381,12 +381,13 @@ class NewRunViewControllerTests: XCTestCase {
         }
     }
     
-    func testMapDelegateWillProvideNilRendererForNonPolyline() {
+    func testMapDelegateWillProvideDefaultRendererForNonPolyline() {
         let area = Area()
         area.overlayBoundingMapRect = MKMapRect(origin: MKMapPoint(x: 0, y: 0), size: MKMapSize(width: 10, height: 10))
         area.midCoordinate = CLLocationCoordinate2D(latitude: 0, longitude: 0)
-        let renderer = newRunVC?.mapView(newRunVC?.mapView, rendererForOverlay: MyMapOverlay(area: area))
-        XCTAssertTrue(renderer == nil)
+        let renderer = newRunVC?.mapView((newRunVC?.mapView)!, rendererForOverlay: MyMapOverlay(area: area))
+        XCTAssertTrue(renderer?.isKindOfClass(MKPolylineRenderer) == false)
+        XCTAssertTrue(renderer?.isKindOfClass(MKOverlayRenderer) == true)
     }
     
     func testMapDelegateWillProvideRendererWithBlueColor() {
@@ -402,15 +403,15 @@ class NewRunViewControllerTests: XCTestCase {
     func testFirstLocationUpdateWillNotAddOverlayToMap() {
         let mapView = newRunVC?.mapView
         serveOneLocation()
-        let currentOverlayCount = mapView?.overlays?.count
+        let currentOverlayCount = mapView?.overlays.count
         
-        XCTAssertTrue(currentOverlayCount == nil)
+        XCTAssertTrue(currentOverlayCount == 0)
     }
     
     func testLocationUpdateWillAddOverlayToMap() {
         let mapView = newRunVC?.mapView
         serveTwoLocations()
-        let currentOverlayCount = mapView?.overlays?.count
+        let currentOverlayCount = mapView?.overlays.count
         
         XCTAssertTrue(currentOverlayCount == 1)
     }
@@ -436,7 +437,7 @@ class NewRunViewControllerTests: XCTestCase {
     }
     
     func testMapViewDelegateIsSetCorrectly() {
-        XCTAssertTrue(newRunVC?.mapView?.delegate.isKindOfClass(NewRunViewController) == true)
+        XCTAssertTrue(newRunVC?.mapView?.delegate!.isKindOfClass(NewRunViewController) == true)
     }
     
     func testNextBadgeToEarnImageViewIsSetCorrectly() {

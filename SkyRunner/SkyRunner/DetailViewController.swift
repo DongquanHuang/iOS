@@ -99,10 +99,15 @@ class DetailViewController: UIViewController {
             
             savedRun.locations = NSSet(array: savedLocations)
             
-            var error: NSError?
-            let success = context.save(&error)
+            let success: Bool
+            do {
+                try context.save()
+                success = true
+            } catch {
+                success = false
+            }
             if !success {
-                println("Failed to save the run")
+                print("Failed to save the run")
             }
         }
     }
@@ -173,9 +178,10 @@ class DetailViewController: UIViewController {
     }
     
     private func removeOverlays() {
-        if let existingOverlays = mapView.overlays {
-            mapView.removeOverlays(existingOverlays)
-        }
+//        if let existingOverlays = mapView.overlays {
+//            mapView.removeOverlays(existingOverlays)
+//        }
+        mapView.removeOverlays(mapView.overlays)
     }
     
     private func canAddOverlays() -> Bool {
@@ -245,9 +251,9 @@ extension DetailViewController: MKMapViewDelegate {
         static let MK_LineWidth: CGFloat = 4.0
     }
     
-    func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
+    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
         if !overlay.isKindOfClass(ColorfulPolyline) {
-            return nil
+            return MKOverlayRenderer()
         }
         
         let polyline = overlay as! ColorfulPolyline

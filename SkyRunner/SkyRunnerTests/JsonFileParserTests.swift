@@ -26,12 +26,12 @@ class JsonFileParserTests: XCTestCase {
     
     func testParserCanReturnValidJsonDictionaryArrayForValidJsonFile() {
         let filePath = NSBundle.mainBundle().pathForResource("badges", ofType: "json")
-        var jsonDictionaryArray = jsonFileParser?.getJsonDictionaryArrayFromFile(filePath)
+        let jsonDictionaryArray = jsonFileParser?.getJsonDictionaryArrayFromFile(filePath)
         XCTAssertTrue(jsonDictionaryArray != nil)
     }
     
     func testParserWillReturnNilForInvalidFile() {
-        var jsonDictionaryArray = jsonFileParser?.getJsonDictionaryArrayFromFile("Invalid File")
+        let jsonDictionaryArray = jsonFileParser?.getJsonDictionaryArrayFromFile("Invalid File")
         XCTAssertTrue(jsonDictionaryArray == nil)
     }
 

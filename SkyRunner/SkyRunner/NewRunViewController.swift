@@ -206,9 +206,9 @@ extension NewRunViewController: MKMapViewDelegate {
         static let MK_LocationDistance = 500.0
     }
     
-    func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
+    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
         if !overlay.isKindOfClass(MKPolyline) {
-            return nil
+            return MKOverlayRenderer()
         }
         
         let polyline = overlay as! MKPolyline

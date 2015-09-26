@@ -11,13 +11,20 @@ import Foundation
 class JsonFileParser {
     
     func getJsonDictionaryArrayFromFile(filePath: String!) -> [Dictionary<String, String>]? {
-        var error: NSError?
-        if let jsonData = NSData(contentsOfFile: filePath, options: NSDataReadingOptions(), error: &error) {
-            var error: NSError?
-            if let jsonDictionaryArray = NSJSONSerialization.JSONObjectWithData(jsonData,
-                options: NSJSONReadingOptions.AllowFragments, error: &error) as? [Dictionary<String, String>] {
-                return jsonDictionaryArray
+        do {
+            let jsonData = try NSData(contentsOfFile: filePath, options: NSDataReadingOptions())
+            let dictionaryArray: AnyObject?
+            do {
+                dictionaryArray = try NSJSONSerialization.JSONObjectWithData(jsonData,
+                    options: NSJSONReadingOptions())
+            } catch {
+                return nil
             }
+            if let dictionaryArray = dictionaryArray as? [Dictionary<String, String>] {
+                return dictionaryArray
+            }
+        } catch {
+            return nil
         }
         
         return nil
