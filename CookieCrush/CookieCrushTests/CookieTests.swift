@@ -60,7 +60,7 @@ class CookieTests: XCTestCase {
     }
     
     func testCanCompareTwoCookies() {
-        var otherCookie = Cookie(column: 0, row: 0, cookieType: cookieType)
+        let otherCookie = Cookie(column: 0, row: 0, cookieType: cookieType)
         XCTAssertTrue(cookie == otherCookie)
     }
 

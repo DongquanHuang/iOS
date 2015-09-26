@@ -8,8 +8,8 @@
 
 import Foundation
 
-class Chain: Hashable, Printable {
-    enum ChainType: Printable {
+class Chain: Hashable, CustomStringConvertible {
+    enum ChainType: CustomStringConvertible {
         case Horizontal
         case Vertical
         
@@ -46,7 +46,7 @@ class Chain: Hashable, Printable {
     }
     
     var hashValue: Int {
-        return reduce(cookies, 0) { $0.hashValue ^ $1.hashValue }
+        return cookies.reduce(0) { $0.hashValue ^ $1.hashValue }
     }
     
     var description: String {

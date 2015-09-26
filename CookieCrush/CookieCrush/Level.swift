@@ -56,7 +56,7 @@ class Level {
     func shuffle() -> Set<Cookie> {
         var cookieSet: Set<Cookie>
         
-        do {
+        repeat {
             cookieSet = createInitialCookies()
             detectPossibleSwaps()
         } while !hasPossbileSwaps()
@@ -67,9 +67,9 @@ class Level {
     // MARK: - Private methods - Fill tiles based on level file
     private func fillTiles(dictionary: Dictionary<String, AnyObject>) {
         if let tilesArray: AnyObject = dictionary["tiles"] {
-            for (row, rowArray) in enumerate(tilesArray as! [[Int]]) {
+            for (row, rowArray) in (tilesArray as! [[Int]]).enumerate() {
                 let tileRow = LevelConstants.NumRows - row - 1
-                for (column, value) in enumerate(rowArray) {
+                for (column, value) in rowArray.enumerate() {
                     if value == 1 {
                         tiles[column, tileRow] = Tile()
                     }
@@ -95,7 +95,7 @@ class Level {
             for column in 0 ..< LevelConstants.NumColumns {
                 
                 if tiles[column, row] != nil {
-                    var cookieType = getRandomCookieTypeWithoutMakingChainsForColumn(column, row: row)
+                    let cookieType = getRandomCookieTypeWithoutMakingChainsForColumn(column, row: row)
                     let cookie = Cookie(column: column, row: row, cookieType: cookieType)
                     cookies[column, row] = cookie
                     
@@ -110,7 +110,7 @@ class Level {
     private func getRandomCookieTypeWithoutMakingChainsForColumn(column: Int, row: Int) -> CookieType {
         var cookieType: CookieType
         
-        do {
+        repeat {
             cookieType = CookieType.random()
         } while findChainIfAddCookieType(cookieType, AtColumn: column, row: row)
         
@@ -415,7 +415,7 @@ class Level {
     
     // MARK: - Fill holes after remove matched cookies
     func fillHoles() -> [[Cookie]] {
-        var cookieArrays = cookiesShouldDropDown()
+        let cookieArrays = cookiesShouldDropDown()
         
         fallDownAllCookies(cookieArrays)
         
@@ -509,7 +509,7 @@ class Level {
         var columns = [Int]()
         
         for column in 0 ..< LevelConstants.NumColumns {
-            let (found, holeRowIndex) = rowIndexForFirstHoleInColume(column)
+            let (found, _) = rowIndexForFirstHoleInColume(column)
             if found {
                 columns.append(column)
             }

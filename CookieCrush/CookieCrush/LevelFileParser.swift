@@ -11,13 +11,20 @@ import Foundation
 class LevelFileParser {
     static func loadJSONFromBundle(filename: String) -> Dictionary<String, AnyObject>? {
         if let path = NSBundle.mainBundle().pathForResource(filename, ofType: "json") {
-            var error: NSError?
-            if let data = NSData(contentsOfFile: path, options: NSDataReadingOptions(), error: &error) {
-                let dictionary: AnyObject? = NSJSONSerialization.JSONObjectWithData(data,
-                    options: NSJSONReadingOptions(), error: &error)
+            do {
+                let data = try NSData(contentsOfFile: path, options: NSDataReadingOptions())
+                let dictionary: AnyObject?
+                do {
+                    dictionary = try NSJSONSerialization.JSONObjectWithData(data,
+                                        options: NSJSONReadingOptions())
+                } catch {
+                    dictionary = nil
+                }
                 if let dictionary = dictionary as? Dictionary<String, AnyObject> {
                     return dictionary
                 }
+            } catch {
+                
             }
         }
         

@@ -65,14 +65,14 @@ class LevelTests: XCTestCase {
     }
     
     func testShuffleWillGenerateCookiesWithoutExistingChains() {
-        var theLevel = Level(filename: "Level_1")
+        let theLevel = Level(filename: "Level_1")
         theLevel.shuffle()
         
         XCTAssertTrue(chainExistingInLevel(theLevel) == false)
     }
     
     func testShuffleWillGenerateCookiesWithPossibleSwaps() {
-        var theLevel = Level(filename: "Level_1")
+        let theLevel = Level(filename: "Level_1")
         theLevel.shuffle()
         detectPossibleSwapsForLevel(theLevel)
         
@@ -97,7 +97,7 @@ class LevelTests: XCTestCase {
     func testDetectChain() {
         level.shuffle()
         let swaps = level.possibleSwaps
-        level.performSwap(swaps[advance(swaps.startIndex, swaps.count - 1)])
+        level.performSwap(swaps[swaps.startIndex.advancedBy(swaps.count - 1)])
         copyCookiesFromLevel(level)
         
         XCTAssert(level.detectHorizontalMatches().count == detectHorizontalMatches().count)
@@ -107,7 +107,7 @@ class LevelTests: XCTestCase {
     func testRemoveMatchesWillReturnUnionedMatchesSet() {
         level.shuffle()
         let swaps = level.possibleSwaps
-        level.performSwap(swaps[advance(swaps.startIndex, swaps.count - 1)])
+        level.performSwap(swaps[swaps.startIndex.advancedBy(swaps.count - 1)])
         copyCookiesFromLevel(level)
         
         let expectedMatchesToBeRemoved = detectHorizontalMatches().union(detectVerticalMatches())
@@ -117,7 +117,7 @@ class LevelTests: XCTestCase {
     func testRemoveMatchesWillRemoveMatchedCookiesInDataModel() {
         level.shuffle()
         let swaps = level.possibleSwaps
-        level.performSwap(swaps[advance(swaps.startIndex, swaps.count - 1)])
+        level.performSwap(swaps[swaps.startIndex.advancedBy(swaps.count - 1)])
         
         copyCookiesFromLevel(level)
         let originalCookies = copyCookies(cookies)
@@ -136,10 +136,10 @@ class LevelTests: XCTestCase {
     }
     
     func testHolesShouldBeFilledAfterRemoveMatchedCookies() {
-        var theLevel = Level(filename: "Level_2")
+        let theLevel = Level(filename: "Level_2")
         theLevel.shuffle()
         let swaps = theLevel.possibleSwaps
-        theLevel.performSwap(swaps[advance(swaps.startIndex, swaps.count - 1)])
+        theLevel.performSwap(swaps[swaps.startIndex.advancedBy(swaps.count - 1)])
         
         theLevel.removeMatches()
         copyCookiesFromLevel(theLevel)
@@ -158,10 +158,10 @@ class LevelTests: XCTestCase {
     }
     
     func testNewCookiesWillBeSupplied() {
-        var theLevel = Level(filename: "Level_1")
+        let theLevel = Level(filename: "Level_1")
         theLevel.shuffle()
         let swaps = theLevel.possibleSwaps
-        theLevel.performSwap(swaps[advance(swaps.startIndex, swaps.count - 1)])
+        theLevel.performSwap(swaps[swaps.startIndex.advancedBy(swaps.count - 1)])
         
         copyCookiesFromLevel(theLevel)
         let expectedCookieNumbers = cookieNumberInCookies(cookies)
@@ -187,10 +187,10 @@ class LevelTests: XCTestCase {
     }
     
     func testRemoveMatchesWillUpdateScore() {
-        var theLevel = Level(filename: "Level_1")
+        let theLevel = Level(filename: "Level_1")
         theLevel.shuffle()
         let swaps = theLevel.possibleSwaps
-        theLevel.performSwap(swaps[advance(swaps.startIndex, swaps.count - 1)])
+        theLevel.performSwap(swaps[swaps.startIndex.advancedBy(swaps.count - 1)])
         
         let chains = theLevel.removeMatches()
         var combo = 1
@@ -240,7 +240,7 @@ class LevelTests: XCTestCase {
     }
     
     private func detectHorzontalChainForCookie(cookie: Cookie) -> Bool {
-        var cookieType = cookie.cookieType
+        let cookieType = cookie.cookieType
         
         var horzLength = 1
         for var i = cookie.column - 1; i >= 0 && cookies![i, cookie.row]?.cookieType == cookieType; i--, horzLength++ {}
@@ -250,7 +250,7 @@ class LevelTests: XCTestCase {
     }
     
     private func detectVerticalChainForCookie(cookie: Cookie) -> Bool {
-        var cookieType = cookie.cookieType
+        let cookieType = cookie.cookieType
         
         var vertLength = 1
         for var i = cookie.row - 1; i >= 0 && cookies![cookie.column, i]?.cookieType == cookieType; i--, vertLength++ {}
@@ -324,7 +324,7 @@ class LevelTests: XCTestCase {
         
         for column in 0 ..< LevelConstants.NumColumns {
             for row in 0 ..< LevelConstants.NumRows {
-                if let cookie = cookies?[column, row] {
+                if let _ = cookies?[column, row] {
                     number++
                 }
             }

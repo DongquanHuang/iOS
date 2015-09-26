@@ -39,7 +39,7 @@ class GameViewControllerTests: XCTestCase {
         var detectPossibleSwapsCalled = false
         
         override func shuffle() -> Set<Cookie> {
-            var cookies = Set<Cookie>()
+            let cookies = Set<Cookie>()
             
             shuffleCalled = true
             
@@ -66,7 +66,7 @@ class GameViewControllerTests: XCTestCase {
         }
         
         override func fillHoles() -> [[Cookie]] {
-            var columns = [[Cookie]]()
+            let columns = [[Cookie]]()
             
             fillHolesCalled = true
             
@@ -74,7 +74,7 @@ class GameViewControllerTests: XCTestCase {
         }
         
         override func supplyNewCookies() -> [[Cookie]] {
-            var columns = [[Cookie]]()
+            let columns = [[Cookie]]()
             
             supplyNewCookiesCalled = true
             
@@ -203,7 +203,7 @@ class GameViewControllerTests: XCTestCase {
     }
     
     func testSupportedInterfaceOrientationsReturnsAllButUpsideDown() {
-        XCTAssertTrue(gameVC.supportedInterfaceOrientations() == Int(UIInterfaceOrientationMask.AllButUpsideDown.rawValue))
+        XCTAssertTrue(gameVC.supportedInterfaceOrientations() == UIInterfaceOrientationMask.AllButUpsideDown)
     }
     
     func testSKViewDoesNotAllowMultipleTouch() {
@@ -383,7 +383,7 @@ class GameViewControllerTests: XCTestCase {
         gameVC.level = Level(filename: "Level_0")
         gameVC.level.shuffle()
         let swaps = gameVC.level.possibleSwaps
-        gameVC.level.performSwap(swaps[advance(swaps.startIndex, swaps.count - 1)])
+        gameVC.level.performSwap(swaps[swaps.startIndex.advancedBy(swaps.count - 1)])
         
         gameVC.scene = MockGameScene(size: CGSize(width: 100, height: 100))
         

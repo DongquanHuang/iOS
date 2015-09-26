@@ -109,7 +109,7 @@ class GameScene: SKScene {
     func addTiles() {
         for row in 0 ..< LevelConstants.NumRows {
             for column in 0 ..< LevelConstants.NumColumns {
-                if let tile = level.tileAtColumn(column, row: row) {
+                if let _ = level.tileAtColumn(column, row: row) {
                     let tileNode = SKSpriteNode(imageNamed: "Tile")
                     tileNode.position = pointForColumn(column, row: row)
                     tilesLayer.addChild(tileNode)
@@ -167,13 +167,13 @@ class GameScene: SKScene {
     }
     
     // MARK: - Handle touches
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         let location = locationInCookiesLayerFromTouch(touches)
         setSwipeStartPosition(location)
         highlightSelectedCookie()
     }
     
-    override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if moveStartsFromValidPosition() == false {
             return
         }
@@ -188,13 +188,13 @@ class GameScene: SKScene {
         }
     }
     
-    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         cancelHighlightSelectionIndication()
         resetSwipeStartPosition()
     }
     
-    override func touchesCancelled(touches: Set<NSObject>, withEvent event: UIEvent) {
-        touchesEnded(touches, withEvent: event)
+    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+        touchesEnded(touches!, withEvent: event)
     }
     
     private func locationInCookiesLayerFromTouch(touches: Set<NSObject>) -> CGPoint {
@@ -214,7 +214,7 @@ class GameScene: SKScene {
         
         let (success, column, row) = convertPointToColumnAndRow(location)
         if success {
-            if let cookie = level.cookieAtColumn(column, row: row) {
+            if let _ = level.cookieAtColumn(column, row: row) {
                 cookieColumn = column
                 cookieRow = row
             }
@@ -349,7 +349,7 @@ class GameScene: SKScene {
         var longestDuration: NSTimeInterval = 0
         
         for array in columns {
-            for (idx, cookie) in enumerate(array) {
+            for (idx, cookie) in array.enumerate() {
                 let newPosition = pointForColumn(cookie.column, row: cookie.row)
                 let delay = 0.05 + 0.15 * NSTimeInterval(idx)
                 let sprite = cookie.sprite!
@@ -372,7 +372,7 @@ class GameScene: SKScene {
         var longestDuration: NSTimeInterval = 0
         
         for array in columns {
-            for (idx, cookie) in enumerate(array) {
+            for (idx, cookie) in array.enumerate() {
                 let sprite = SKSpriteNode(imageNamed: cookie.cookieType.spriteName)
                 sprite.position = pointForColumn(cookie.column, row: LevelConstants.NumRows)
                 cookiesLayer.addChild(sprite)

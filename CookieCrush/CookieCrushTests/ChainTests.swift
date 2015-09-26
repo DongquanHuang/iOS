@@ -69,7 +69,7 @@ class ChainTests: XCTestCase {
         horizontalChain?.addCookie(cookie1)
         horizontalChain?.addCookie(cookie2)
         
-        println("\(horizontalChain?.description)")
+        print("\(horizontalChain?.description)")
         XCTAssert(horizontalChain?.description == "Chain type:Horizontal with cookies:[Type:Croissant Square:(0,0), Type:Croissant Square:(0,1)]")
     }
 }

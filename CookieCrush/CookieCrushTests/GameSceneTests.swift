@@ -20,14 +20,14 @@ class GameSceneTests: XCTestCase {
     
     var mockGameScene = MockGameScene(size: CGSize(width: 100, height: 100))
     var mockTouch = MockUITouch()
-    var touches = Set<NSObject>()
+    var touches = Set<UITouch>()
     
     static let expectedCol = 5
     static let expectedRow = 4
     static let point = CGPoint(x: GameScene.GameSceneConstants.TileWidth * CGFloat(GameSceneTests.expectedCol) + 1, y: GameScene.GameSceneConstants.TileHeight * CGFloat(GameSceneTests.expectedRow) + 1)
     
     class MockUITouch: UITouch {
-        override func locationInNode(node: SKNode!) -> CGPoint {
+        override func locationInNode(node: SKNode) -> CGPoint {
             return GameSceneTests.point
         }
     }
@@ -86,7 +86,7 @@ class GameSceneTests: XCTestCase {
     }
     
     func testBackgroundAddedAsFirstNode() {
-        let nodes = gameScene.children as! [SKNode]
+        let nodes = gameScene.children 
         let background = nodes.first
         XCTAssertTrue(background != nil)
     }
@@ -100,7 +100,7 @@ class GameSceneTests: XCTestCase {
     }
     
     func testGameSceneHasGameLayerAsItsChildNode() {
-        let nodes = gameScene.children as! [SKNode]
+        let nodes = gameScene.children 
         let gameLayer = nodes[1]
         XCTAssertTrue(gameScene.gameLayer == gameLayer)
     }
@@ -111,7 +111,7 @@ class GameSceneTests: XCTestCase {
     }
     
     func testGameLayerHasCookiesLayerAsItsSecondChildNode() {
-        let nodes = gameScene.gameLayer.children as! [SKNode]
+        let nodes = gameScene.gameLayer.children 
         let cookiesLayer = nodes[1]
         XCTAssertTrue(cookiesLayer == gameScene.cookiesLayer)
     }
@@ -123,7 +123,7 @@ class GameSceneTests: XCTestCase {
     
     func testCookieSpriteIsAddedIntoCookiesLayer() {
         gameScene.addSpritesForCookies(cookies)
-        let nodes = gameScene.cookiesLayer.children as! [SKNode]
+        let nodes = gameScene.cookiesLayer.children 
         XCTAssertTrue(nodes.count == cookies.count)
     }
     
@@ -143,7 +143,7 @@ class GameSceneTests: XCTestCase {
     }
     
     func testGameLayerHasTilesLayerAsItsFirstChildNode() {
-        let nodes = gameScene.gameLayer.children as! [SKNode]
+        let nodes = gameScene.gameLayer.children 
         let tilesLayer = nodes.first
         XCTAssertTrue(tilesLayer == gameScene.tilesLayer)
     }
@@ -181,7 +181,7 @@ class GameSceneTests: XCTestCase {
     func testConvertValidPointToColumnAndRowReturnsTrueTupleWithCorrectColumnAndRow() {
         let result = gameScene.convertPointToColumnAndRow(GameSceneTests.point)
         XCTAssertTrue(result.success == true)
-        println("Row: \(result.row), Col: \(result.column)")
+        print("Row: \(result.row), Col: \(result.column)")
         XCTAssertTrue(result.column == GameSceneTests.expectedCol)
         XCTAssertTrue(result.row == GameSceneTests.expectedRow)
     }
@@ -387,7 +387,7 @@ class GameSceneTests: XCTestCase {
     func testRemoveAllCookieSpritesWillRemoveAll() {
         gameScene.addSpritesForCookies(cookies)
         gameScene.removeAllCookieSprites()
-        let nodes = gameScene.cookiesLayer.children as! [SKNode]
+        let nodes = gameScene.cookiesLayer.children 
         XCTAssertTrue(nodes.count == 0)
     }
     
@@ -395,7 +395,7 @@ class GameSceneTests: XCTestCase {
         gameScene.level = Level(filename: "Level_0")
         gameScene.addTiles()
         gameScene.removeAllTileSprites()
-        let nodes = gameScene.tilesLayer.children as! [SKNode]
+        let nodes = gameScene.tilesLayer.children 
         XCTAssertTrue(nodes.count == 0)
     }
     

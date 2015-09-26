@@ -28,9 +28,9 @@ class GameViewController: UIViewController {
     
     lazy var backgroundMusic: AVAudioPlayer = {
         let url = NSBundle.mainBundle().URLForResource("Mining by Moonlight", withExtension: "mp3")
-        let player = AVAudioPlayer(contentsOfURL: url, error: nil)
-        player.numberOfLoops = -1
-        return player
+        let player = try? AVAudioPlayer(contentsOfURL: url!)
+        player!.numberOfLoops = -1
+        return player!
     }()
     
     @IBOutlet weak var targetLabel: UILabel!
@@ -47,8 +47,8 @@ class GameViewController: UIViewController {
         return true
     }
     
-    override func supportedInterfaceOrientations() -> Int {
-        return Int(UIInterfaceOrientationMask.AllButUpsideDown.rawValue)
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.AllButUpsideDown
     }
     
     override func viewDidLoad() {
