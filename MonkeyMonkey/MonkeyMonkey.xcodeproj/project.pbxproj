@@ -21,6 +21,10 @@
 		D0BBC1431C72B54300D57494 /* Digit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BBC1411C72B54300D57494 /* Digit.swift */; };
 		D0BBC1441C72B54300D57494 /* Digit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BBC1411C72B54300D57494 /* Digit.swift */; };
 		D0BBC1461C72B8D900D57494 /* DigitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BBC1451C72B8D900D57494 /* DigitTests.swift */; };
+		D0BBC1481C72DE5600D57494 /* GameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BBC1471C72DE5600D57494 /* GameLogic.swift */; };
+		D0BBC1491C72DE5600D57494 /* GameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BBC1471C72DE5600D57494 /* GameLogic.swift */; };
+		D0BBC14A1C72DE5600D57494 /* GameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BBC1471C72DE5600D57494 /* GameLogic.swift */; };
+		D0BBC14C1C72E15B00D57494 /* GameLogicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BBC14B1C72E15B00D57494 /* GameLogicTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +61,8 @@
 		D0BBC13E1C72B17A00D57494 /* Array2DTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array2DTests.swift; sourceTree = "<group>"; };
 		D0BBC1411C72B54300D57494 /* Digit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Digit.swift; sourceTree = "<group>"; };
 		D0BBC1451C72B8D900D57494 /* DigitTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DigitTests.swift; sourceTree = "<group>"; };
+		D0BBC1471C72DE5600D57494 /* GameLogic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLogic.swift; sourceTree = "<group>"; };
+		D0BBC14B1C72E15B00D57494 /* GameLogicTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLogicTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +163,7 @@
 			children = (
 				D0BBC1391C72B09B00D57494 /* Array2D.swift */,
 				D0BBC1411C72B54300D57494 /* Digit.swift */,
+				D0BBC1471C72DE5600D57494 /* GameLogic.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -166,6 +173,7 @@
 			children = (
 				D0BBC13E1C72B17A00D57494 /* Array2DTests.swift */,
 				D0BBC1451C72B8D900D57494 /* DigitTests.swift */,
+				D0BBC14B1C72E15B00D57494 /* GameLogicTests.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -304,6 +312,7 @@
 				D07D49B21C6D917F004B3743 /* ViewController.swift in Sources */,
 				D0BBC13A1C72B09B00D57494 /* Array2D.swift in Sources */,
 				D07D49B01C6D917F004B3743 /* AppDelegate.swift in Sources */,
+				D0BBC1481C72DE5600D57494 /* GameLogic.swift in Sources */,
 				D0BBC1421C72B54300D57494 /* Digit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -312,9 +321,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0BBC14C1C72E15B00D57494 /* GameLogicTests.swift in Sources */,
 				D0BBC13B1C72B09B00D57494 /* Array2D.swift in Sources */,
 				D0BBC13F1C72B17A00D57494 /* Array2DTests.swift in Sources */,
 				D0BBC1431C72B54300D57494 /* Digit.swift in Sources */,
+				D0BBC1491C72DE5600D57494 /* GameLogic.swift in Sources */,
 				D0BBC1461C72B8D900D57494 /* DigitTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -325,6 +336,7 @@
 			files = (
 				D07D49D01C6D917F004B3743 /* MonkeyMonkeyUITests.swift in Sources */,
 				D0BBC13C1C72B09B00D57494 /* Array2D.swift in Sources */,
+				D0BBC14A1C72DE5600D57494 /* GameLogic.swift in Sources */,
 				D0BBC1441C72B54300D57494 /* Digit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
