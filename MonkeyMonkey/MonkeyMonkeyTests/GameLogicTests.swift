@@ -74,6 +74,15 @@ class GameLogicTests: XCTestCase {
 		XCTAssertTrue(currentNumberOfDigits() == 3)
 	}
 	
+	func testSwipeDownForGameOver() {
+		clearAllDigits()
+		generateGameOverDigits()
+		
+		game.swipeDown()
+		
+		XCTAssertTrue(game.isGameOver() == true)
+	}
+	
 	// MARK: - Private helper methods
 	private func currentNumberOfDigits() -> Int {
 		var digitsNumber = 0
@@ -99,6 +108,48 @@ class GameLogicTests: XCTestCase {
 	
 	private func addDigit(digit: Digit) {
 		game.digits[digit.column, digit.row] = digit
+	}
+	
+	private func generateGameOverDigits() {
+		let digit1 = Digit(column: 0, row: 0, digitType: .Two)
+		let digit2 = Digit(column: 0, row: 1, digitType: .Four)
+		let digit3 = Digit(column: 0, row: 2, digitType: .Eight)
+		let digit4 = Digit(column: 0, row: 3, digitType: .Sixteen)
+		
+		let digit5 = Digit(column: 1, row: 3, digitType: .Two)
+		let digit6 = Digit(column: 1, row: 2, digitType: .Four)
+		let digit7 = Digit(column: 1, row: 1, digitType: .Eight)
+		let digit8 = Digit(column: 1, row: 0, digitType: .Sixteen)
+		
+		let digit9 = Digit(column: 2, row: 0, digitType: .Two)
+		let digit10 = Digit(column: 2, row: 1, digitType: .Four)
+		let digit11 = Digit(column: 2, row: 2, digitType: .Eight)
+		let digit12 = Digit(column: 2, row: 3, digitType: .Sixteen)
+		
+		let digit13 = Digit(column: 3, row: 3, digitType: .Two)
+		let digit14 = Digit(column: 3, row: 2, digitType: .Four)
+		let digit15 = Digit(column: 3, row: 1, digitType: .Eight)
+		let digit16 = Digit(column: 3, row: 0, digitType: .Sixteen)
+		
+		addDigit(digit1)
+		addDigit(digit2)
+		addDigit(digit3)
+		addDigit(digit4)
+		
+		addDigit(digit5)
+		addDigit(digit6)
+		addDigit(digit7)
+		addDigit(digit8)
+		
+		addDigit(digit9)
+		addDigit(digit10)
+		addDigit(digit11)
+		addDigit(digit12)
+		
+		addDigit(digit13)
+		addDigit(digit14)
+		addDigit(digit15)
+		addDigit(digit16)
 	}
 
 }

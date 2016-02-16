@@ -16,6 +16,7 @@ struct GameConstants {
 class Game {
 	
 	var digits = Array2D<Digit>(columns: GameConstants.TotalColumns, rows: GameConstants.TotalRows)
+	var gameOver = false
 	
 	init() {
 		produceTwoRandomDigits()
@@ -25,7 +26,14 @@ class Game {
 	func swipeDown() {
 		moveAllDigitsDown()
 		addUpNeighbourDigitsForSwipeDown()
+		
 		produceRandomDigit()
+		
+		gameOver = checkIfGameOver()
+	}
+	
+	func isGameOver() -> Bool {
+		return gameOver
 	}
 	
 	// MARK: - Produce new digit
@@ -36,6 +44,10 @@ class Game {
 	}
 	
 	private func produceRandomDigit() {
+		if (allHolesFilled()) {
+			return
+		}
+		
 		let (randomColumn, randomRow) = findRandomPosition()
 		let digit = Digit(column: randomColumn, row: randomRow, digitType: DigitType.random())
 		digits[digit.column, digit.row] = digit
@@ -132,6 +144,100 @@ class Game {
 		digits[digit.column, digit.row] = digit
 	}
 	
+	// MARK: - Game over checking
+	private func checkIfGameOver() -> Bool {
+		if (!allHolesFilled()) {
+			return false
+		}
+		
+		if (mergeAvailable()) {
+			return false
+		}
+		
+		return true
+	}
+	
+	private func mergeAvailable() -> Bool {
+		for column in 0 ..< GameConstants.TotalColumns {
+			for row in 0 ..< GameConstants.TotalRows {
+				if let digit = digits[column, row] {
+					if (possilbeMergeExistsForDigit(digit)) {
+						return true
+					}
+				}
+			}
+		}
+		
+		return false
+	}
+	
+	private func possilbeMergeExistsForDigit(digit: Digit) -> Bool {
+		var possilbeMergeExists = false
+		
+		if let left = findLeftNeighbour(digit) {
+			possilbeMergeExists = digit == left
+		}
+		if let right = findRightNeighbour(digit) {
+			possilbeMergeExists = digit == right
+		}
+		if let up = findUpNeighbour(digit) {
+			possilbeMergeExists = digit == up
+		}
+		if let below = findBelowNeighbour(digit) {
+			possilbeMergeExists = digit == below
+		}
+		
+		return possilbeMergeExists
+	}
+	
+	private func findLeftNeighbour(digit: Digit) -> Digit? {
+		var column = digit.column - 1
+		while (column >= 0) {
+			if let neighbour = digits[column, digit.row] {
+				return neighbour
+			}
+			column--
+		}
+		
+		return nil
+	}
+	
+	private func findRightNeighbour(digit: Digit) -> Digit? {
+		var column = digit.column + 1
+		while (column < GameConstants.TotalColumns) {
+			if let neighbour = digits[column, digit.row] {
+				return neighbour
+			}
+			column++
+		}
+		
+		return nil
+	}
+	
+	private func findUpNeighbour(digit: Digit) -> Digit? {
+		var row = digit.row + 1
+		while (row < GameConstants.TotalRows) {
+			if let neighbour = digits[digit.column, row] {
+				return neighbour
+			}
+			row++
+		}
+		
+		return nil
+	}
+	
+	private func findBelowNeighbour(digit: Digit) -> Digit? {
+		var row = digit.row - 1
+		while (row >= 0) {
+			if let neighbour = digits[digit.column, row] {
+				return neighbour
+			}
+			row--
+		}
+		
+		return nil
+	}
+	
 	// MARK: - Common helper methods
 	private func hasDigitAtColumn(column: Int, andRow row: Int) -> Bool {
 		return digits[column, row] != nil
@@ -150,4 +256,9 @@ class Game {
 		
 		return digitsNumber
 	}
+	
+	private func allHolesFilled() -> Bool {
+		return currentNumberOfDigits() == GameConstants.TotalColumns * GameConstants.TotalRows
+	}
+	
 }
