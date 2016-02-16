@@ -14,6 +14,9 @@
 		D07D49BA1C6D917F004B3743 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D07D49B81C6D917F004B3743 /* LaunchScreen.storyboard */; };
 		D07D49C51C6D917F004B3743 /* MonkeyMonkeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07D49C41C6D917F004B3743 /* MonkeyMonkeyTests.swift */; };
 		D07D49D01C6D917F004B3743 /* MonkeyMonkeyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07D49CF1C6D917F004B3743 /* MonkeyMonkeyUITests.swift */; };
+		D0BBC13A1C72B09B00D57494 /* Array2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BBC1391C72B09B00D57494 /* Array2D.swift */; };
+		D0BBC13B1C72B09B00D57494 /* Array2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BBC1391C72B09B00D57494 /* Array2D.swift */; };
+		D0BBC13C1C72B09B00D57494 /* Array2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BBC1391C72B09B00D57494 /* Array2D.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +50,7 @@
 		D07D49CB1C6D917F004B3743 /* MonkeyMonkeyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MonkeyMonkeyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D07D49CF1C6D917F004B3743 /* MonkeyMonkeyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonkeyMonkeyUITests.swift; sourceTree = "<group>"; };
 		D07D49D11C6D917F004B3743 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D0BBC1391C72B09B00D57494 /* Array2D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array2D.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,12 +101,9 @@
 		D07D49AE1C6D917F004B3743 /* MonkeyMonkey */ = {
 			isa = PBXGroup;
 			children = (
-				D07D49AF1C6D917F004B3743 /* AppDelegate.swift */,
 				D07D49B11C6D917F004B3743 /* ViewController.swift */,
-				D07D49B31C6D917F004B3743 /* Main.storyboard */,
-				D07D49B61C6D917F004B3743 /* Assets.xcassets */,
-				D07D49B81C6D917F004B3743 /* LaunchScreen.storyboard */,
-				D07D49BB1C6D917F004B3743 /* Info.plist */,
+				D0BBC13D1C72B0A000D57494 /* Model */,
+				D0BBC1371C72B00800D57494 /* Supporting Files */,
 			);
 			path = MonkeyMonkey;
 			sourceTree = "<group>";
@@ -111,7 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				D07D49C41C6D917F004B3743 /* MonkeyMonkeyTests.swift */,
-				D07D49C61C6D917F004B3743 /* Info.plist */,
+				D0BBC1381C72B01C00D57494 /* Supporting Files */,
 			);
 			path = MonkeyMonkeyTests;
 			sourceTree = "<group>";
@@ -123,6 +124,34 @@
 				D07D49D11C6D917F004B3743 /* Info.plist */,
 			);
 			path = MonkeyMonkeyUITests;
+			sourceTree = "<group>";
+		};
+		D0BBC1371C72B00800D57494 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D07D49AF1C6D917F004B3743 /* AppDelegate.swift */,
+				D07D49B31C6D917F004B3743 /* Main.storyboard */,
+				D07D49B61C6D917F004B3743 /* Assets.xcassets */,
+				D07D49B81C6D917F004B3743 /* LaunchScreen.storyboard */,
+				D07D49BB1C6D917F004B3743 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D0BBC1381C72B01C00D57494 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D07D49C61C6D917F004B3743 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D0BBC13D1C72B0A000D57494 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D0BBC1391C72B09B00D57494 /* Array2D.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,6 +286,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D07D49B21C6D917F004B3743 /* ViewController.swift in Sources */,
+				D0BBC13A1C72B09B00D57494 /* Array2D.swift in Sources */,
 				D07D49B01C6D917F004B3743 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -266,6 +296,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D07D49C51C6D917F004B3743 /* MonkeyMonkeyTests.swift in Sources */,
+				D0BBC13B1C72B09B00D57494 /* Array2D.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,6 +305,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D07D49D01C6D917F004B3743 /* MonkeyMonkeyUITests.swift in Sources */,
+				D0BBC13C1C72B09B00D57494 /* Array2D.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,7 +380,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -387,7 +419,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -400,9 +432,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = MonkeyMonkey/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hdq.MonkeyMonkey;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -411,9 +445,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = MonkeyMonkey/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hdq.MonkeyMonkey;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -484,6 +520,7 @@
 				D07D49D61C6D917F004B3743 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D07D49D71C6D917F004B3743 /* Build configuration list for PBXNativeTarget "MonkeyMonkeyTests" */ = {
 			isa = XCConfigurationList;
@@ -492,6 +529,7 @@
 				D07D49D91C6D917F004B3743 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D07D49DA1C6D917F004B3743 /* Build configuration list for PBXNativeTarget "MonkeyMonkeyUITests" */ = {
 			isa = XCConfigurationList;
@@ -500,6 +538,7 @@
 				D07D49DC1C6D917F004B3743 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
