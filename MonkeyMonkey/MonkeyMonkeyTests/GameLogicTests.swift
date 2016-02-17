@@ -27,11 +27,22 @@ class GameLogicTests: XCTestCase {
         super.tearDown()
     }
 	
+	// MARK: - Baisc game logics
 	func testGameShouldHave4x4DigitsBoard() {
 		XCTAssertTrue(game.digits.columns == 4 && game.digits.rows == 4)
 	}
 	
 	func testShouldHaveTwoInitialDigitsWhenGameBegins() {
+		XCTAssertTrue(currentNumberOfDigits() == 2)
+	}
+	
+	func testStartNewGameWillResetGameOverFlag() {
+		game.startNewGame()
+		XCTAssertTrue(game.isGameOver() == false)
+	}
+	
+	func testStartNewGameWillProduceTwoDigits() {
+		game.startNewGame()
 		XCTAssertTrue(currentNumberOfDigits() == 2)
 	}
 	
@@ -56,6 +67,16 @@ class GameLogicTests: XCTestCase {
 		XCTAssertTrue(digit2!.row == 3 && digit4!.row == 3)
 	}
 	
+	func testSwipLeftWillMoveAllDigitsToTheLeft() {
+		clearAllDigits()
+		addDigit(digit2!)
+		addDigit(digit4!)
+		
+		game.swipeLeft()
+		
+		XCTAssertTrue(digit2!.column == 0 && digit4!.column == 0)
+	}
+	
 	func testSwipeDownWillAddRandomDigit() {
 		clearAllDigits()
 		addDigit(digit2!)
@@ -72,6 +93,16 @@ class GameLogicTests: XCTestCase {
 		addDigit(digit4!)
 		
 		game.swipeUp()
+		
+		XCTAssertTrue(currentNumberOfDigits() == 3)
+	}
+	
+	func testSwipeLeftWillAddRandomDigit() {
+		clearAllDigits()
+		addDigit(digit2!)
+		addDigit(digit4!)
+		
+		game.swipeLeft()
 		
 		XCTAssertTrue(currentNumberOfDigits() == 3)
 	}
@@ -112,6 +143,24 @@ class GameLogicTests: XCTestCase {
 		XCTAssertTrue(currentNumberOfDigits() == 3)
 	}
 	
+	func testSwipeLeftWillAddUpNeighbourSameDigitsInSameColumn() {
+		clearAllDigits()
+		let firstDigit = Digit(column: 0, row: 0, digitType: .Two)
+		let secondDigit = Digit(column: 1, row: 0, digitType: .Two)
+		let thirdDigit = Digit(column: 2, row: 1, digitType: .Four)
+		let fourthDigit = Digit(column: 3, row: 1, digitType: .Four)
+		addDigit(firstDigit)
+		addDigit(secondDigit)
+		addDigit(thirdDigit)
+		addDigit(fourthDigit)
+		
+		game.swipeLeft()
+		
+		XCTAssertTrue(game.digits[0, 0]?.digitType.description == "4")
+		XCTAssertTrue(game.digits[0, 1]?.digitType.description == "8")
+		XCTAssertTrue(currentNumberOfDigits() == 3)
+	}
+	
 	func testSwipeDownForGameOver() {
 		clearAllDigits()
 		generateGameOverDigits()
@@ -126,6 +175,15 @@ class GameLogicTests: XCTestCase {
 		generateGameOverDigits()
 		
 		game.swipeUp()
+		
+		XCTAssertTrue(game.isGameOver() == true)
+	}
+	
+	func testSwipeLeftForGameOver() {
+		clearAllDigits()
+		generateGameOverDigits()
+		
+		game.swipeLeft()
 		
 		XCTAssertTrue(game.isGameOver() == true)
 	}
