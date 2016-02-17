@@ -13,10 +13,15 @@ struct GameConstants {
 	static let TotalRows = 4
 }
 
+enum SwipeType: Int {
+	case Unknown = 0, SwipeDown, SwipeUp, SwipeLeft, SwipeRight
+}
+
 class Game {
 	
 	var digits = Array2D<Digit>(columns: GameConstants.TotalColumns, rows: GameConstants.TotalRows)
 	var gameOver = false
+	var swipeType: SwipeType = .Unknown
 	
 	init() {
 		produceTwoRandomDigits()
@@ -24,16 +29,27 @@ class Game {
 	
 	// MARK: - Public interfaces
 	func swipeDown() {
-		moveAllDigitsDown()
-		addUpNeighbourDigitsForSwipeDown()
-		
-		produceRandomDigit()
-		
-		gameOver = checkIfGameOver()
+		swipeType = .SwipeDown
+		commonSwipeActions()
+	}
+	
+	func swipeUp() {
+		swipeType = .SwipeUp
+		commonSwipeActions()
 	}
 	
 	func isGameOver() -> Bool {
 		return gameOver
+	}
+	
+	// MARK: - Common swipe process
+	private func commonSwipeActions() {
+		moveAllDigits()
+		mergeNeighbourDigits()
+		moveAllDigits()	//Should move all digits again, otherwise there'll be holes after merge digits
+		produceRandomDigit()
+		
+		gameOver = checkIfGameOver()
 	}
 	
 	// MARK: - Produce new digit
@@ -74,13 +90,22 @@ class Game {
 	}
 	
 	// MARK: - Game operations, move digits
-	private func moveAllDigitsDown() {
+	private func moveAllDigits() {
 		for column in 0 ..< GameConstants.TotalColumns {
 			for row in 0 ..< GameConstants.TotalRows {
 				if let digit = digits[column, row] {
-					moveDown(digit)
+					moveDigit(digit)
 				}
 			}
+		}
+	}
+	
+	private func moveDigit(digit: Digit) {
+		if (swipeType == .SwipeDown) {
+			moveDown(digit)
+		}
+		else if (swipeType == .SwipeUp) {
+			moveUp(digit)
 		}
 	}
 	
@@ -90,6 +115,18 @@ class Game {
 		let column = digit.column
 		let row = findBottomEmptyRowNumberForColumn(column)
 		if row < digit.row {
+			digit.row = row
+		}
+		
+		addDigit(digit)
+	}
+	
+	private func moveUp(digit: Digit) {
+		removeDigit(digit)
+		
+		let column = digit.column
+		let row = findTopEmptyRowNumberForColumn(column)
+		if row > digit.row {
 			digit.row = row
 		}
 		
@@ -108,19 +145,36 @@ class Game {
 		return targetRow
 	}
 	
-	// MARK: - Add up neighbour digits
-	private func addUpNeighbourDigitsForSwipeDown() {
-		for column in 0 ..< GameConstants.TotalColumns {
-			for row in 0 ..< GameConstants.TotalRows {
-				addUpForSwipeDownForDigitAtColumn(column, row: row)
-			}
+	private func findTopEmptyRowNumberForColumn(column: Int) -> Int {
+		var targetRow = GameConstants.TotalRows - 1
+		
+		while (hasDigitAtColumn(column, andRow: targetRow)) {
+			targetRow--
 		}
 		
-		moveAllDigitsDown()
+		return targetRow
 	}
 	
-	private func addUpForSwipeDownForDigitAtColumn(column: Int, row: Int) {
-		if row >= GameConstants.TotalRows - 1 {
+	// MARK: - Add up neighbour digits
+	private func mergeNeighbourDigits() {
+		if (swipeType == .SwipeDown) {
+			mergeNeighbourDigitsForSwipeDown()
+		}
+		else if (swipeType == .SwipeUp) {
+			mergeNeighbourDigitsForSwipeUp()
+		}
+	}
+	
+	private func mergeNeighbourDigitsForSwipeDown() {
+		for column in 0 ..< GameConstants.TotalColumns {
+			for row in 0 ..< GameConstants.TotalRows {
+				swipeDownMergeForDigitAtColumn(column, row: row)
+			}
+		}
+	}
+	
+	private func swipeDownMergeForDigitAtColumn(column: Int, row: Int) {
+		if (row >= GameConstants.TotalRows - 1 || row < 0) {
 			return
 		}
 		
@@ -135,7 +189,31 @@ class Game {
 		}
 	}
 	
-	// MARK: - Game operations, add and remove digit
+	private func mergeNeighbourDigitsForSwipeUp() {
+		for var column = GameConstants.TotalColumns - 1; column >= 0; column-- {
+			for var row = GameConstants.TotalRows - 1; row >= 0; row-- {
+				swipeUpMergeForDigitAtColumn(column, row: row)
+			}
+		}
+	}
+	
+	private func swipeUpMergeForDigitAtColumn(column: Int, row: Int) {
+		if (row <= 0 || row > GameConstants.TotalRows) {
+			return
+		}
+		
+		if let firstDigit = digits[column, row] {
+			if let secondDigit = digits[column, row - 1] {
+				if let addedDigit = firstDigit + secondDigit {
+					removeDigit(firstDigit)
+					removeDigit(secondDigit)
+					addDigit(addedDigit)
+				}
+			}
+		}
+	}
+	
+	// MARK: - Game common operations, add and remove digit
 	private func removeDigit(digit: Digit) {
 		digits[digit.column, digit.row] = nil
 	}

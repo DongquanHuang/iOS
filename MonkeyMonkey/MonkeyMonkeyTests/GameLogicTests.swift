@@ -46,12 +46,32 @@ class GameLogicTests: XCTestCase {
 		XCTAssertTrue(digit2!.row == 0 && digit4!.row == 0)
 	}
 	
+	func testSwipeUpWillMoveAllDigitsToTopRow() {
+		clearAllDigits()
+		addDigit(digit2!)
+		addDigit(digit4!)
+		
+		game.swipeUp()
+		
+		XCTAssertTrue(digit2!.row == 3 && digit4!.row == 3)
+	}
+	
 	func testSwipeDownWillAddRandomDigit() {
 		clearAllDigits()
 		addDigit(digit2!)
 		addDigit(digit4!)
 		
 		game.swipeDown()
+		
+		XCTAssertTrue(currentNumberOfDigits() == 3)
+	}
+	
+	func testSwipeUpWillAddRandomDigit() {
+		clearAllDigits()
+		addDigit(digit2!)
+		addDigit(digit4!)
+		
+		game.swipeUp()
 		
 		XCTAssertTrue(currentNumberOfDigits() == 3)
 	}
@@ -74,11 +94,38 @@ class GameLogicTests: XCTestCase {
 		XCTAssertTrue(currentNumberOfDigits() == 3)
 	}
 	
+	func testSwipeUpWillAddUpNeighbourSameDigitsInSameColumn() {
+		clearAllDigits()
+		let firstDigit = Digit(column: 0, row: 0, digitType: .Two)
+		let secondDigit = Digit(column: 0, row: 1, digitType: .Two)
+		let thirdDigit = Digit(column: 0, row: 2, digitType: .Four)
+		let fourthDigit = Digit(column: 0, row: 3, digitType: .Four)
+		addDigit(firstDigit)
+		addDigit(secondDigit)
+		addDigit(thirdDigit)
+		addDigit(fourthDigit)
+		
+		game.swipeUp()
+		
+		XCTAssertTrue(game.digits[0, 3]?.digitType.description == "8")
+		XCTAssertTrue(game.digits[0, 2]?.digitType.description == "4")
+		XCTAssertTrue(currentNumberOfDigits() == 3)
+	}
+	
 	func testSwipeDownForGameOver() {
 		clearAllDigits()
 		generateGameOverDigits()
 		
 		game.swipeDown()
+		
+		XCTAssertTrue(game.isGameOver() == true)
+	}
+	
+	func testSwipeUpForGameOver() {
+		clearAllDigits()
+		generateGameOverDigits()
+		
+		game.swipeUp()
 		
 		XCTAssertTrue(game.isGameOver() == true)
 	}
