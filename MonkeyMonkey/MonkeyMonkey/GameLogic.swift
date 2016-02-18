@@ -49,6 +49,11 @@ class Game {
 		commonSwipeActions()
 	}
 	
+	func swipeRight() {
+		swipeType = .SwipeRight
+		commonSwipeActions()
+	}
+	
 	func isGameOver() -> Bool {
 		return gameOver
 	}
@@ -111,6 +116,9 @@ class Game {
 		else if (swipeType == .SwipeLeft) {
 			moveAllDigitsLeft()
 		}
+		else if (swipeType == .SwipeRight) {
+			moveAllDigitsRight()
+		}
 	}
 	
 	private func moveAllDigitsDown() {
@@ -136,6 +144,16 @@ class Game {
 	private func moveAllDigitsLeft() {
 		for row in 0 ..< GameConstants.TotalRows {
 			for column in 0 ..< GameConstants.TotalColumns {
+				if let digit = digits[column, row] {
+					moveDigit(digit)
+				}
+			}
+		}
+	}
+	
+	private func moveAllDigitsRight() {
+		for row in 0 ..< GameConstants.TotalRows {
+			for var column = GameConstants.TotalColumns - 1; column >= 0; column-- {
 				if let digit = digits[column, row] {
 					moveDigit(digit)
 				}
@@ -184,11 +202,14 @@ class Game {
 		if (swipeType == .SwipeDown) {
 			return findBelowNeighbourDigitsNumber(digit)
 		}
-		if (swipeType == .SwipeUp) {
+		else if (swipeType == .SwipeUp) {
 			return findAboveNeighbourDigitsNumber(digit)
 		}
-		if (swipeType == .SwipeLeft) {
+		else if (swipeType == .SwipeLeft) {
 			return findLeftNeighbourDigitsNumber(digit)
+		}
+		else if (swipeType == .SwipeRight) {
+			return findRightNeighbourDigitsNumber(digit)
 		}
 		
 		return 0
@@ -230,6 +251,18 @@ class Game {
 		return numbers
 	}
 	
+	private func findRightNeighbourDigitsNumber(digit: Digit) -> Int {
+		var numbers = 0
+		
+		for var column = digit.column + 1; column < GameConstants.TotalColumns; column++ {
+			if let _ = digits[column, digit.row] {
+				numbers++
+			}
+		}
+		
+		return numbers
+	}
+	
 	// MARK: - Add up neighbour digits
 	private func mergeNeighbourDigits() {
 		if (swipeType == .SwipeDown) {
@@ -241,27 +274,16 @@ class Game {
 		else if (swipeType == .SwipeLeft) {
 			mergeNeighbourDigitsForSwipeLeft()
 		}
+		else if (swipeType == .SwipeRight) {
+			mergeNeighbourDigitsForSwipeRight()
+		}
 	}
 	
 	private func mergeNeighbourDigitsForSwipeDown() {
 		for column in 0 ..< GameConstants.TotalColumns {
 			for row in 0 ..< GameConstants.TotalRows {
-				swipeDownMergeForDigitAtColumn(column, row: row)
-			}
-		}
-	}
-	
-	private func swipeDownMergeForDigitAtColumn(column: Int, row: Int) {
-		if (row >= GameConstants.TotalRows - 1 || row < 0) {
-			return
-		}
-		
-		if let firstDigit = digits[column, row] {
-			if let secondDigit = digits[column, row + 1] {
-				if let addedDigit = firstDigit + secondDigit {
-					removeDigit(firstDigit)
-					removeDigit(secondDigit)
-					addDigit(addedDigit)
+				if let digit = digits[column, row] {
+					mergeForDigit(digit)
 				}
 			}
 		}
@@ -270,22 +292,8 @@ class Game {
 	private func mergeNeighbourDigitsForSwipeUp() {
 		for var column = GameConstants.TotalColumns - 1; column >= 0; column-- {
 			for var row = GameConstants.TotalRows - 1; row >= 0; row-- {
-				swipeUpMergeForDigitAtColumn(column, row: row)
-			}
-		}
-	}
-	
-	private func swipeUpMergeForDigitAtColumn(column: Int, row: Int) {
-		if (row <= 0 || row > GameConstants.TotalRows) {
-			return
-		}
-		
-		if let firstDigit = digits[column, row] {
-			if let secondDigit = digits[column, row - 1] {
-				if let addedDigit = firstDigit + secondDigit {
-					removeDigit(firstDigit)
-					removeDigit(secondDigit)
-					addDigit(addedDigit)
+				if let digit = digits[column, row] {
+					mergeForDigit(digit)
 				}
 			}
 		}
@@ -294,25 +302,48 @@ class Game {
 	private func mergeNeighbourDigitsForSwipeLeft() {
 		for row in 0 ..< GameConstants.TotalRows {
 			for column in 0 ..< GameConstants.TotalColumns {
-				swipeLeftMergeForDigitAtColumn(column, row: row)
+				if let digit = digits[column, row] {
+					mergeForDigit(digit)
+				}
 			}
 		}
 	}
 	
-	private func swipeLeftMergeForDigitAtColumn(column: Int, row: Int) {
-		if (column < 0 || column >= GameConstants.TotalColumns - 1) {
-			return
-		}
-		
-		if let firstDigit = digits[column, row] {
-			if let secondDigit = digits[column + 1, row] {
-				if let addedDigit = firstDigit + secondDigit {
-					removeDigit(firstDigit)
-					removeDigit(secondDigit)
-					addDigit(addedDigit)
+	private func mergeNeighbourDigitsForSwipeRight() {
+		for row in 0 ..< GameConstants.TotalRows {
+			for var column = GameConstants.TotalColumns - 1; column >= 0; column-- {
+				if let digit = digits[column, row] {
+					mergeForDigit(digit)
 				}
 			}
 		}
+	}
+	
+	private func mergeForDigit(digit: Digit) {
+		if let neighbour = neighbourToMerge(digit) {
+			if let mergedDigit = digit + neighbour {
+				removeDigit(digit)
+				removeDigit(neighbour)
+				addDigit(mergedDigit)
+			}
+		}
+	}
+	
+	private func neighbourToMerge(digit: Digit) -> Digit? {
+		if (swipeType == .SwipeDown) {
+			return findUpNeighbour(digit)
+		}
+		else if (swipeType == .SwipeUp) {
+			return findBelowNeighbour(digit)
+		}
+		else if (swipeType == .SwipeLeft) {
+			return findRightNeighbour(digit)
+		}
+		else if (swipeType == .SwipeRight) {
+			return findLeftNeighbour(digit)
+		}
+		
+		return nil
 	}
 	
 	// MARK: - Game over checking
@@ -361,6 +392,46 @@ class Game {
 		return possilbeMergeExists
 	}
 	
+	// MARK: - Game common operations, add and remove digit
+	private func removeDigit(digit: Digit) {
+		digits[digit.column, digit.row] = nil
+	}
+	
+	private func addDigit(digit: Digit) {
+		digits[digit.column, digit.row] = digit
+	}
+	
+	private func clearAllDigits() {
+		for column in 0 ..< digits.columns {
+			for row in 0 ..< digits.rows {
+				digits[column, row] = nil
+			}
+		}
+	}
+	
+	// MARK: - Common helper methods
+	private func hasDigitAtColumn(column: Int, andRow row: Int) -> Bool {
+		return digits[column, row] != nil
+	}
+	
+	private func currentNumberOfDigits() -> Int {
+		var digitsNumber = 0
+		
+		for column in 0 ..< GameConstants.TotalColumns {
+			for row in 0 ..< GameConstants.TotalRows {
+				if hasDigitAtColumn(column, andRow: row) {
+					digitsNumber++
+				}
+			}
+		}
+		
+		return digitsNumber
+	}
+	
+	private func allHolesFilled() -> Bool {
+		return currentNumberOfDigits() == GameConstants.TotalColumns * GameConstants.TotalRows
+	}
+	
 	private func findLeftNeighbour(digit: Digit) -> Digit? {
 		var column = digit.column - 1
 		while (column >= 0) {
@@ -407,46 +478,6 @@ class Game {
 		}
 		
 		return nil
-	}
-	
-	// MARK: - Game common operations, add and remove digit
-	private func removeDigit(digit: Digit) {
-		digits[digit.column, digit.row] = nil
-	}
-	
-	private func addDigit(digit: Digit) {
-		digits[digit.column, digit.row] = digit
-	}
-	
-	private func clearAllDigits() {
-		for column in 0 ..< digits.columns {
-			for row in 0 ..< digits.rows {
-				digits[column, row] = nil
-			}
-		}
-	}
-	
-	// MARK: - Common helper methods
-	private func hasDigitAtColumn(column: Int, andRow row: Int) -> Bool {
-		return digits[column, row] != nil
-	}
-	
-	private func currentNumberOfDigits() -> Int {
-		var digitsNumber = 0
-		
-		for column in 0 ..< GameConstants.TotalColumns {
-			for row in 0 ..< GameConstants.TotalRows {
-				if hasDigitAtColumn(column, andRow: row) {
-					digitsNumber++
-				}
-			}
-		}
-		
-		return digitsNumber
-	}
-	
-	private func allHolesFilled() -> Bool {
-		return currentNumberOfDigits() == GameConstants.TotalColumns * GameConstants.TotalRows
 	}
 	
 }
