@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D00119811C7D72BB004A56FE /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00119801C7D72BB004A56FE /* GameScene.swift */; };
+		D00119821C7D72BB004A56FE /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00119801C7D72BB004A56FE /* GameScene.swift */; };
+		D00119831C7D72BB004A56FE /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00119801C7D72BB004A56FE /* GameScene.swift */; };
+		D00119861C7D7310004A56FE /* GameSceneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00119851C7D7310004A56FE /* GameSceneTests.swift */; };
 		D07D49B01C6D917F004B3743 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07D49AF1C6D917F004B3743 /* AppDelegate.swift */; };
 		D07D49B21C6D917F004B3743 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07D49B11C6D917F004B3743 /* ViewController.swift */; };
 		D07D49B51C6D917F004B3743 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D07D49B31C6D917F004B3743 /* Main.storyboard */; };
@@ -45,6 +49,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D00119801C7D72BB004A56FE /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		D00119851C7D7310004A56FE /* GameSceneTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSceneTests.swift; sourceTree = "<group>"; };
 		D07D49AC1C6D917F004B3743 /* MonkeyMonkey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MonkeyMonkey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D07D49AF1C6D917F004B3743 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D07D49B11C6D917F004B3743 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -90,6 +96,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D00119841C7D72C3004A56FE /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				D00119801C7D72BB004A56FE /* GameScene.swift */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		D00119871C7D7316004A56FE /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				D00119851C7D7310004A56FE /* GameSceneTests.swift */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
 		D07D49A31C6D917F004B3743 = {
 			isa = PBXGroup;
 			children = (
@@ -114,6 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				D07D49B11C6D917F004B3743 /* ViewController.swift */,
+				D00119841C7D72C3004A56FE /* UI */,
 				D0BBC13D1C72B0A000D57494 /* Model */,
 				D0BBC1371C72B00800D57494 /* Supporting Files */,
 			);
@@ -123,6 +146,7 @@
 		D07D49C31C6D917F004B3743 /* MonkeyMonkeyTests */ = {
 			isa = PBXGroup;
 			children = (
+				D00119871C7D7316004A56FE /* UI */,
 				D0BBC1401C72B18000D57494 /* Model */,
 				D0BBC1381C72B01C00D57494 /* Supporting Files */,
 			);
@@ -309,6 +333,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D00119811C7D72BB004A56FE /* GameScene.swift in Sources */,
 				D07D49B21C6D917F004B3743 /* ViewController.swift in Sources */,
 				D0BBC13A1C72B09B00D57494 /* Array2D.swift in Sources */,
 				D07D49B01C6D917F004B3743 /* AppDelegate.swift in Sources */,
@@ -323,9 +348,11 @@
 			files = (
 				D0BBC14C1C72E15B00D57494 /* GameLogicTests.swift in Sources */,
 				D0BBC13B1C72B09B00D57494 /* Array2D.swift in Sources */,
+				D00119861C7D7310004A56FE /* GameSceneTests.swift in Sources */,
 				D0BBC13F1C72B17A00D57494 /* Array2DTests.swift in Sources */,
 				D0BBC1431C72B54300D57494 /* Digit.swift in Sources */,
 				D0BBC1491C72DE5600D57494 /* GameLogic.swift in Sources */,
+				D00119821C7D72BB004A56FE /* GameScene.swift in Sources */,
 				D0BBC1461C72B8D900D57494 /* DigitTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -334,6 +361,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D00119831C7D72BB004A56FE /* GameScene.swift in Sources */,
 				D07D49D01C6D917F004B3743 /* MonkeyMonkeyUITests.swift in Sources */,
 				D0BBC13C1C72B09B00D57494 /* Array2D.swift in Sources */,
 				D0BBC14A1C72DE5600D57494 /* GameLogic.swift in Sources */,
