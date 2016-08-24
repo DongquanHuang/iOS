@@ -166,7 +166,7 @@ class GameViewController: UIViewController {
     }
     
     private func decreaseMovesLeft() {
-        movesLeft--
+        movesLeft -= 1
     }
     
     private func initGameScore() {
@@ -281,7 +281,7 @@ class GameViewController: UIViewController {
     }
     
     private func setupTapGestureRecognizer() {
-        tapGestureRecognizer = UITapGestureRecognizer(target: self, action: "hideGameOver")
+        tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(GameViewController.hideGameOver))
         view.addGestureRecognizer(tapGestureRecognizer)
     }
     

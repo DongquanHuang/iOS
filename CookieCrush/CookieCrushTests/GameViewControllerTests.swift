@@ -489,7 +489,7 @@ class GameViewControllerTests: XCTestCase {
         gameVC.scene = MockGameScene(size: CGSize(width: 100, height: 100))
         
         gameVC.beginGame()
-        gameVC.score++
+        gameVC.score += 1
         
         gameVC.showGameOver()
         gameVC.hideGameOver()

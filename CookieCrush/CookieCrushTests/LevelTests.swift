@@ -196,7 +196,7 @@ class LevelTests: XCTestCase {
         var combo = 1
         for chain in chains {
             XCTAssertTrue(chain.score == 60 * (chain.length() - 2) * combo)
-            combo++
+            combo += 1
         }
     }
     
@@ -243,8 +243,8 @@ class LevelTests: XCTestCase {
         let cookieType = cookie.cookieType
         
         var horzLength = 1
-        for var i = cookie.column - 1; i >= 0 && cookies![i, cookie.row]?.cookieType == cookieType; i--, horzLength++ {}
-        for var i = cookie.column + 1; i < LevelConstants.NumColumns && cookies![i, cookie.row]?.cookieType == cookieType; i++, horzLength++ {}
+        for var i = cookie.column - 1; i >= 0 && cookies![i, cookie.row]?.cookieType == cookieType; i-=1, horzLength+=1 {}
+        for var i = cookie.column + 1; i < LevelConstants.NumColumns && cookies![i, cookie.row]?.cookieType == cookieType; i+=1, horzLength+=1 {}
         
         return horzLength >= 3
     }
@@ -253,8 +253,8 @@ class LevelTests: XCTestCase {
         let cookieType = cookie.cookieType
         
         var vertLength = 1
-        for var i = cookie.row - 1; i >= 0 && cookies![cookie.column, i]?.cookieType == cookieType; i--, vertLength++ {}
-        for var i = cookie.row + 1; i < LevelConstants.NumRows && cookies![cookie.column, i]?.cookieType == cookieType; i++, vertLength++ {}
+        for var i = cookie.row - 1; i >= 0 && cookies![cookie.column, i]?.cookieType == cookieType; i-=1, vertLength+=1 {}
+        for var i = cookie.row + 1; i < LevelConstants.NumRows && cookies![cookie.column, i]?.cookieType == cookieType; i+=1, vertLength+=1 {}
         
         return vertLength >= 3
     }
@@ -325,7 +325,7 @@ class LevelTests: XCTestCase {
         for column in 0 ..< LevelConstants.NumColumns {
             for row in 0 ..< LevelConstants.NumRows {
                 if let _ = cookies?[column, row] {
-                    number++
+                    number += 1
                 }
             }
         }
@@ -393,7 +393,7 @@ class LevelTests: XCTestCase {
                         let chain = Chain(chainType: .Horizontal)
                         while (cookies![column, row]?.cookieType == cookie.cookieType) {
                             chain.addCookie(cookies![column, row]!)
-                            column++
+                            column += 1
                             
                             if column >= LevelConstants.NumColumns {
                                 break
@@ -403,11 +403,11 @@ class LevelTests: XCTestCase {
                         horizontalMatches.insert(chain)
                     }
                     else {
-                        column++
+                        column += 1
                     }
                 }
                 else {
-                    column++
+                    column += 1
                 }
             }
         }
@@ -426,7 +426,7 @@ class LevelTests: XCTestCase {
                         let chain = Chain(chainType: .Vertical)
                         while (cookies![column, row]?.cookieType == cookie.cookieType) {
                             chain.addCookie(cookies![column, row]!)
-                            row++
+                            row += 1
                             
                             if row >= LevelConstants.NumRows {
                                 break
@@ -436,11 +436,11 @@ class LevelTests: XCTestCase {
                         verticalMatches.insert(chain)
                     }
                     else {
-                        row++
+                        row += 1
                     }
                 }
                 else {
-                    row++
+                    row += 1
                 }
             }
         }

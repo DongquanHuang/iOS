@@ -221,7 +221,7 @@ class Level {
         var amount = 0
         
         let cookieType = cookie.cookieType
-        for var i = cookie.column - 1; i >= 0 && cookies[i, cookie.row]?.cookieType == cookieType; i--, amount++ {}
+        for var i = cookie.column - 1; i >= 0 && cookies[i, cookie.row]?.cookieType == cookieType; i=i-1, amount=amount+1 {}
         
         return amount
     }
@@ -230,7 +230,7 @@ class Level {
         var amount = 0
         
         let cookieType = cookie.cookieType
-        for var i = cookie.column + 1; i < LevelConstants.NumColumns && cookies[i, cookie.row]?.cookieType == cookieType; i++, amount++ {}
+        for var i = cookie.column + 1; i < LevelConstants.NumColumns && cookies[i, cookie.row]?.cookieType == cookieType; i=i+1, amount=amount+1 {}
         
         return amount
     }
@@ -239,7 +239,7 @@ class Level {
         var amount = 0
         
         let cookieType = cookie.cookieType
-        for var i = cookie.row - 1; i >= 0 && cookies[cookie.column, i]?.cookieType == cookieType; i--, amount++ {}
+        for var i = cookie.row - 1; i >= 0 && cookies[cookie.column, i]?.cookieType == cookieType; i=i-1, amount=amount+1 {}
         
         return amount
     }
@@ -248,7 +248,7 @@ class Level {
         var amount = 0
         
         let cookieType = cookie.cookieType
-        for var i = cookie.row + 1; i < LevelConstants.NumRows && cookies[cookie.column, i]?.cookieType == cookieType; i++, amount++ {}
+        for var i = cookie.row + 1; i < LevelConstants.NumRows && cookies[cookie.column, i]?.cookieType == cookieType; i=i+1, amount=amount+1 {}
         
         return amount
     }
@@ -288,7 +288,7 @@ class Level {
                     column += chain.length()
                 }
                 else {
-                    column++
+                    column += 1
                 }
                 
             }
@@ -310,7 +310,7 @@ class Level {
                     row += chain.length()
                 }
                 else {
-                    row++
+                    row += 1
                 }
             }
         }
@@ -327,7 +327,7 @@ class Level {
                 let matchType = cookie.cookieType
                 while cookies[col, row]?.cookieType == matchType {
                     chain.addCookie(cookies[col, row]!)
-                    col++
+                    col += 1
                     
                     if col >= LevelConstants.NumColumns {
                         return chain
@@ -348,7 +348,7 @@ class Level {
                 let matchType = cookie.cookieType
                 while cookies[column, r]?.cookieType == matchType {
                     chain.addCookie(cookies[column, r]!)
-                    r++
+                    r += 1
                     
                     if r >= LevelConstants.NumRows {
                         return chain
@@ -381,7 +381,7 @@ class Level {
         // 3-chain is 60 pts, 4-chain is 120, 5-chain is 180, and so on
         for chain in chains {
             chain.score = 60 * (chain.length() - 2) * comboMultiplier
-            comboMultiplier++
+            comboMultiplier = comboMultiplier + 1;
         }
     }
     
